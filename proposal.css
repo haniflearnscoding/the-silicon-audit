@@ -1,0 +1,246 @@
+/* ═══════════════════════════════════════════════
+   SHARED PROPOSAL CSS — The Silicon Audit
+   DART 449 · The Language of the Web · Winter 2026
+   ═══════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ─── TOKENS ─── */
+:root {
+  --white:    #ffffff;
+  --off:      #f7f4ef;
+  --off-2:    #ede8df;
+  --ink:      #1a1814;
+  --ink-2:    #38342a;
+  --ink-3:    #7a7460;
+  --ink-4:    #aaa394;
+  --red:      #bf2c1e;
+  --red-bg:   rgba(191,44,30,.08);
+  --oai:      #10a37f;
+  --meta:     #0866ff;
+  --amber:    #c47d0e;
+  --border:   #ccc6b8;
+  --border-2: #ddd8cc;
+  --shadow:   0 1px 0 rgba(0,0,0,.04), 0 6px 24px rgba(0,0,0,.07);
+  --pad:      clamp(1.5rem, 5vw, 4rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* paper grain overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-2);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--pad);
+  height: 52px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: -.01em;
+  text-decoration: none; color: var(--ink);
+  flex-shrink: 0;
+}
+.nav-logo em { font-style: italic; font-weight: 400; }
+
+.nav-links {
+  display: flex; gap: 0; list-style: none;
+}
+.nav-links a {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  padding: .25rem .9rem;
+  border-left: 1px solid var(--border-2);
+  transition: color .15s, background .15s;
+  white-space: nowrap;
+}
+.nav-links a:last-child { border-right: 1px solid var(--border-2); }
+.nav-links a:hover { color: var(--ink); background: var(--off); }
+.nav-links a.active {
+  color: var(--ink);
+  background: var(--off);
+  font-weight: 700;
+}
+
+.nav-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-4);
+  flex-shrink: 0;
+}
+
+/* ─── PAGE WRAPPER ─── */
+.page-body { padding-top: 52px; }
+
+/* ─── SECTION RULE LABEL ─── */
+.section-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--ink-4);
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: 2.5rem;
+}
+.section-num::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--border-2);
+}
+
+/* ─── PAGE HEADER (compact, for p2/p3) ─── */
+.page-header {
+  background: var(--off);
+  padding: 4rem var(--pad) 3rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: attr(data-num);
+  position: absolute; right: var(--pad); bottom: -0.1em;
+  font-family: 'Playfair Display', serif;
+  font-size: 14rem; font-weight: 900;
+  color: rgba(0,0,0,.04);
+  line-height: 1; pointer-events: none;
+  letter-spacing: -.05em;
+}
+.ph-kicker {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--red);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .6rem;
+}
+.ph-kicker::before { content:''; width:20px; height:1px; background:var(--red); }
+.ph-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 900; letter-spacing: -.03em;
+  line-height: 1; text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.ph-title em { font-style: italic; font-weight: 400; }
+.ph-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-style: italic;
+  color: var(--ink-3); max-width: 520px;
+  line-height: 1.55;
+}
+
+/* ─── CONTENT WRAPPER ─── */
+.content-wrap {
+  padding: 4rem var(--pad) 5rem;
+}
+
+/* ─── PREV / NEXT FOOTER NAV ─── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,.5);
+  padding: 2rem var(--pad);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.ft-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: rgba(255,255,255,.85);
+  text-decoration: none;
+}
+.ft-logo em { font-style: italic; font-weight: 400; }
+.ft-nav {
+  display: flex; gap: 0; list-style: none;
+}
+.ft-nav a {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  text-decoration: none;
+  padding: .4rem .85rem;
+  border-left: 1px solid rgba(255,255,255,.1);
+  transition: color .15s;
+}
+.ft-nav a:last-child { border-right: 1px solid rgba(255,255,255,.1); }
+.ft-nav a:hover { color: rgba(255,255,255,.8); }
+.ft-nav a.ft-next {
+  color: rgba(255,255,255,.7);
+  font-weight: 600;
+}
+.ft-meta {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  text-align: right; line-height: 1.8;
+}
+
+/* ─── SHARED TYPOGRAPHY ─── */
+.display-h {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900; letter-spacing: -.025em;
+  line-height: 1.05; text-transform: uppercase;
+}
+.display-h em { font-style: italic; font-weight: 400; }
+.deck {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--ink-3); line-height: 1.6;
+}
+.mono-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+
+/* ─── ASIDE CARD ─── */
+.aside-card {
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.aside-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .85rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border-2);
+}
+
+/* ─── STAMP ─── */
+.stamp {
+  display: inline-block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  border: 2px solid var(--red);
+  color: var(--red); padding: 4px 10px;
+  transform: rotate(-8deg);
+  filter: url(#roughen2);
+}

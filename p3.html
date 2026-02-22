@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>03 · Style Guide — The Silicon Audit · DART 449</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="proposal.css"/>
+<style>
+
+/* ─── STYLE GUIDE SECTIONS ─── */
+.style-section {
+  padding: 4rem var(--pad) 0;
+  border-bottom: 1px solid var(--border-2);
+  padding-bottom: 4rem;
+}
+.style-section:last-child { border-bottom: none; }
+
+/* ─── TYPOGRAPHY ─── */
+.type-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media(max-width:680px){ .type-grid { grid-template-columns: 1fr; } }
+.type-card {
+  border: 1px solid var(--border);
+  padding: 1.5rem; background: var(--white);
+}
+.type-specimen {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-2);
+  min-height: 80px;
+}
+.type-meta {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-4);
+  line-height: 1.8;
+}
+
+/* ─── COLOUR ─── */
+.swatch-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: .75rem;
+}
+@media(max-width:620px){ .swatch-row { grid-template-columns: repeat(3, 1fr); } }
+.swatch {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: .5rem;
+}
+.sw-name {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .54rem; letter-spacing: .06em;
+  text-transform: uppercase; line-height: 1.4;
+}
+.sw-hex {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .52rem; opacity: .65;
+}
+
+/* ─── COMPONENTS ─── */
+.comp-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media(max-width:680px){ .comp-grid { grid-template-columns: 1fr; } }
+.comp-card {
+  border: 1px solid var(--border); padding: 1.25rem;
+}
+.comp-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: 1rem; padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border-2);
+}
+.badge-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.badge {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 8px; border: 1px solid; border-radius: 1px;
+}
+.bd-oai  { color:var(--oai);  border-color:var(--oai);  background:rgba(16,163,127,.08); }
+.bd-meta { color:var(--meta); border-color:var(--meta); background:rgba(8,102,255,.07); }
+.bd-red  { color:var(--red);  border-color:var(--red);  background:var(--red-bg); }
+.bd-amb  { color:var(--amber);border-color:var(--amber);background:rgba(196,125,14,.08); }
+
+/* ─── INSPIRATION ─── */
+.inspo-section { padding: 0 var(--pad) 6rem; }
+.inspo-block {
+  margin-bottom: 5rem;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid var(--border-2);
+}
+.inspo-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.inspo-header {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 3rem;
+  margin-bottom: 2rem;
+  align-items: end;
+}
+@media(max-width:800px){ .inspo-header { grid-template-columns: 1fr; } }
+
+.inspo-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .6rem;
+}
+.inspo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-weight: 900; letter-spacing: -.025em;
+  line-height: 1.05; text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.inspo-title em { font-style: italic; font-weight: 400; }
+.inspo-desc {
+  font-size: .9rem; color: var(--ink-3); line-height: 1.75;
+}
+.inspo-link {
+  display: inline-block; margin-top: .75rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--red);
+  text-decoration: none;
+  border-bottom: 1px solid var(--red);
+  padding-bottom: 1px;
+}
+
+.inspo-pull {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-style: italic;
+  color: var(--ink-3); line-height: 1.6;
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+}
+
+/* image gallery layouts */
+.iib-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+@media(max-width:700px){ .iib-gallery { grid-template-columns: 1fr 1fr; } }
+
+.iib-gallery .g-main {
+  grid-row: 1 / 3;
+}
+.gallery-img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  object-fit: cover;
+  background: var(--off);
+}
+.gallery-img.tall { height: 100%; }
+
+.gallery-caption {
+  margin-top: .4rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .52rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-4);
+  line-height: 1.5;
+}
+
+/* Dear Data gallery */
+.dd-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+@media(max-width:640px){ .dd-gallery { grid-template-columns: 1fr 1fr; } }
+
+.dd-postcard {
+  position: relative;
+}
+.dd-postcard img {
+  width: 100%; display: block;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  object-position: top left;
+  background: var(--off);
+}
+.dd-week-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(26,24,20,.85), transparent);
+  padding: 1.5rem .75rem .5rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .52rem; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.75);
+}
+
+/* Previous work image */
+.pw-frame {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media(max-width:680px){ .pw-frame { grid-template-columns: 1fr; } }
+.pw-img-wrap {
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  aspect-ratio: 16/10;
+  background: var(--ink);
+}
+.pw-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  display: block;
+  opacity: .9;
+}
+
+/* ─── DESIGN PRINCIPLES ─── */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media(max-width:640px){ .principles-grid { grid-template-columns: 1fr; } }
+.principle {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--off);
+}
+.p-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 900;
+  color: var(--red); line-height: 1; margin-bottom: .5rem;
+  opacity: .4;
+}
+.p-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .65rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink);
+  margin-bottom: .5rem;
+}
+.p-desc {
+  font-size: .84rem; color: var(--ink-3); line-height: 1.65;
+}
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <filter id="roughen2">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="index.html">The Silicon <em>Audit</em></a>
+  <ul class="nav-links">
+    <a href="p1.html">01 · Abstract</a>
+    <a href="p2.html">02 · Mockups</a>
+    <a href="p3.html" class="active">03 · Style Guide</a>
+  </ul>
+  <span class="nav-tag">DART 449 · Midterm</span>
+</nav>
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header" data-num="III">
+  <div class="ph-kicker">Page 03 of 03 — Style Guide &amp; Inspiration</div>
+  <h1 class="ph-title">Design <em>System</em></h1>
+  <p class="ph-sub">The visual language of The Silicon Audit is built from three sources: the editorial authority of print journalism, the analytical clarity of Information is Beautiful, and the intimate unit-mark vocabulary of Dear Data.</p>
+</div>
+
+<!-- ── TYPOGRAPHY ── -->
+<section class="style-section">
+  <div class="section-num">Typography</div>
+  <div class="type-grid">
+    <div class="type-card">
+      <div class="type-specimen">
+        <div style="font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;line-height:.95;letter-spacing:-.03em;text-transform:uppercase">The Silicon<br/><em style="font-style:italic;font-weight:400">Audit</em></div>
+      </div>
+      <div class="type-meta">
+        Playfair Display<br/>
+        Display / Headings · 900 weight + 400 italic<br/>
+        Used for: masthead, claim card headings, stamp numerals
+      </div>
+    </div>
+    <div class="type-card">
+      <div class="type-specimen">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;line-height:1.5;color:var(--ink-2)">"We will achieve AGI within the next twelve months. I am actually quite confident about that timeline."</div>
+      </div>
+      <div class="type-meta">
+        Cormorant Garamond<br/>
+        Quotes / Deck copy / Pull quotes · Italic<br/>
+        Used for: CEO verbatim quotes, abstract deck, subtitles
+      </div>
+    </div>
+    <div class="type-card">
+      <div class="type-specimen" style="display:flex;flex-direction:column;gap:.15rem">
+        <div style="font-family:'Source Code Pro',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;line-height:2;color:var(--ink-2)">
+          FILED: 14 FEB 2026<br/>
+          REALITY GAP™ — −91.4%<br/>
+          CLAIM STATUS: RETRACTED<br/>
+          CLAIM CATEGORY: TIMELINE
+        </div>
+      </div>
+      <div class="type-meta">
+        Source Code Pro<br/>
+        Labels / Data / System text · 300–700<br/>
+        Used for: all metadata, nav links, badges, data annotations
+      </div>
+    </div>
+    <div class="type-card">
+      <div class="type-specimen">
+        <div style="font-family:'DM Sans',sans-serif;font-size:.95rem;line-height:1.85;color:var(--ink-2)">The technology industry operates under a peculiar epistemic norm: executives are rewarded for projecting certainty, and the press cycle has a memory of approximately eleven days.</div>
+      </div>
+      <div class="type-meta">
+        DM Sans<br/>
+        Body / Prose text · 300–500 weight<br/>
+        Used for: abstract body, card descriptions, sidebar prose
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COLOUR ── -->
+<section class="style-section">
+  <div class="section-num">Colour Palette</div>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#1a1814">
+      <div class="sw-name" style="color:rgba(255,255,255,.7)">Ink</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.4)">#1a1814</div>
+    </div>
+    <div class="swatch" style="background:#f7f4ef;border-color:var(--border)">
+      <div class="sw-name" style="color:var(--ink-3)">Off-White</div>
+      <div class="sw-hex" style="color:var(--ink-4)">#f7f4ef</div>
+    </div>
+    <div class="swatch" style="background:#bf2c1e">
+      <div class="sw-name" style="color:#fff">Stamp Red</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#bf2c1e</div>
+    </div>
+    <div class="swatch" style="background:#10a37f">
+      <div class="sw-name" style="color:#fff">OAI Green</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#10a37f</div>
+    </div>
+    <div class="swatch" style="background:#0866ff">
+      <div class="sw-name" style="color:#fff">Meta Blue</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#0866ff</div>
+    </div>
+    <div class="swatch" style="background:#c47d0e">
+      <div class="sw-name" style="color:#fff">Amber</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#c47d0e</div>
+    </div>
+  </div>
+  <p style="font-size:.8rem;color:var(--ink-4);margin-top:1rem;font-family:'Source Code Pro',monospace;letter-spacing:.06em">Company accent colors (OAI Green, Meta Blue) appear <em style="font-style:normal;color:var(--ink-3)">only</em> on badges and their corresponding chart lines — never decoratively.</p>
+</section>
+
+<!-- ── COMPONENTS ── -->
+<section class="style-section">
+  <div class="section-num">Key Components</div>
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-title">Retraction Stamps</div>
+      <div style="display:flex;gap:1.5rem;align-items:center;padding:.5rem 0 1.25rem;flex-wrap:wrap">
+        <div class="stamp" style="filter:url(#roughen2)">Retracted</div>
+        <div class="stamp" style="color:var(--amber);border-color:var(--amber);filter:url(#roughen2)">Partial</div>
+        <div class="stamp" style="color:var(--meta);border-color:var(--meta);filter:url(#roughen2)">Disputed</div>
+      </div>
+      <p style="font-size:.78rem;color:var(--ink-3);line-height:1.6">SVG <code style="font-family:'Source Code Pro',monospace;font-size:.75em;background:var(--off);padding:1px 4px">feTurbulence</code> displacement filter gives stamps a physically distressed, rubber-stamp quality. Rotation: 8–14°.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-title">Company Badges</div>
+      <div class="badge-row">
+        <span class="badge bd-oai">OpenAI</span>
+        <span class="badge bd-meta">Meta</span>
+        <span class="badge bd-red">Tesla</span>
+        <span class="badge bd-amb">Microsoft</span>
+      </div>
+      <p style="font-size:.78rem;color:var(--ink-3);line-height:1.6">Source Code Pro, 700 weight, 0.10em tracking. Each company's brand color is constrained to its badge and chart line only — color becomes a semantic channel, not decoration.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-title">Visualization Strategy Selector</div>
+      <div style="display:flex;flex-direction:column;gap:.65rem;font-size:.82rem;color:var(--ink-3);line-height:1.55">
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">∝</span>
+          <span><strong style="color:var(--ink)">Proportional circles</strong> — area encodes claimed vs. observed scale (IIB method)</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">⊗</span>
+          <span><strong style="color:var(--ink)">Unit marks</strong> — each symbol = one real event (Dear Data method)</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">●</span>
+          <span><strong style="color:var(--ink)">Dot plots</strong> — spread of study results vs. outlier claim</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">∷</span>
+          <span><strong style="color:var(--ink)">Dot fields</strong> — density of marks = density of errors (Dear Data)</span>
+        </div>
+      </div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-title">Sample Claim Card</div>
+      <div style="background:var(--white);border:1px solid var(--border);padding:1rem;position:relative;box-shadow:var(--shadow)">
+        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+          <span class="badge bd-oai">OpenAI</span>
+          <span style="font-family:'Source Code Pro',monospace;font-size:.55rem;color:var(--ink-4)">Filed: 14 Feb 2026</span>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--ink-2);line-height:1.55;border-left:2px solid var(--border-2);padding-left:.75rem;margin:.5rem 0">"We will achieve AGI within the next twelve months."</div>
+        <div style="height:40px;background:var(--off);border:1px dashed var(--border-2);display:flex;align-items:center;justify-content:center;margin:.5rem 0">
+          <span style="font-family:'Source Code Pro',monospace;font-size:.52rem;color:var(--ink-4);letter-spacing:.08em;text-transform:uppercase">Visualization panel</span>
+        </div>
+        <div style="position:absolute;top:.8rem;right:.8rem;transform:rotate(10deg);font-family:'Source Code Pro',monospace;font-size:.58rem;font-weight:700;letter-spacing:.2em;border:2px solid var(--red);color:var(--red);padding:2px 7px;opacity:.85;filter:url(#roughen2)">RETRACTED</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSPIRATION ── -->
+<section style="padding: 4rem var(--pad) 0; border-bottom: 1px solid var(--border-2)">
+  <div class="section-num">Inspiration Sources</div>
+</section>
+
+<div class="inspo-section" style="padding-top:4rem">
+
+  <!-- ── IIB ── -->
+  <div class="inspo-block">
+    <div class="inspo-header">
+      <div>
+        <div class="inspo-tag">Primary Visual Influence · Data Visualization</div>
+        <h2 class="inspo-title">Information<br/><em>is Beautiful</em></h2>
+        <p class="inspo-desc">David McCandless's foundational principle — that <em>area should be proportional to value</em> — directly shapes every visualization in The Silicon Audit. His use of clean geometric forms (circles, bubbles) to encode magnitude makes the Reality Gap™ viscerally legible without text explanation. The IIB aesthetic also informs the site's confident use of color as semantic signal rather than decoration.</p>
+        <a href="https://informationisbeautiful.net" class="inspo-link" target="_blank">informationisbeautiful.net ↗</a>
+      </div>
+      <p class="inspo-pull">"The goal is to condense vast amounts of complex information into a single, beautiful image that you can understand in seconds — but that rewards deeper looking."<br/><span style="font-size:.78rem;color:var(--ink-4);display:block;margin-top:.5rem">— David McCandless</span></p>
+    </div>
+
+    <!-- IIB GALLERY -->
+    <div class="iib-gallery">
+      <div class="g-main">
+        <img src="inspo/iib-dc-marvel.jpg" class="gallery-img tall" style="height:340px;" alt="DC vs Marvel — Information is Beautiful Awards visualization comparing superhero universes"/>
+        <div class="gallery-caption">IIB Awards · DC vs Marvel · Comparative data portrait</div>
+      </div>
+      <div>
+        <img src="inspo/iib-got-transit.png" class="gallery-img" style="aspect-ratio:4/3;object-fit:cover;" alt="Game of Thrones Transit Map — IIB Awards"/>
+        <div class="gallery-caption">IIB Awards · GoT Transit Map · Network mapping</div>
+      </div>
+      <div>
+        <img src="inspo/iib-women.jpg" class="gallery-img" style="aspect-ratio:4/3;object-fit:cover;" alt="Women in Development — IIB Awards data visualization"/>
+        <div class="gallery-caption">IIB Awards · Women in Development · Proportional encoding</div>
+      </div>
+      <div>
+        <img src="inspo/iib-pianogram.png" class="gallery-img" style="aspect-ratio:4/3;object-fit:cover;background:var(--ink);" alt="Pianogram — IIB Awards musical visualization"/>
+        <div class="gallery-caption">IIB Awards · The Pianogram · Musical data art</div>
+      </div>
+      <div>
+        <img src="inspo/iib-airpollution.jpg" class="gallery-img" style="aspect-ratio:4/3;object-fit:cover;" alt="Air Pollution visualization — IIB Awards"/>
+        <div class="gallery-caption">IIB Awards · Air Pollution Glasgow · Geographic density</div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.25rem;font-size:.78rem;color:var(--ink-4);font-family:'Source Code Pro',monospace;letter-spacing:.06em">Images: Information is Beautiful Awards winners · informationisbeautifulawards.com</p>
+  </div>
+
+  <!-- ── DEAR DATA ── -->
+  <div class="inspo-block">
+    <div class="inspo-header">
+      <div>
+        <div class="inspo-tag">Primary Visual Influence · Personal Data / Unit Marks</div>
+        <h2 class="inspo-title">Dear <em>Data</em></h2>
+        <p class="inspo-desc">Giorgia Lupi and Stefanie Posavec's year-long postcard project — now in MoMA's permanent collection — establishes the unit-mark vocabulary used throughout The Silicon Audit. Each mark represents a discrete real-world event. The hand-drawn quality of the originals is reproduced in code via SVG <code style="font-family:'Source Code Pro',monospace;font-size:.85em;background:var(--off-2);padding:1px 4px">feTurbulence</code> + <code style="font-family:'Source Code Pro',monospace;font-size:.85em;background:var(--off-2);padding:1px 4px">feDisplacementMap</code> filters, which introduce controlled visual noise that mimics the organic imprecision of hand drawing — making data feel human-scale and personal rather than algorithmic.</p>
+        <a href="https://www.dear-data.com" class="inspo-link" target="_blank">dear-data.com ↗</a>
+      </div>
+      <p class="inspo-pull">"Every week, we measured a particular type of data about our lives — and used those numbers to make a drawing on a postcard. One mark equals one moment."<br/><span style="font-size:.78rem;color:var(--ink-4);display:block;margin-top:.5rem">— Giorgia Lupi &amp; Stefanie Posavec</span></p>
+    </div>
+
+    <!-- DEAR DATA GALLERY -->
+    <div class="dd-gallery">
+      <div class="dd-postcard">
+        <img src="inspo/dear-data-media.jpg" alt="Dear Data Week 27: A Week of Media — Giorgia Lupi's postcard"/>
+        <div class="dd-week-label">Week 27 · A Week of Media · Giorgia Lupi</div>
+      </div>
+      <div class="dd-postcard">
+        <img src="inspo/dear-data-privacy.jpg" alt="Dear Data Week 51: A Week of Privacy — Giorgia Lupi's postcard"/>
+        <div class="dd-week-label">Week 51 · A Week of Privacy · Giorgia Lupi</div>
+      </div>
+      <div class="dd-postcard">
+        <img src="inspo/dear-data-stefanie.jpg" alt="Dear Data Week 27: A Week of Media — Stefanie Posavec's postcard"/>
+        <div class="dd-week-label">Week 27 · A Week of Media · Stefanie Posavec</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;background:var(--off);border:1px solid var(--border);padding:1.25rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem">
+      <div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.4rem">The principle</div>
+        <p style="font-size:.8rem;color:var(--ink-3);line-height:1.6">One mark = one real-world event. A broken circle = one missed deadline. Eleven broken circles = eleven missed deadlines. No aggregation, no abstraction.</p>
+      </div>
+      <div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.4rem">The translation</div>
+        <p style="font-size:.8rem;color:var(--ink-3);line-height:1.6">SVG <code style="font-family:'Source Code Pro',monospace;font-size:.85em">feTurbulence</code> at <code style="font-family:'Source Code Pro',monospace;font-size:.85em">baseFrequency=".045"</code> displaces each mark ±1.5px — reproducing the organic hand-drawn texture in code.</p>
+      </div>
+      <div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.4rem">MoMA collection</div>
+        <p style="font-size:.8rem;color:var(--ink-3);line-height:1.6">The original 104 postcards were acquired by the Museum of Modern Art in November 2016 as part of the Architecture &amp; Design permanent collection.</p>
+      </div>
+    </div>
+    <p style="margin-top:1rem;font-size:.78rem;color:var(--ink-4);font-family:'Source Code Pro',monospace;letter-spacing:.06em">Images: dear-data.com · © Giorgia Lupi &amp; Stefanie Posavec</p>
+  </div>
+
+  <!-- ── PREVIOUS WORK ── -->
+  <div class="inspo-block">
+    <div class="inspo-header">
+      <div>
+        <div class="inspo-tag">Previous Work · Editorial Design · DART</div>
+        <h2 class="inspo-title">AI <em>Magazine</em></h2>
+        <p class="inspo-desc">A prior editorial design project exploring the visual language of technology journalism. The fragmented grid system, typographic tension between serif authority and monospace data labels, and the confrontation between "sterile tech aesthetics" and critical content directly inform The Silicon Audit's design philosophy. Where AI Magazine treated technology journalism as an aesthetic object, The Silicon Audit treats it as an accountability instrument.</p>
+        <a href="https://haniflearnscoding.github.io/hanifhashim.github.io/ai-magazine.html" class="inspo-link" target="_blank">View project ↗</a>
+      </div>
+      <p class="inspo-pull">"The Silicon Audit inherits AI Magazine's visual tension between institutional authority and critical distance — but weaponizes it with data."</p>
+    </div>
+
+    <div class="pw-frame">
+      <div class="pw-img-wrap">
+        <img src="https://haniflearnscoding.github.io/hanifhashim.github.io/images/Power1.png"
+             alt="AI Magazine — previous editorial design project"
+             onerror="this.parentNode.style.background='var(--ink-2)'; this.style.display='none'"/>
+      </div>
+      <div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border-2)">Design lineage</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div style="display:flex;gap:.75rem">
+            <span style="font-family:'Source Code Pro',monospace;font-size:.6rem;font-weight:700;color:var(--red);flex-shrink:0;padding-top:2px">→</span>
+            <div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem">Retained</div>
+              <div style="font-size:.8rem;color:var(--ink-3);line-height:1.55">Serif / mono typographic tension, off-white paper-textured background, editorial layout grid, crosshair cursor.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.75rem">
+            <span style="font-family:'Source Code Pro',monospace;font-size:.6rem;font-weight:700;color:var(--oai);flex-shrink:0;padding-top:2px">+</span>
+            <div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem">Added</div>
+              <div style="font-size:.8rem;color:var(--ink-3);line-height:1.55">Data visualization layer, accountability frame, distressed rubber-stamp components, Dear Data unit marks, IIB proportional circles.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.75rem">
+            <span style="font-family:'Source Code Pro',monospace;font-size:.6rem;font-weight:700;color:var(--amber);flex-shrink:0;padding-top:2px">≠</span>
+            <div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem">Diverged</div>
+              <div style="font-size:.8rem;color:var(--ink-3);line-height:1.55">From editorial celebration → systematic audit. Tone shifts from reverent to forensic. Color from expressive to strictly semantic.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── DESIGN PRINCIPLES ── -->
+<section class="style-section" style="background:var(--off)">
+  <div class="section-num">Core Design Principles</div>
+  <div class="principles-grid">
+    <div class="principle">
+      <div class="p-num">01</div>
+      <div class="p-title">Area ∝ Value</div>
+      <p class="p-desc">Visual encoding uses area, not length. A circle ten times larger = a value ten times larger. Following the IIB principle: ink should map honestly to data. No distortion, no truncated axes.</p>
+    </div>
+    <div class="principle">
+      <div class="p-num">02</div>
+      <div class="p-title">One Mark, One Event</div>
+      <p class="p-desc">Every symbol in a unit chart represents exactly one real-world occurrence — one broken promise, one documented error, one missed deadline. Density of marks = density of reality.</p>
+    </div>
+    <div class="principle">
+      <div class="p-num">03</div>
+      <div class="p-title">Color is Semantic</div>
+      <p class="p-desc">Company colors (OAI green, Meta blue) appear only for that company's data. Red = observed/actual. Amber = disputed. Color carries meaning — it is never used decoratively.</p>
+    </div>
+    <div class="principle">
+      <div class="p-num">04</div>
+      <div class="p-title">Satire + Rigor</div>
+      <p class="p-desc">Tone is sharp and satirical, but every figure is a calculation with cited, verifiable sources. The distressed rubber stamps and bureaucratic framing amplify — not undermine — the data's authority.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a class="ft-logo" href="index.html">The Silicon <em>Audit</em></a>
+  <ul class="ft-nav">
+    <a href="p1.html">← 01 · Abstract</a>
+    <a href="p2.html">02 · Mockups</a>
+    <a href="p3.html" class="ft-next">03 · Style Guide</a>
+  </ul>
+  <div class="ft-meta">
+    DART 449 · The Language of the Web<br/>
+    Abdul Hanif Hashim · Winter 2026
+  </div>
+</footer>
+
+</body>
+</html>

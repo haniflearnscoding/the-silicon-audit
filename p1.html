@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>01 · Abstract — The Silicon Audit · DART 449</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="proposal.css"/>
+<style>
+
+/* ─── COVER ─── */
+#cover {
+  min-height: 100vh;
+  background: var(--off);
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center;
+  padding: 80px var(--pad) 5rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+#cover::after {
+  content: 'I';
+  position: absolute; right: var(--pad); bottom: -.1em;
+  font-family: 'Playfair Display', serif;
+  font-size: 22rem; font-weight: 900;
+  color: rgba(0,0,0,.04); line-height: 1;
+  pointer-events: none; letter-spacing: -.05em;
+}
+.cover-eyebrow {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .62rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--red);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.cover-eyebrow::before { content:''; width:32px; height:1px; background:var(--red); }
+
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-weight: 900; letter-spacing: -.03em;
+  line-height: .95; text-transform: uppercase;
+  margin-bottom: .75rem;
+  position: relative; z-index: 1;
+}
+.cover-title em {
+  font-style: italic; font-weight: 400; display: block;
+}
+.cover-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.65rem);
+  font-style: italic; color: var(--ink-3);
+  margin-bottom: 3rem; max-width: 560px;
+  line-height: 1.5; position: relative; z-index: 1;
+}
+
+.cover-meta {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 0;
+  border: 1px solid var(--border);
+  background: var(--white);
+  position: relative; z-index: 1;
+  box-shadow: var(--shadow);
+}
+@media(max-width:600px){ .cover-meta { grid-template-columns: repeat(2,1fr); } }
+
+.meta-cell {
+  padding: .9rem 1.4rem;
+  border-right: 1px solid var(--border);
+}
+.meta-cell:last-child { border-right: none; }
+.meta-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .3rem;
+}
+.meta-val {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .88rem; font-weight: 500; color: var(--ink-2);
+}
+
+.cover-scroll {
+  position: absolute; bottom: 2.5rem; right: var(--pad);
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  writing-mode: vertical-rl;
+  display: flex; align-items: center; gap: .5rem;
+}
+.cover-scroll::after {
+  content: ''; width: 1px; height: 44px;
+  background: var(--border);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
+
+/* ─── ABSTRACT SECTION ─── */
+#abstract {
+  padding: 5rem var(--pad) 6rem;
+}
+
+.abstract-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 4rem;
+  max-width: 1200px;
+  align-items: start;
+}
+@media(max-width:900px){ .abstract-grid { grid-template-columns: 1fr; } }
+
+.abstract-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 900; letter-spacing: -.025em;
+  line-height: 1.05; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.abstract-h em { font-style: italic; font-weight: 400; }
+
+.abstract-deck {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-style: italic;
+  color: var(--ink-3); line-height: 1.6;
+  margin-bottom: 2.5rem;
+  border-left: 2px solid var(--border);
+  padding-left: 1.25rem;
+}
+
+.abstract-body p {
+  font-size: .97rem; line-height: 1.9;
+  color: var(--ink-2); margin-bottom: 1.35rem;
+}
+.abstract-body p:last-child { margin-bottom: 0; }
+.abstract-body strong { color: var(--ink); font-weight: 500; }
+
+/* PDF download card */
+.pdf-card {
+  background: var(--off);
+  border: 1px solid var(--border);
+  padding: 1.4rem 1.5rem;
+  margin-top: 2.5rem;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.pdf-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .35rem;
+}
+.pdf-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700; color: var(--ink);
+  line-height: 1.3;
+}
+.pdf-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--ink);
+  padding: .6rem 1.2rem;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.pdf-btn:hover { background: var(--red); }
+.pdf-btn svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+/* sidebar items */
+.rq-item {
+  display: flex; gap: .75rem;
+  padding: .65rem 0; border-bottom: 1px dotted var(--border-2);
+}
+.rq-item:last-child { border-bottom: none; }
+.rq-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--red); line-height: 1;
+  flex-shrink: 0; margin-top: .1rem;
+}
+.rq-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem; color: var(--ink-2); line-height: 1.55;
+}
+
+.kw-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+.kw {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .06em;
+  padding: 2px 8px; border: 1px solid var(--border);
+  color: var(--ink-3); background: var(--off);
+}
+
+.ref-list { list-style: none; }
+.ref-list li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem; color: var(--ink-3);
+  padding: .4rem 0; border-bottom: 1px dotted var(--border-2);
+  line-height: 1.45;
+}
+.ref-list li:last-child { border-bottom: none; }
+.ref-list em { font-style: italic; }
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <filter id="roughen2">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="index.html">The Silicon <em>Audit</em></a>
+  <ul class="nav-links">
+    <a href="p1.html" class="active">01 · Abstract</a>
+    <a href="p2.html">02 · Mockups</a>
+    <a href="p3.html">03 · Style Guide</a>
+  </ul>
+  <span class="nav-tag">DART 449 · Midterm</span>
+</nav>
+
+<!-- ── COVER ── -->
+<section id="cover">
+  <div class="cover-eyebrow">DART 449 — The Language of the Web · Midterm Proposal</div>
+  <h1 class="cover-title">
+    The Silicon<br/>
+    <em>Audit</em>
+  </h1>
+  <p class="cover-subtitle">A data visualization project documenting the gap between what Silicon Valley promises and what it delivers — measured, cited, and permanently on file.</p>
+
+  <div class="cover-meta">
+    <div class="meta-cell">
+      <div class="meta-label">Student</div>
+      <div class="meta-val">Abdul Hanif Hashim</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Course</div>
+      <div class="meta-val">DART 449</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Semester</div>
+      <div class="meta-val">Winter 2026</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Page</div>
+      <div class="meta-val">01 of 03</div>
+    </div>
+  </div>
+
+  <div class="cover-scroll">Scroll</div>
+</section>
+
+<!-- ── ABSTRACT ── -->
+<section id="abstract">
+  <div class="section-num">01 &nbsp;Abstract &amp; Paper</div>
+
+  <div class="abstract-grid">
+
+    <!-- MAIN CONTENT -->
+    <div>
+      <h2 class="abstract-h">The Reality <em>Gap™</em></h2>
+      <p class="abstract-deck">How do you visualize a lie that doesn't know it's lying? This project proposes a systematic, data-rigorous approach to accountability journalism in the technology sector.</p>
+
+      <div class="abstract-body">
+        <p>The technology industry operates under a peculiar epistemic norm: executives are rewarded for projecting certainty, investors prize conviction over calibration, and the press cycle has a memory of approximately eleven days. The result is a near-total absence of institutional accountability for public statements that turn out to be false.</p>
+
+        <p>This project, <strong>The Silicon Audit</strong>, proposes a data visualization framework for systematically documenting the gap between public claims made by technology executives and observable outcomes — a quantity I term the <strong>Reality Gap™</strong>. Rather than relying on subjective editorial judgment, the Reality Gap™ is a precise mathematical measure: the percentage deviation between a stated projection and the observed outcome at the stated deadline.</p>
+
+        <p>The central design challenge is representing data that is simultaneously <strong>quantitative and rhetorical</strong>. The numbers are exact, but the story they tell is about human overconfidence, institutional incentives, and the structural conditions that allow misleading statements to go uncorrected. The visualization must be rigorous enough to withstand academic scrutiny while legible enough to carry genuine satirical and journalistic force.</p>
+
+        <p>Drawing on the visual languages of <em>Information is Beautiful</em> (McCandless) and <em>Dear Data</em> (Lupi &amp; Posavec), I propose a web-based "Bureaucratic Museum" — a newspaper-formatted feed of claim records, each accompanied by a bespoke data visualization that encodes the Reality Gap™ through proportional areas, unit marks, and annotated dot plots rather than conventional charts.</p>
+
+        <p>The project makes three contributions: (1) a replicable methodology for auditing executive claims, (2) a typology of visualization strategies suited to data about <em>performance certainty versus actual performance</em>, and (3) a public-facing interface that demonstrates how data journalism can carry both epistemic and aesthetic weight.</p>
+      </div>
+
+      <!-- PDF card -->
+      <div class="pdf-card">
+        <div>
+          <div class="pdf-label">Full Paper · PDF</div>
+          <div class="pdf-title">The Silicon Audit: Visualizing Accountability<br/>in the Technology Sector</div>
+        </div>
+        <a href="#" class="pdf-btn" onclick="alert('PDF not yet attached — placeholder link'); return false;">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Download PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <div class="aside-card">
+        <div class="aside-label">Research Questions</div>
+        <div class="rq-item">
+          <div class="rq-n">1</div>
+          <div class="rq-text">How can proportional area and unit-mark visualization strategies encode the scale of executive overstatement more effectively than conventional time-series charts?</div>
+        </div>
+        <div class="rq-item">
+          <div class="rq-n">2</div>
+          <div class="rq-text">What editorial and typographic conventions from print journalism can be repurposed to give data visualization work the authority of institutional accountability?</div>
+        </div>
+        <div class="rq-item">
+          <div class="rq-n">3</div>
+          <div class="rq-text">Can satirical tone and rigorous methodology coexist in a single public-facing artifact without undermining either?</div>
+        </div>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-label">Keywords</div>
+        <div class="kw-list">
+          <span class="kw">Data Journalism</span>
+          <span class="kw">Accountability</span>
+          <span class="kw">Proportional Area</span>
+          <span class="kw">Unit Charts</span>
+          <span class="kw">Editorial Design</span>
+          <span class="kw">Tech Industry</span>
+          <span class="kw">Satire</span>
+          <span class="kw">Reality Gap™</span>
+          <span class="kw">Dear Data</span>
+          <span class="kw">Info Is Beautiful</span>
+        </div>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-label">Key References</div>
+        <ul class="ref-list">
+          <li>McCandless, D. <em>Information is Beautiful</em> (2009, 2012)</li>
+          <li>Lupi, G. &amp; Posavec, S. <em>Dear Data</em> (2016)</li>
+          <li>Cairo, A. <em>The Functional Art</em> (2012)</li>
+          <li>Tufte, E. <em>The Visual Display of Quantitative Information</em> (1983)</li>
+          <li>Hullman, J. &amp; Diakopoulos, N. "Visualization Rhetoric" (2011)</li>
+          <li>Coddington, M. "Clarifying Journalism's Quantitative Turn" (2015)</li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a class="ft-logo" href="index.html">The Silicon <em>Audit</em></a>
+  <ul class="ft-nav">
+    <a href="index.html">← Main Site</a>
+    <a href="p1.html" class="ft-next">01 · Abstract</a>
+    <a href="p2.html" class="ft-next">02 · Mockups →</a>
+    <a href="p3.html">03 · Style Guide</a>
+  </ul>
+  <div class="ft-meta">
+    DART 449 · The Language of the Web<br/>
+    Abdul Hanif Hashim · Winter 2026
+  </div>
+</footer>
+
+</body>
+</html>

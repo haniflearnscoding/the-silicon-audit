@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>02 · Mockups — The Silicon Audit · DART 449</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="proposal.css"/>
+<style>
+
+/* ─── MOCKUP FRAMES ─── */
+.mockup-section {
+  padding: 4rem var(--pad) 5rem;
+}
+
+.mockup-frame {
+  margin-bottom: 4rem;
+}
+.frame-label {
+  display: flex; align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border-2);
+}
+.frame-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+.frame-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink); font-style: italic;
+}
+
+.frame-screen {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 24px 64px rgba(0,0,0,.12);
+  overflow: hidden;
+  border-radius: 3px;
+  position: relative;
+}
+
+/* browser chrome */
+.frame-chrome {
+  background: #e8e4dc;
+  padding: .6rem 1rem;
+  display: flex; align-items: center; gap: .6rem;
+  border-bottom: 1px solid #d0ccc4;
+}
+.chrome-dots { display: flex; gap: 5px; }
+.chrome-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  opacity: .7;
+}
+.chrome-url {
+  flex: 1;
+  background: rgba(255,255,255,.7);
+  border-radius: 3px;
+  padding: .2rem .65rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .04em;
+  color: var(--ink-3);
+}
+
+.frame-screen img {
+  width: 100%; display: block;
+}
+
+.frame-caption {
+  margin-top: 1.25rem;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media(max-width:640px){ .frame-caption { grid-template-columns: 1fr; } }
+
+.fc-item {}
+.fc-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  margin-bottom: .45rem;
+}
+.fc-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3);
+  margin-bottom: .25rem;
+}
+.fc-desc {
+  font-size: .8rem; color: var(--ink-4); line-height: 1.55;
+}
+
+/* ─── FEATURE CALLOUTS ─── */
+.feat-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 1rem;
+  border-top: 1px solid var(--border-2);
+  padding-top: 3rem;
+}
+@media(max-width:720px){ .feat-grid { grid-template-columns: 1fr; } }
+
+.feat-card {
+  background: var(--off);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+}
+.feat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem; font-weight: 900;
+  color: rgba(191,44,30,.15); line-height: 1;
+  margin-bottom: .5rem;
+}
+.feat-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .65rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink);
+  margin-bottom: .5rem;
+}
+.feat-desc {
+  font-size: .84rem; color: var(--ink-3); line-height: 1.65;
+}
+
+/* ─── DESIGN DECISIONS STRIP ─── */
+.decision-strip {
+  background: var(--ink);
+  padding: 3rem var(--pad);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+@media(max-width:700px){ .decision-strip { grid-template-columns: repeat(2,1fr); } }
+
+.ds-item {}
+.ds-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  margin-bottom: .5rem;
+}
+.ds-stat {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; font-weight: 900;
+  color: rgba(255,255,255,.9); line-height: 1;
+  margin-bottom: .3rem;
+}
+.ds-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem; color: rgba(255,255,255,.45);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="index.html">The Silicon <em>Audit</em></a>
+  <ul class="nav-links">
+    <a href="p1.html">01 · Abstract</a>
+    <a href="p2.html" class="active">02 · Mockups</a>
+    <a href="p3.html">03 · Style Guide</a>
+  </ul>
+  <span class="nav-tag">DART 449 · Midterm</span>
+</nav>
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header" data-num="II">
+  <div class="ph-kicker">Page 02 of 03 — Figma Mockups</div>
+  <h1 class="ph-title">Interface <em>Design</em></h1>
+  <p class="ph-sub">High-fidelity mockups showing the two primary views of the Institute for AI Accountability — the main claim feed and the methodology page.</p>
+</div>
+
+<!-- ── MOCKUP STATS STRIP ── -->
+<div class="decision-strip">
+  <div class="ds-item">
+    <div class="ds-num">screens</div>
+    <div class="ds-stat">02</div>
+    <div class="ds-label">Figma frames, full desktop viewport</div>
+  </div>
+  <div class="ds-item">
+    <div class="ds-num">columns</div>
+    <div class="ds-stat">3</div>
+    <div class="ds-label">Newspaper layout: sidebar · feed · sidebar</div>
+  </div>
+  <div class="ds-item">
+    <div class="ds-num">claim cards</div>
+    <div class="ds-stat">5</div>
+    <div class="ds-label">OpenAI, Meta, Tesla, Google, Microsoft</div>
+  </div>
+  <div class="ds-item">
+    <div class="ds-num">viz types</div>
+    <div class="ds-stat">4</div>
+    <div class="ds-label">Circles · Unit marks · Dot fields · Dotplot</div>
+  </div>
+</div>
+
+<!-- ── MOCKUP FRAMES ── -->
+<section class="mockup-section">
+  <div class="section-num">Screen 01 / 02 &nbsp; The Claim Feed</div>
+
+  <div class="mockup-frame">
+    <div class="frame-label">
+      <span class="frame-num">Figma Export · MacBook Pro 16" · 1728 × 1117px</span>
+      <span class="frame-title">Main View — Claim Feed</span>
+    </div>
+    <div class="frame-screen">
+      <div class="frame-chrome">
+        <div class="chrome-dots">
+          <div class="chrome-dot" style="background:#ff5f57"></div>
+          <div class="chrome-dot" style="background:#febc2e"></div>
+          <div class="chrome-dot" style="background:#28c840"></div>
+        </div>
+        <div class="chrome-url">localhost:4490 — The Silicon Audit · Vol. I</div>
+      </div>
+      <img src="mockup-1.png" alt="Figma mockup — Institute for AI Accountability main feed showing claim cards with Reality Gap data visualizations"/>
+    </div>
+    <div class="frame-caption">
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--red)"></div>
+        <div class="fc-title">Claim Cards</div>
+        <div class="fc-desc">Each card presents a verbatim CEO quote, a bespoke Dear Data / IIB visualization, and a distressed RETRACTED stamp.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--oai)"></div>
+        <div class="fc-title">Three-Column Layout</div>
+        <div class="fc-desc">Left sidebar for stats and filters; central feed for claim cards; right sidebar for live accountability metrics and ticker.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--ink-3)"></div>
+        <div class="fc-title">Newspaper Masthead</div>
+        <div class="fc-desc">Serif editorial typography, scrolling ticker banner, and volume/issue metadata signal institutional authority and permanence.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-num">Screen 02 / 02 &nbsp; Methodology</div>
+
+  <div class="mockup-frame">
+    <div class="frame-label">
+      <span class="frame-num">Figma Export · MacBook Pro 16" · 1728 × 1117px</span>
+      <span class="frame-title">Methodology — How We Measure</span>
+    </div>
+    <div class="frame-screen">
+      <div class="frame-chrome">
+        <div class="chrome-dots">
+          <div class="chrome-dot" style="background:#ff5f57"></div>
+          <div class="chrome-dot" style="background:#febc2e"></div>
+          <div class="chrome-dot" style="background:#28c840"></div>
+        </div>
+        <div class="chrome-url">localhost:4490/methodology — The Silicon Audit · Methodology</div>
+      </div>
+      <img src="mockup-2.png" alt="Figma mockup — Methodology page showing the Reality Gap formula and worked examples"/>
+    </div>
+    <div class="frame-caption">
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--ink)"></div>
+        <div class="fc-title">Formula Display</div>
+        <div class="fc-desc">The Reality Gap™ formula is presented in a terminal-style dark box, with color-coded variables for legibility and rigor.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--amber)"></div>
+        <div class="fc-title">Anchored TOC</div>
+        <div class="fc-desc">Right sidebar table of contents allows navigation through six methodology sections with active-state highlighting.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--meta)"></div>
+        <div class="fc-title">Versioned Changelog</div>
+        <div class="fc-desc">Methodology changelog with dates signals transparency and iterative rigor — modeled on academic preprints and software release notes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature callouts -->
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-num">01</div>
+      <div class="feat-title">Retraction Stamps</div>
+      <div class="feat-desc">Distressed SVG feTurbulence displacement filter applied to claim status stamps (RETRACTED / PARTIAL / DISPUTED) gives a physically bureaucratic quality to digital accountability records.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">02</div>
+      <div class="feat-title">Area-Accurate Encoding</div>
+      <div class="feat-desc">Unlike bar charts that encode length, the visualizations use proportional area — following Information is Beautiful's principle that ink should map accurately to value, making magnitude viscerally legible.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">03</div>
+      <div class="feat-title">Unit Mark Language</div>
+      <div class="feat-desc">Drawing on Dear Data's unit-mark vocabulary, each dot and symbol represents a discrete real-world event — a promise made, an error documented, a deadline missed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a class="ft-logo" href="index.html">The Silicon <em>Audit</em></a>
+  <ul class="ft-nav">
+    <a href="p1.html">← 01 · Abstract</a>
+    <a href="p2.html" class="ft-next">02 · Mockups</a>
+    <a href="p3.html" class="ft-next">03 · Style Guide →</a>
+  </ul>
+  <div class="ft-meta">
+    DART 449 · The Language of the Web<br/>
+    Abdul Hanif Hashim · Winter 2026
+  </div>
+</footer>
+
+</body>
+</html>
