@@ -634,27 +634,55 @@ footer{
           <span>Proportional Area — Confidence Expressed vs. Capability Observed</span>
           <span class="gap-badge gap-h">Gap: −91%</span>
         </div>
-        <svg width="100%" height="154" viewBox="0 0 520 154" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- CLAIMED: outer ring, r=70 -->
-          <circle cx="106" cy="77" r="70" stroke="#10a37f" stroke-width="1.5" stroke-dasharray="5 3.5" opacity=".6"/>
-          <!-- ACTUAL: inner filled circle, r = 70 × √0.09 = 21 -->
-          <circle cx="106" cy="77" r="21" fill="#bf2c1e" fill-opacity=".82"/>
-          <text x="106" y="82" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="9.5" font-weight="700" fill="white">9%</text>
-          <!-- connector to claimed annotation -->
-          <line x1="152" y1="22" x2="208" y2="42" stroke="#c9c2ae" stroke-width=".9"/>
-          <text x="212" y="38" font-family="'Source Code Pro',monospace" font-size="7" fill="#7a7460" letter-spacing=".14em">CLAIMED</text>
-          <text x="212" y="56" font-family="'Playfair Display',serif" font-size="22" font-weight="900" fill="#10a37f" letter-spacing="-.02em">100%</text>
-          <text x="212" y="68" font-family="'Cormorant Garamond',serif" font-size="10.5" fill="#7a7460" font-style="italic">AGI-level capability, within 12 months</text>
-          <!-- horizontal divider -->
-          <line x1="212" y1="78" x2="514" y2="78" stroke="#ddd7c8" stroke-width=".5" stroke-dasharray="2 4"/>
-          <!-- connector to actual annotation -->
-          <line x1="126" y1="84" x2="208" y2="106" stroke="#c9c2ae" stroke-width=".9"/>
-          <text x="212" y="100" font-family="'Source Code Pro',monospace" font-size="7" fill="#7a7460" letter-spacing=".14em">OBSERVED</text>
-          <text x="212" y="118" font-family="'Playfair Display',serif" font-size="22" font-weight="900" fill="#bf2c1e" letter-spacing="-.02em">9%</text>
-          <text x="212" y="130" font-family="'Cormorant Garamond',serif" font-size="10.5" fill="#7a7460" font-style="italic">ARC-AGI-2 benchmark, Feb 2026</text>
-          <!-- caption -->
-          <text x="212" y="150" font-family="'Cormorant Garamond',serif" font-size="10" fill="#a09880" font-style="italic">The empty ring between the circles is the unfulfilled promise.</text>
-          <text x="8" y="150" font-family="'Source Code Pro',monospace" font-size="6" fill="#c9c2ae" letter-spacing=".08em">AREA ∝ VALUE</text>
+        <svg width="100%" height="172" viewBox="0 0 520 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Diagonal hatch pattern: fills the unfulfilled gap ring -->
+            <pattern id="hatch-c1" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="5" stroke="#10a37f" stroke-width="0.55"/>
+            </pattern>
+            <!-- Mask punches the inner circle out of the hatch fill -->
+            <mask id="mask-c1">
+              <circle cx="106" cy="83" r="70" fill="white"/>
+              <circle cx="106" cy="83" r="21" fill="black"/>
+            </mask>
+          </defs>
+          <!-- HATCH FILL: the 91% unfulfilled promise, visible as diagonal green lines -->
+          <circle cx="106" cy="83" r="70" fill="url(#hatch-c1)" mask="url(#mask-c1)" opacity="0.3"/>
+          <!-- OUTER RING: claimed 100% AGI, within 12 months -->
+          <circle cx="106" cy="83" r="70" stroke="#10a37f" stroke-width="1.5" stroke-dasharray="5 3.5" opacity=".62"/>
+          <!-- 12 MONTH TICKS: one per month of the promised timeline, r=66→73 -->
+          <line x1="106" y1="16" x2="106" y2="9"    stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="139" y1="24" x2="143" y2="18"   stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="163" y1="48" x2="169" y2="45"   stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="172" y1="83" x2="179" y2="83"   stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="163" y1="118" x2="169" y2="121" stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="139" y1="142" x2="143" y2="148" stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="106" y1="150" x2="106" y2="157" stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="73"  y1="142" x2="69"  y2="148" stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="49"  y1="118" x2="43"  y2="121" stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="40"  y1="83"  x2="33"  y2="83"  stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="49"  y1="48"  x2="43"  y2="45"  stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <line x1="73"  y1="24"  x2="69"  y2="18"  stroke="#10a37f" stroke-width="1.1" opacity=".38"/>
+          <!-- MONTH 1 LABEL at top tick -->
+          <text x="106" y="6" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="5" fill="#10a37f" opacity=".5" letter-spacing=".06em">JAN '25</text>
+          <!-- ACTUAL: inner filled circle (r=21 = 70×√0.09, area proportional to value) -->
+          <circle cx="106" cy="83" r="21" fill="#bf2c1e" fill-opacity=".85"/>
+          <text x="106" y="87" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="9.5" font-weight="700" fill="white">9%</text>
+          <!-- Connector lines to annotations -->
+          <line x1="152" y1="33" x2="208" y2="53" stroke="#c9c2ae" stroke-width=".9"/>
+          <line x1="126" y1="88" x2="208" y2="111" stroke="#c9c2ae" stroke-width=".9"/>
+          <!-- CLAIMED annotation -->
+          <text x="212" y="47" font-family="'Source Code Pro',monospace" font-size="7" fill="#7a7460" letter-spacing=".14em">CLAIMED</text>
+          <text x="212" y="65" font-family="'Playfair Display',serif" font-size="22" font-weight="900" fill="#10a37f" letter-spacing="-.02em">100%</text>
+          <text x="212" y="77" font-family="'Cormorant Garamond',serif" font-size="10.5" fill="#7a7460" font-style="italic">AGI-level capability, within 12 months</text>
+          <line x1="212" y1="85" x2="514" y2="85" stroke="#ddd7c8" stroke-width=".5" stroke-dasharray="2 4"/>
+          <!-- OBSERVED annotation -->
+          <text x="212" y="104" font-family="'Source Code Pro',monospace" font-size="7" fill="#7a7460" letter-spacing=".14em">OBSERVED</text>
+          <text x="212" y="122" font-family="'Playfair Display',serif" font-size="22" font-weight="900" fill="#bf2c1e" letter-spacing="-.02em">9%</text>
+          <text x="212" y="134" font-family="'Cormorant Garamond',serif" font-size="10.5" fill="#7a7460" font-style="italic">ARC-AGI-2 benchmark, Feb 2026</text>
+          <!-- Caption -->
+          <text x="212" y="156" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#a09880" font-style="italic">Hatched ring = unfulfilled promise. Red circle = delivered reality.</text>
+          <text x="8" y="167" font-family="'Source Code Pro',monospace" font-size="5.5" fill="#c9c2ae" letter-spacing=".06em">AREA ∝ VALUE · 12 TICKS = 12 MONTHS PROMISED · TICK 1 = JAN 2025</text>
         </svg>
       </div>
 
@@ -686,29 +714,37 @@ footer{
 
       <div class="spark-panel">
         <div class="spark-top">
-          <span>Proportional Bubbles — Promised vs. Actual Daily Active Users</span>
+          <span>Nested Circles — Actual DAU sits inside the promised circle. This is how large the gap is.</span>
           <span class="gap-badge gap-h">Gap: −99.6%</span>
         </div>
-        <svg width="100%" height="164" viewBox="0 0 520 164" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- PROMISED: 1 billion DAU, r=77 -->
-          <circle cx="115" cy="82" r="77" stroke="#0866ff" stroke-width="1.4" stroke-dasharray="5 3.5" opacity=".55"/>
-          <text x="115" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#0866ff" letter-spacing=".1em" opacity=".7">PROMISED</text>
-          <text x="115" y="90" text-anchor="middle" font-family="'Playfair Display',serif" font-size="16" font-weight="700" fill="#0866ff" opacity=".7">1,000,000,000</text>
-          <text x="115" y="103" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="10" fill="#0866ff" font-style="italic" opacity=".6">daily active users by 2031</text>
-          <!-- ACTUAL: ~200K. True scale r = 77×√(200000/1e9) ≈ 1px — shown at r=3.5 -->
-          <circle cx="330" cy="82" r="3.5" fill="#bf2c1e"/>
-          <line x1="330" y1="74" x2="330" y2="58" stroke="#bf2c1e" stroke-width=".9" opacity=".75"/>
-          <text x="330" y="51" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#bf2c1e" letter-spacing=".1em">ACTUAL</text>
-          <text x="330" y="40" text-anchor="middle" font-family="'Playfair Display',serif" font-size="14" font-weight="700" fill="#bf2c1e">~200,000</text>
-          <text x="330" y="29" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#7a7460" font-style="italic">peak DAU, Nov 2022</text>
-          <!-- stats block -->
-          <text x="405" y="62" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880" letter-spacing=".1em">REALITY GAP</text>
-          <text x="405" y="84" font-family="'Playfair Display',serif" font-size="24" font-weight="900" fill="#bf2c1e" letter-spacing="-.02em">−99.6%</text>
-          <line x1="405" y1="92" x2="512" y2="92" stroke="#ddd7c8" stroke-width=".5"/>
-          <text x="405" y="105" font-family="'Cormorant Garamond',serif" font-size="11" fill="#7a7460" font-style="italic">1 in 5,000 promised users</text>
-          <text x="405" y="118" font-family="'Cormorant Garamond',serif" font-size="11" fill="#7a7460" font-style="italic">ever materialised.</text>
-          <!-- scale note -->
-          <text x="8" y="159" font-family="'Source Code Pro',monospace" font-size="5.5" fill="#c9c2ae" letter-spacing=".06em">AT TRUE PROPORTIONAL SCALE THE ACTUAL DOT (RIGHT) WOULD BE ~1 PIXEL WIDE. SHOWN ENLARGED. AREA ∝ VALUE.</text>
+        <svg width="100%" height="174" viewBox="0 0 520 174" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- PROMISED: large dashed blue circle, centered left -->
+          <circle cx="110" cy="87" r="77" stroke="#0866ff" stroke-width="1.4" stroke-dasharray="5 3.5" opacity=".52"/>
+          <text x="110" y="63" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#0866ff" letter-spacing=".1em" opacity=".65">PROMISED</text>
+          <text x="110" y="82" text-anchor="middle" font-family="'Playfair Display',serif" font-size="15" font-weight="700" fill="#0866ff" opacity=".6">1,000,000,000</text>
+          <text x="110" y="94" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#0866ff" font-style="italic" opacity=".5">daily active users by 2031</text>
+          <!-- ACTUAL: tiny red dot at the SAME CENTER as the promised circle -->
+          <!-- True proportional r = 77×√(200000/1e9) ≈ 1.09px — shown enlarged at r=4 -->
+          <circle cx="110" cy="87" r="4" fill="#bf2c1e"/>
+          <!-- Leader line from actual dot to annotation -->
+          <line x1="114" y1="85" x2="204" y2="62" stroke="#bf2c1e" stroke-width=".9"/>
+          <text x="207" y="57" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".1em">ACTUAL</text>
+          <text x="207" y="68" font-family="'Playfair Display',serif" font-size="14" font-weight="700" fill="#bf2c1e">~200,000</text>
+          <text x="207" y="79" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#7a7460" font-style="italic">peak DAU, Nov 2022</text>
+          <!-- Zoom reference circle: actual dot shown at 10× scale -->
+          <circle cx="264" cy="132" r="28" fill="#bf2c1e" opacity=".82"/>
+          <text x="264" y="170" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="5.5" fill="#a09880" letter-spacing=".06em">THE DOT · 10× MAGNIFIED</text>
+          <!-- Dashed leader from actual dot to zoom circle -->
+          <line x1="112" y1="90" x2="240" y2="130" stroke="#bf2c1e" stroke-width=".7" stroke-dasharray="3 4" opacity=".45"/>
+          <text x="178" y="120" font-family="'Source Code Pro',monospace" font-size="5.5" fill="#bf2c1e" opacity=".6" letter-spacing=".04em">×10</text>
+          <!-- Stats block -->
+          <text x="360" y="66" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".1em">REALITY GAP</text>
+          <text x="360" y="88" font-family="'Playfair Display',serif" font-size="26" font-weight="900" fill="#bf2c1e" letter-spacing="-.02em">−99.6%</text>
+          <line x1="360" y1="96" x2="512" y2="96" stroke="#ddd7c8" stroke-width=".5"/>
+          <text x="360" y="109" font-family="'Cormorant Garamond',serif" font-size="11" fill="#7a7460" font-style="italic">1 in 5,000 promised</text>
+          <text x="360" y="122" font-family="'Cormorant Garamond',serif" font-size="11" fill="#7a7460" font-style="italic">users materialised.</text>
+          <!-- Scale note -->
+          <text x="8" y="167" font-family="'Source Code Pro',monospace" font-size="5.5" fill="#c9c2ae" letter-spacing=".06em">ACTUAL DOT SITS INSIDE PROMISED CIRCLE · AT TRUE SCALE ≈1PX WIDE · AREA ∝ VALUE</text>
         </svg>
       </div>
 
@@ -743,82 +779,85 @@ footer{
           <span>Unit Record — One Mark Per Public "Full Self-Driving" Deadline</span>
           <span class="gap-badge gap-h">11 Consecutive Misses</span>
         </div>
-        <svg width="100%" height="122" viewBox="0 0 520 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="130" viewBox="0 0 520 130" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="sk">
               <feTurbulence type="fractalNoise" baseFrequency="0.045 0.04" numOctaves="4" seed="17"/>
               <feDisplacementMap in="SourceGraphic" scale="1.5"/>
             </filter>
           </defs>
-          <!-- 11 broken circles + 1 pending. cy=50, r=14, spacing=42, starting cx=21 -->
-          <!-- Cross lines: (cx±9, cy±9) -->
-          <circle cx="21" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="12" y1="41" x2="30" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="30" y1="41" x2="12" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="21" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2014</text>
-
-          <circle cx="63" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="54" y1="41" x2="72" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="72" y1="41" x2="54" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="63" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2016</text>
-
-          <circle cx="105" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="96" y1="41" x2="114" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="114" y1="41" x2="96" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="105" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2017</text>
-
-          <circle cx="147" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="138" y1="41" x2="156" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="156" y1="41" x2="138" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="147" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2018</text>
-
-          <circle cx="189" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="180" y1="41" x2="198" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="198" y1="41" x2="180" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="189" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2019</text>
-
-          <circle cx="231" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="222" y1="41" x2="240" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="240" y1="41" x2="222" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="231" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2020</text>
-
-          <circle cx="273" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="264" y1="41" x2="282" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="282" y1="41" x2="264" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="273" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2021</text>
-
-          <circle cx="315" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="306" y1="41" x2="324" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="324" y1="41" x2="306" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="315" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2022</text>
-
-          <circle cx="357" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="348" y1="41" x2="366" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="366" y1="41" x2="348" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="357" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2023</text>
-
-          <circle cx="399" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="390" y1="41" x2="408" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="408" y1="41" x2="390" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="399" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2024</text>
-
-          <circle cx="441" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
-          <line x1="432" y1="41" x2="450" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="450" y1="41" x2="432" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="441" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2025</text>
-
+          <!-- BASELINE: zero-drift reference — where circles would sit if all deadlines were on time -->
+          <line x1="7" y1="50" x2="472" y2="50" stroke="#c9c2ae" stroke-width=".5" stroke-dasharray="1 4" opacity=".4"/>
+          <!-- ANNOTATION: The original promise — L.A. to N.Y. without intervention, end of 2017 -->
+          <text x="105" y="17" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="8" font-style="italic" fill="#bf2c1e" letter-spacing=".03em">L.A.→N.Y., Dec 2017</text>
+          <line x1="105" y1="19" x2="105" y2="36" stroke="#bf2c1e" stroke-width=".7" stroke-dasharray="1.5 2.5" opacity=".6"/>
+          <!-- 11 broken circles, y-staggered (±2px) to convey accumulated drift -->
+          <!-- 2014 cy=52 -->
+          <circle cx="21" cy="52" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="12" y1="43" x2="30" y2="61" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="30" y1="43" x2="12" y2="61" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="21" y="74" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2014</text>
+          <!-- 2016 cy=48 -->
+          <circle cx="63" cy="48" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="54" y1="39" x2="72" y2="57" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="72" y1="39" x2="54" y2="57" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="63" y="70" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2016</text>
+          <!-- 2017 cy=51 — the "L.A.→N.Y." claim -->
+          <circle cx="105" cy="51" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="96" y1="42" x2="114" y2="60" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="114" y1="42" x2="96" y2="60" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="105" y="73" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2017</text>
+          <!-- 2018 cy=49 -->
+          <circle cx="147" cy="49" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="138" y1="40" x2="156" y2="58" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="156" y1="40" x2="138" y2="58" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="147" y="71" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2018</text>
+          <!-- 2019 cy=52 -->
+          <circle cx="189" cy="52" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="180" y1="43" x2="198" y2="61" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="198" y1="43" x2="180" y2="61" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="189" y="74" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2019</text>
+          <!-- 2020 cy=48 -->
+          <circle cx="231" cy="48" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="222" y1="39" x2="240" y2="57" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="240" y1="39" x2="222" y2="57" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="231" y="70" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2020</text>
+          <!-- 2021 cy=51 -->
+          <circle cx="273" cy="51" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="264" y1="42" x2="282" y2="60" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="282" y1="42" x2="264" y2="60" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="273" y="73" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2021</text>
+          <!-- 2022 cy=49 -->
+          <circle cx="315" cy="49" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="306" y1="40" x2="324" y2="58" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="324" y1="40" x2="306" y2="58" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="315" y="71" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2022</text>
+          <!-- 2023 cy=52 -->
+          <circle cx="357" cy="52" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="348" y1="43" x2="366" y2="61" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="366" y1="43" x2="348" y2="61" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="357" y="74" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2023</text>
+          <!-- 2024 cy=48 -->
+          <circle cx="399" cy="48" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="390" y1="39" x2="408" y2="57" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="408" y1="39" x2="390" y2="57" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="399" y="70" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2024</text>
+          <!-- 2025 cy=51 -->
+          <circle cx="441" cy="51" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="432" y1="42" x2="450" y2="60" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="450" y1="42" x2="432" y2="60" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="441" y="73" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2025</text>
           <!-- 12th: pending, dashed -->
           <circle cx="483" cy="50" r="14" stroke="#c9c2ae" stroke-width="1.2" stroke-dasharray="3 2.5"/>
           <text x="483" y="55" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="9" fill="#c9c2ae">?</text>
           <text x="483" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#c9c2ae">2026?</text>
-
           <!-- LEGEND -->
-          <circle cx="10" cy="95" r="8" stroke="#d42b2b" stroke-width="1.4"/>
-          <line x1="4" y1="89" x2="16" y2="101" stroke="#d42b2b" stroke-width="1.4" stroke-linecap="round"/>
-          <line x1="16" y1="89" x2="4" y2="101" stroke="#d42b2b" stroke-width="1.4" stroke-linecap="round"/>
-          <text x="24" y="98" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= one publicly announced "full autonomy" completion deadline, missed</text>
-          <circle cx="10" cy="113" r="8" stroke="#c9c2ae" stroke-width="1.1" stroke-dasharray="2.5 2"/>
-          <text x="24" y="116" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= pending / unresolved as of publication date</text>
+          <circle cx="10" cy="100" r="8" stroke="#d42b2b" stroke-width="1.4"/>
+          <line x1="4" y1="94" x2="16" y2="106" stroke="#d42b2b" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="16" y1="94" x2="4" y2="106" stroke="#d42b2b" stroke-width="1.4" stroke-linecap="round"/>
+          <text x="24" y="103" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= one publicly announced "full autonomy" deadline, missed</text>
+          <circle cx="10" cy="118" r="8" stroke="#c9c2ae" stroke-width="1.1" stroke-dasharray="2.5 2"/>
+          <text x="24" y="121" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= pending / unresolved as of publication date</text>
         </svg>
       </div>
 
@@ -850,10 +889,10 @@ footer{
 
       <div class="spark-panel">
         <div class="spark-top">
-          <span>Dot Record — Each Mark Is One Documented Public Error, Week 1 Post-Launch</span>
+          <span>Mixed-Mark Record — ● general · ▲ health/safety · ■ factual, Week 1 Post-Launch</span>
           <span class="gap-badge gap-m">Gap: +340%</span>
         </div>
-        <svg width="100%" height="148" viewBox="0 0 520 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="160" viewBox="0 0 520 160" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="sk2">
               <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7"/>
@@ -864,67 +903,76 @@ footer{
           <text x="75" y="12" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#1a73e8" letter-spacing=".1em">PRE-LAUNCH</text>
           <text x="75" y="22" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#1a73e8" letter-spacing=".1em">BENCHMARK</text>
           <!-- Divider -->
-          <line x1="150" y1="8" x2="150" y2="126" stroke="#c9c2ae" stroke-width=".8" stroke-dasharray="2 3"/>
+          <line x1="150" y1="8" x2="150" y2="128" stroke="#c9c2ae" stroke-width=".8" stroke-dasharray="2 3"/>
           <text x="153" y="14" font-family="'Source Code Pro',monospace" font-size="6" fill="#bf2c1e" letter-spacing=".06em">LAUNCH →</text>
           <text x="335" y="12" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".1em">WEEK 1 POST-LAUNCH</text>
-          <!-- BENCHMARK: 3 orderly blue dots -->
+          <!-- BENCHMARK: 3 orderly blue dots (filtered for Dear Data hand-drawn feel) -->
           <circle cx="50" cy="52" r="3.5" fill="#1a73e8" opacity=".8" filter="url(#sk2)"/>
           <circle cx="85" cy="78" r="3.5" fill="#1a73e8" opacity=".8" filter="url(#sk2)"/>
           <circle cx="118" cy="52" r="3.5" fill="#1a73e8" opacity=".8" filter="url(#sk2)"/>
-          <!-- ACTUAL: 40 red dots scattered across 4 rows -->
-          <!-- Row 1 -->
-          <circle cx="175" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="200" cy="24" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="226" cy="18" r="4.5" fill="#bf2c1e" opacity=".9"/>
-          <text x="228" y="13" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">pizza / glue</text>
-          <circle cx="252" cy="22" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="278" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="304" cy="26" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="330" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="356" cy="24" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="382" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="408" cy="26" r="3" fill="#bf2c1e" opacity=".82"/>
-          <!-- Row 2 -->
-          <circle cx="180" cy="48" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="206" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="232" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="258" cy="50" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="284" cy="48" r="4.5" fill="#bf2c1e" opacity=".9"/>
-          <text x="286" y="43" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">eat rocks</text>
-          <circle cx="310" cy="54" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="336" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="362" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="388" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="414" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
-          <!-- Row 3 -->
-          <circle cx="177" cy="76" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="203" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="229" cy="74" r="4.5" fill="#bf2c1e" opacity=".9"/>
-          <text x="231" y="88" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">sunscreen</text>
-          <circle cx="255" cy="78" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="281" cy="76" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="307" cy="82" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="333" cy="74" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="359" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="385" cy="74" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="411" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
-          <!-- Row 4 -->
-          <circle cx="182" cy="104" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="208" cy="108" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="234" cy="102" r="4.5" fill="#bf2c1e" opacity=".9"/>
-          <text x="236" y="116" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">bleach remedy</text>
-          <circle cx="260" cy="106" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="286" cy="104" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="312" cy="110" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="338" cy="104" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="364" cy="108" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="390" cy="102" r="3" fill="#bf2c1e" opacity=".82"/>
-          <circle cx="416" cy="108" r="3" fill="#bf2c1e" opacity=".82"/>
+          <!-- POST-LAUNCH ERRORS: organic scatter — 3 mark types by error category -->
+          <!-- ● CIRCLES: general AI coherence / accuracy errors (#bf2c1e) -->
+          <circle cx="168" cy="34" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="193" cy="21" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="215" cy="47" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="244" cy="29" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="260" cy="58" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="272" cy="38" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="297" cy="23" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="313" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="330" cy="35" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="345" cy="63" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="363" cy="27" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="382" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="397" cy="19" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="415" cy="41" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="433" cy="57" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="450" cy="30" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="463" cy="50" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="175" cy="72" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="202" cy="85" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="268" cy="77" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="323" cy="91" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="440" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
+          <!-- ▲ TRIANGLES: health / safety errors (#c47d0e amber) — annotated notable ones -->
+          <!-- "pizza / glue" — AI recommended adding glue to pizza sauce -->
+          <polygon points="228,16 235,30 221,30" fill="#c47d0e" opacity=".9"/>
+          <text x="238" y="21" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#c47d0e" font-style="italic">pizza / glue</text>
+          <!-- "eat rocks" — AI recommended eating rocks for minerals -->
+          <polygon points="300,42 307,56 293,56" fill="#c47d0e" opacity=".9"/>
+          <text x="310" y="53" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#c47d0e" font-style="italic">eat rocks</text>
+          <!-- "sunscreen rec." — AI advised against sunscreen use -->
+          <polygon points="184,96 191,110 177,110" fill="#c47d0e" opacity=".9"/>
+          <text x="195" y="107" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#c47d0e" font-style="italic">sunscreen rec.</text>
+          <!-- "bleach remedy" — AI suggested bleach as a health remedy -->
+          <polygon points="370,80 377,94 363,94" fill="#c47d0e" opacity=".9"/>
+          <text x="380" y="91" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#c47d0e" font-style="italic">bleach remedy</text>
+          <!-- Unlabelled health/safety errors -->
+          <polygon points="252,67 259,81 245,81" fill="#c47d0e" opacity=".75"/>
+          <polygon points="418,62 425,76 411,76" fill="#c47d0e" opacity=".75"/>
+          <polygon points="458,20 465,34 451,34" fill="#c47d0e" opacity=".75"/>
+          <polygon points="344,102 351,116 337,116" fill="#c47d0e" opacity=".75"/>
+          <polygon points="476,44 483,58 469,58" fill="#c47d0e" opacity=".75"/>
+          <polygon points="292,98 299,112 285,112" fill="#c47d0e" opacity=".75"/>
+          <!-- ■ SQUARES: factual / citation errors (#8b3a1c dark red-brown) -->
+          <rect x="163" y="51" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="350" y="38" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="394" y="64" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="428" y="90" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="220" y="100" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="466" y="96" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="158" y="112" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
+          <rect x="478" y="68" width="8" height="8" fill="#8b3a1c" opacity=".72"/>
           <!-- LEGEND -->
-          <circle cx="10" cy="136" r="3.5" fill="#1a73e8" opacity=".8"/>
-          <text x="18" y="139" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= expected error (pre-launch benchmark)</text>
-          <circle cx="225" cy="136" r="3" fill="#bf2c1e" opacity=".82"/>
-          <text x="233" y="139" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= one documented AI Overview error, Week 1</text>
+          <circle cx="10" cy="140" r="3.5" fill="#1a73e8" opacity=".8"/>
+          <text x="18" y="143" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= expected (benchmark)</text>
+          <circle cx="130" cy="140" r="3" fill="#bf2c1e" opacity=".82"/>
+          <text x="138" y="143" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= general error</text>
+          <polygon points="241,136 247,148 235,148" fill="#c47d0e" opacity=".9"/>
+          <text x="251" y="143" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= health/safety</text>
+          <rect x="355" y="136" width="7" height="7" fill="#8b3a1c" opacity=".72"/>
+          <text x="365" y="143" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= factual/citation</text>
+          <text x="10" y="156" font-family="'Source Code Pro',monospace" font-size="6" fill="#c9c2ae" letter-spacing=".04em">n=22 general · 10 health/safety · 8 factual = 40 documented errors, Week 1</text>
         </svg>
       </div>
 
@@ -956,48 +1004,56 @@ footer{
 
       <div class="spark-panel">
         <div class="spark-top">
-          <span>Dotplot — Where Productivity Studies Actually Land</span>
+          <span>Dotplot — Gap Bracket: Claimed vs. Independent Replications</span>
           <span class="gap-badge gap-m">Gap: −38% to −71%</span>
         </div>
-        <svg width="100%" height="108" viewBox="0 0 520 108" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Axis: x=48→480, y=64. Scale: -20% to +60% = 80pp over 432px = 5.4px/pp -->
-          <line x1="48" y1="64" x2="480" y2="64" stroke="#c9c2ae" stroke-width="1"/>
+        <svg width="100%" height="148" viewBox="0 0 520 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- GAP BRACKET: technical dimension line showing distance from best replication to claim -->
+          <text x="361" y="16" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".1em">GAP · 34 PERCENTAGE POINTS</text>
+          <line x1="269" y1="22" x2="453" y2="22" stroke="#bf2c1e" stroke-width="1.1"/>
+          <line x1="269" y1="18" x2="269" y2="26" stroke="#bf2c1e" stroke-width="1.1"/>
+          <line x1="453" y1="18" x2="453" y2="26" stroke="#bf2c1e" stroke-width="1.1"/>
+          <!-- Dashed drop lines from bracket ends to the corresponding dots -->
+          <line x1="269" y1="26" x2="269" y2="97" stroke="#bf2c1e" stroke-width=".7" stroke-dasharray="2 3" opacity=".32"/>
+          <line x1="453" y1="26" x2="453" y2="93" stroke="#555" stroke-width=".7" stroke-dasharray="2 3" opacity=".32"/>
+          <!-- AXIS: x=48→480, y=104. Scale: −20% to +60% = 80pp over 432px = 5.4px/pp -->
+          <line x1="48" y1="104" x2="480" y2="104" stroke="#c9c2ae" stroke-width="1"/>
           <!-- Grid ticks -->
-          <line x1="48"  y1="60" x2="48"  y2="68" stroke="#c9c2ae" stroke-width=".8"/>
-          <line x1="156" y1="56" x2="156" y2="72" stroke="#1c1a14" stroke-width="1.2" opacity=".35"/>
-          <line x1="264" y1="60" x2="264" y2="68" stroke="#c9c2ae" stroke-width=".8"/>
-          <line x1="372" y1="60" x2="372" y2="68" stroke="#c9c2ae" stroke-width=".8"/>
-          <line x1="480" y1="60" x2="480" y2="68" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="48"  y1="100" x2="48"  y2="108" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="156" y1="96"  x2="156" y2="112" stroke="#1c1a14" stroke-width="1.2" opacity=".35"/>
+          <line x1="264" y1="100" x2="264" y2="108" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="372" y1="100" x2="372" y2="108" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="480" y1="100" x2="480" y2="108" stroke="#c9c2ae" stroke-width=".8"/>
           <!-- Axis labels -->
-          <text x="48"  y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">−20%</text>
-          <text x="156" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#1c1a14" font-weight="600">0%</text>
-          <text x="264" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+20%</text>
-          <text x="372" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+40%</text>
-          <text x="480" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+60%</text>
-          <!-- Zero baseline label -->
-          <text x="156" y="25" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#7a7460" font-style="italic">no effect baseline</text>
-          <line x1="156" y1="28" x2="156" y2="55" stroke="#7a7460" stroke-width=".6" stroke-dasharray="2 3" opacity=".45"/>
+          <text x="48"  y="120" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">−20%</text>
+          <text x="156" y="120" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#1c1a14" font-weight="600">0%</text>
+          <text x="264" y="120" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+20%</text>
+          <text x="372" y="120" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+40%</text>
+          <text x="480" y="120" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+60%</text>
+          <!-- Zero baseline annotation -->
+          <text x="156" y="65" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#7a7460" font-style="italic">no effect baseline</text>
+          <line x1="156" y1="68" x2="156" y2="95" stroke="#7a7460" stroke-width=".6" stroke-dasharray="2 3" opacity=".45"/>
           <!-- Range band for independent studies: x=134(−4%) to x=269(+21%) -->
-          <rect x="134" y="58" width="135" height="12" fill="#bf2c1e" opacity=".08" rx="1"/>
-          <text x="202" y="98" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".04em">independent study range</text>
-          <!-- CLAIMED: +55% → x=453, r=10 -->
-          <circle cx="453" cy="64" r="10" fill="#555" opacity=".82"/>
-          <text x="453" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7.5" font-weight="700" fill="white">+55%</text>
-          <text x="453" y="49" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#555" letter-spacing=".1em">CLAIMED</text>
-          <!-- STUDIES: -4%→134, +8%→199, +13%→226, +21%→269 -->
-          <circle cx="269" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
-          <text x="269" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+21%</text>
-          <circle cx="226" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
-          <text x="226" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+13%</text>
-          <circle cx="199" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
-          <text x="199" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+8%</text>
-          <circle cx="134" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
-          <text x="134" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">−4%</text>
+          <rect x="134" y="98" width="135" height="12" fill="#bf2c1e" opacity=".08" rx="1"/>
+          <text x="202" y="133" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".04em">independent study range</text>
+          <!-- CLAIMED: +55% → x=453, cy=104 -->
+          <circle cx="453" cy="104" r="10" fill="#555" opacity=".82"/>
+          <text x="453" y="108" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7.5" font-weight="700" fill="white">+55%</text>
+          <text x="460" y="89" font-family="'Source Code Pro',monospace" font-size="7" fill="#555" letter-spacing=".1em">CLAIMED</text>
+          <!-- STUDIES: −4%→134, +8%→199, +13%→226, +21%→269 -->
+          <circle cx="269" cy="104" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="269" y="108" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+21%</text>
+          <circle cx="226" cy="104" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="226" y="108" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+13%</text>
+          <circle cx="199" cy="104" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="199" y="108" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+8%</text>
+          <circle cx="134" cy="104" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="134" y="108" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">−4%</text>
           <!-- LEGEND -->
-          <circle cx="10" cy="100" r="6" fill="#555" opacity=".8"/>
-          <text x="21" y="103" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= GitHub internal study (claimed)</text>
-          <circle cx="215" cy="100" r="5" fill="#bf2c1e" opacity=".8"/>
-          <text x="225" y="103" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= independent peer-reviewed replication (n=4)</text>
+          <circle cx="10" cy="140" r="6" fill="#555" opacity=".8"/>
+          <text x="21" y="143" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= GitHub internal study (claimed)</text>
+          <circle cx="215" cy="140" r="5" fill="#bf2c1e" opacity=".8"/>
+          <text x="225" y="143" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= independent peer-reviewed replication (n=4)</text>
         </svg>
       </div>
 
