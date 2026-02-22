@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Midterm Proposal — The Silicon Audit / DART 449</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"/>
+
+<style>
+/* ─── TOKENS ─── */
+:root {
+  --white:   #ffffff;
+  --off:     #f7f4ef;
+  --off-2:   #ede8df;
+  --ink:     #1a1814;
+  --ink-2:   #38342a;
+  --ink-3:   #7a7460;
+  --ink-4:   #aaa394;
+  --red:     #bf2c1e;
+  --red-bg:  rgba(191,44,30,.08);
+  --oai:     #10a37f;
+  --meta:    #0866ff;
+  --amber:   #c47d0e;
+  --border:  #ccc6b8;
+  --border-2:#ddd8cc;
+  --shadow:  0 1px 0 rgba(0,0,0,.04), 0 6px 24px rgba(0,0,0,.07);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* paper grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-2);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  height: 52px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: -.01em;
+  text-decoration: none; color: var(--ink);
+}
+.nav-logo em { font-style: italic; font-weight: 400; }
+
+.nav-links {
+  display: flex; gap: 0; list-style: none;
+}
+.nav-links a {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  padding: .2rem 1rem;
+  border-left: 1px solid var(--border-2);
+  transition: color .15s, background .15s;
+}
+.nav-links a:last-child { border-right: 1px solid var(--border-2); }
+.nav-links a:hover, .nav-links a.active {
+  color: var(--ink);
+  background: var(--off);
+}
+
+.nav-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+
+/* ─── SECTION COMMON ─── */
+section {
+  min-height: 100vh;
+  padding: 120px clamp(1.5rem,5vw,4rem) 80px;
+  border-bottom: 1px solid var(--border-2);
+  position: relative;
+}
+
+/* ─── SECTION LABELS ─── */
+.section-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--ink-4);
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: 2.5rem;
+}
+.section-num::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--border-2);
+}
+
+/* ─── HERO / COVER ─── */
+#cover {
+  background: var(--off);
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center;
+  min-height: 100vh;
+  padding-top: 52px;
+}
+
+.cover-kicker {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .62rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--red);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.cover-kicker::before {
+  content: ''; width: 28px; height: 1px; background: var(--red);
+}
+
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900; letter-spacing: -.03em;
+  line-height: 1; text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.cover-title em {
+  font-style: italic; font-weight: 400;
+  display: block;
+}
+
+.cover-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  font-style: italic; color: var(--ink-3);
+  margin-bottom: 3rem; max-width: 540px;
+  line-height: 1.5;
+}
+
+.cover-meta {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0;
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+.meta-cell {
+  padding: .85rem 1.4rem;
+  border-right: 1px solid var(--border);
+}
+.meta-cell:last-child { border-right: none; }
+.meta-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .3rem;
+}
+.meta-val {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .88rem; font-weight: 500;
+  color: var(--ink-2);
+}
+
+.cover-scroll {
+  position: absolute; bottom: 2.5rem; right: clamp(1.5rem,5vw,4rem);
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  writing-mode: vertical-rl;
+  display: flex; align-items: center; gap: .5rem;
+}
+.cover-scroll::after {
+  content: ''; width: 1px; height: 40px;
+  background: var(--border); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+/* ─── S1: ABSTRACT ─── */
+#abstract {
+  background: var(--white);
+}
+
+.abstract-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 4rem;
+  max-width: 1200px;
+  align-items: start;
+}
+@media(max-width:860px){ .abstract-grid { grid-template-columns: 1fr; } }
+
+.abstract-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900; letter-spacing: -.025em;
+  line-height: 1.05; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.abstract-h em { font-style: italic; font-weight: 400; }
+
+.abstract-deck {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-style: italic;
+  color: var(--ink-3); line-height: 1.6;
+  margin-bottom: 2.5rem;
+  border-left: 2px solid var(--border);
+  padding-left: 1.25rem;
+}
+
+.abstract-body p {
+  font-size: .97rem; line-height: 1.9;
+  color: var(--ink-2); margin-bottom: 1.25rem;
+}
+.abstract-body p:last-child { margin-bottom: 0; }
+.abstract-body strong { color: var(--ink); font-weight: 500; }
+
+.pdf-card {
+  background: var(--off);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  margin-top: 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+}
+.pdf-card-left {}
+.pdf-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .35rem;
+}
+.pdf-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink);
+}
+.pdf-link {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .65rem; letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--ink);
+  padding: .55rem 1.1rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.pdf-link:hover { background: var(--red); }
+.pdf-link svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* abstract sidebar */
+.abstract-sidebar {}
+.aside-card {
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.aside-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .85rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border-2);
+}
+.kw-list {
+  display: flex; flex-wrap: wrap; gap: .4rem;
+}
+.kw {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .08em;
+  padding: 2px 8px; border: 1px solid var(--border);
+  color: var(--ink-3); background: var(--off);
+}
+.ref-list { list-style: none; }
+.ref-list li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem; color: var(--ink-3);
+  padding: .4rem 0; border-bottom: 1px dotted var(--border-2);
+  line-height: 1.45;
+}
+.ref-list li:last-child { border-bottom: none; }
+
+.rq-item {
+  display: flex; gap: .75rem;
+  padding: .6rem 0; border-bottom: 1px dotted var(--border-2);
+}
+.rq-item:last-child { border-bottom: none; }
+.rq-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--red); line-height: 1; flex-shrink: 0;
+  margin-top: .15rem;
+}
+.rq-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem; color: var(--ink-2); line-height: 1.55;
+}
+
+/* ─── S2: MOCKUPS ─── */
+#mockups {
+  background: var(--off);
+}
+
+.mockup-intro {
+  max-width: 600px;
+  margin-bottom: 3.5rem;
+}
+.mockup-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900; letter-spacing: -.025em;
+  text-transform: uppercase; line-height: 1.05;
+  margin-bottom: .75rem;
+}
+.mockup-h em { font-style: italic; font-weight: 400; }
+.mockup-deck {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-style: italic;
+  color: var(--ink-3); line-height: 1.6;
+}
+
+.mockup-frame {
+  margin-bottom: 3rem;
+}
+.frame-label {
+  display: flex; align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.frame-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+.frame-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink); font-style: italic;
+}
+.frame-screen {
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.frame-screen img {
+  width: 100%;
+  display: block;
+}
+.frame-caption {
+  margin-top: 1rem;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.fc-item {}
+.fc-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-bottom: .4rem;
+}
+.fc-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .6rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3);
+  margin-bottom: .2rem;
+}
+.fc-desc {
+  font-size: .8rem; color: var(--ink-4);
+  line-height: 1.5;
+}
+
+.mockup-features {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 2rem;
+}
+@media(max-width:720px){ .mockup-features { grid-template-columns: 1fr; } }
+
+.feat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.feat-icon {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 900;
+  color: var(--red); line-height: 1;
+  margin-bottom: .75rem;
+}
+.feat-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .65rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink);
+  margin-bottom: .5rem;
+}
+.feat-desc {
+  font-size: .82rem; color: var(--ink-3);
+  line-height: 1.6;
+}
+
+/* ─── S3: STYLE GUIDE ─── */
+#style {
+  background: var(--white);
+}
+
+.style-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900; letter-spacing: -.025em;
+  text-transform: uppercase; line-height: 1.05;
+  margin-bottom: .75rem;
+}
+.style-h em { font-style: italic; font-weight: 400; }
+.style-deck {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-style: italic;
+  color: var(--ink-3); line-height: 1.6;
+  margin-bottom: 3.5rem; max-width: 600px;
+}
+
+/* typography specimen */
+.type-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem; margin-bottom: 3.5rem;
+}
+@media(max-width:660px){ .type-grid { grid-template-columns: 1fr; } }
+
+.type-card {
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  background: var(--white);
+}
+.type-specimen {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-2);
+}
+.type-meta {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+
+/* colour swatches */
+.swatch-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: .75rem; margin-bottom: 3.5rem;
+}
+@media(max-width:600px){ .swatch-row { grid-template-columns: repeat(3, 1fr); } }
+
+.swatch {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: .5rem;
+}
+.sw-name {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.sw-hex {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; opacity: .7;
+}
+
+/* inspo section */
+.inspo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-bottom: 3.5rem;
+}
+@media(max-width:760px){ .inspo-grid { grid-template-columns: 1fr; } }
+
+.inspo-card {
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+.inspo-visual {
+  height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid var(--border-2);
+  padding: 1.5rem;
+  background: var(--off);
+  overflow: hidden;
+}
+.inspo-body {
+  padding: 1.25rem;
+}
+.inspo-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .56rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: .5rem;
+}
+.inspo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink); margin-bottom: .5rem;
+  font-style: italic;
+}
+.inspo-desc {
+  font-size: .82rem; color: var(--ink-3);
+  line-height: 1.6;
+}
+.inspo-link {
+  display: inline-block;
+  margin-top: .75rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--red); text-decoration: none;
+  border-bottom: 1px solid var(--red);
+  padding-bottom: 1px;
+}
+
+/* data viz preview cards */
+.dd-preview {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: .5rem;
+}
+
+/* IIB bubble preview */
+.iib-bubble-big {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 1.5px dashed #0866ff;
+  opacity: .7;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.iib-bubble-small {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  position: absolute; right: -22px; top: 46px;
+}
+.iib-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .55rem; color: #0866ff; letter-spacing: .06em;
+  text-align: center; opacity: .7;
+}
+.iib-label-s {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .5rem; color: var(--red); letter-spacing: .04em;
+  position: absolute; right: -42px; top: 56px; white-space: nowrap;
+}
+
+/* Dear Data preview */
+.dd-circles {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  justify-content: center; max-width: 200px;
+}
+.dd-c {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid var(--red);
+  position: relative; flex-shrink: 0;
+}
+.dd-c::before, .dd-c::after {
+  content: '';
+  position: absolute;
+  background: var(--red);
+  width: 1.5px; height: 13px;
+  top: 4px; left: 9px;
+}
+.dd-c::before { transform: rotate(45deg); }
+.dd-c::after  { transform: rotate(-45deg); }
+.dd-c.pending { border-style: dashed; border-color: var(--ink-4); }
+.dd-c.pending::before, .dd-c.pending::after { display: none; }
+
+/* Previous work preview */
+.pw-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  padding: .75rem;
+  gap: .35rem;
+}
+.pw-bar {
+  height: 6px; border-radius: 1px;
+  background: rgba(255,255,255,.15);
+}
+.pw-bar.accent { background: var(--red); width: 60%; }
+.pw-bar.sm { width: 40%; height: 4px; }
+.pw-bar.med { width: 70%; height: 4px; }
+
+/* component samples */
+.component-row {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem; margin-bottom: 2.5rem;
+}
+@media(max-width:660px){ .component-row { grid-template-columns: 1fr; } }
+
+.comp-card {
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+}
+.comp-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border-2);
+}
+
+/* stamp demo */
+.stamp-demo {
+  display: inline-block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  border: 2px solid var(--red);
+  color: var(--red); padding: 4px 10px;
+  transform: rotate(-8deg);
+  filter: url(#roughen2);
+}
+
+/* badge demo */
+.badge-row { display: flex; gap: .5rem; flex-wrap: wrap; }
+.badge-demo {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .58rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 2px 8px; border: 1px solid; border-radius: 1px;
+}
+.bd-oai  { color: var(--oai);   border-color: var(--oai);   background: rgba(16,163,127,.08); }
+.bd-meta { color: var(--meta);  border-color: var(--meta);  background: rgba(8,102,255,.07); }
+.bd-red  { color: var(--red);   border-color: var(--red);   background: var(--red-bg); }
+.bd-amb  { color: var(--amber); border-color: var(--amber); background: rgba(196,125,14,.08); }
+
+/* claim card mini */
+.claim-mini {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.claim-mini-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .9rem; font-style: italic;
+  color: var(--ink-2); line-height: 1.55;
+  border-left: 2px solid var(--border-2);
+  padding-left: .75rem;
+  margin: .6rem 0;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,.5);
+  padding: 2.5rem clamp(1.5rem,5vw,4rem);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.ft-left { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: rgba(255,255,255,.85); }
+.ft-left em { font-style: italic; font-weight: 400; }
+.ft-right { font-family: 'Source Code Pro', monospace; font-size: .58rem; letter-spacing: .1em; text-align: right; line-height: 2; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <filter id="roughen2">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="proposal.html">The Silicon <em>Audit</em></a>
+  <ul class="nav-links">
+    <a href="#abstract">Abstract</a>
+    <a href="#mockups">Mockups</a>
+    <a href="#style">Style Guide</a>
+  </ul>
+  <span class="nav-tag">DART 449 · Midterm Proposal</span>
+</nav>
+
+<!-- ── COVER ── -->
+<section id="cover">
+  <div class="cover-kicker">DART 449 — Midterm Project Proposal</div>
+  <h1 class="cover-title">
+    The Silicon<br/>
+    <em>Audit</em>
+  </h1>
+  <p class="cover-sub">A data visualization project documenting the gap between what Silicon Valley promises and what it delivers — measured, cited, and permanently on file.</p>
+
+  <div class="cover-meta">
+    <div class="meta-cell">
+      <div class="meta-label">Student</div>
+      <div class="meta-val">Abdul Hanif Hashim</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Course</div>
+      <div class="meta-val">DART 449 — Data Viz</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Semester</div>
+      <div class="meta-val">Spring 2026</div>
+    </div>
+  </div>
+
+  <div class="cover-scroll">Scroll</div>
+</section>
+
+<!-- ── S1: ABSTRACT ── -->
+<section id="abstract">
+  <div class="section-num">01 &nbsp; Abstract &amp; Paper</div>
+
+  <div class="abstract-grid">
+    <div>
+      <h2 class="abstract-h">The Reality <em>Gap™</em></h2>
+      <p class="abstract-deck">How do you visualize a lie that doesn't know it's lying? This project proposes a systematic, data-rigorous approach to accountability journalism in the technology sector.</p>
+
+      <div class="abstract-body">
+        <p>The technology industry operates under a peculiar epistemic norm: executives are rewarded for projecting certainty, investors prize conviction over calibration, and the press cycle has a memory of approximately eleven days. The result is a near-total absence of institutional accountability for public statements that turn out to be false.</p>
+
+        <p>This project, <strong>The Silicon Audit</strong>, proposes a data visualization framework for systematically documenting the gap between public claims made by technology executives and observable outcomes — a quantity I term the <strong>Reality Gap™</strong>. Rather than relying on subjective editorial judgment, the Reality Gap™ is a precise mathematical measure: the percentage deviation between a stated projection and the observed outcome at the stated deadline.</p>
+
+        <p>The central design challenge is representing data that is simultaneously <strong>quantitative and rhetorical</strong>. The numbers are exact, but the story they tell is about human overconfidence, institutional incentives, and the structural conditions that allow misleading statements to go uncorrected. The visualization must be rigorous enough to withstand academic scrutiny while legible enough to carry genuine satirical and journalistic force.</p>
+
+        <p>Drawing on the visual languages of <em>Information is Beautiful</em> (McCandless) and <em>Dear Data</em> (Lupi & Posavec), I propose a web-based "Bureaucratic Museum" — a newspaper-formatted feed of claim records, each accompanied by a bespoke data visualization that encodes the Reality Gap™ through proportional areas, unit marks, and annotated dot plots rather than conventional charts.</p>
+
+        <p>The project makes three contributions: (1) a replicable methodology for auditing executive claims, (2) a typology of visualization strategies suited to data about <em>performance certainty versus actual performance</em>, and (3) a public-facing interface that demonstrates how data journalism can carry both epistemic and aesthetic weight.</p>
+      </div>
+
+      <div class="pdf-card">
+        <div class="pdf-card-left">
+          <div class="pdf-label">Full Paper</div>
+          <div class="pdf-title">The Silicon Audit: Visualizing Accountability in the Technology Sector</div>
+        </div>
+        <a href="#" class="pdf-link" onclick="alert('PDF not yet attached — placeholder link'); return false;">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Download PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="abstract-sidebar">
+      <div class="aside-card">
+        <div class="aside-label">Research Questions</div>
+        <div class="rq-item">
+          <div class="rq-n">1</div>
+          <div class="rq-text">How can proportional area and unit-mark visualization strategies encode the scale of executive overstatement more effectively than conventional time-series charts?</div>
+        </div>
+        <div class="rq-item">
+          <div class="rq-n">2</div>
+          <div class="rq-text">What editorial and typographic conventions from print journalism can be repurposed to give data visualization work the authority of institutional accountability?</div>
+        </div>
+        <div class="rq-item">
+          <div class="rq-n">3</div>
+          <div class="rq-text">Can satirical tone and rigorous methodology coexist in a single public-facing artifact without undermining either?</div>
+        </div>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-label">Keywords</div>
+        <div class="kw-list">
+          <span class="kw">Data Journalism</span>
+          <span class="kw">Accountability</span>
+          <span class="kw">Proportional Area</span>
+          <span class="kw">Unit Charts</span>
+          <span class="kw">Editorial Design</span>
+          <span class="kw">Tech Industry</span>
+          <span class="kw">Satire</span>
+          <span class="kw">Reality Gap™</span>
+          <span class="kw">Dear Data</span>
+          <span class="kw">Infographics</span>
+        </div>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-label">Key References</div>
+        <ul class="ref-list">
+          <li>McCandless, D. <em>Information is Beautiful</em> (2009, 2012)</li>
+          <li>Lupi, G. & Posavec, S. <em>Dear Data</em> (2016)</li>
+          <li>Cairo, A. <em>The Functional Art</em> (2012)</li>
+          <li>Tufte, E. <em>The Visual Display of Quantitative Information</em> (1983)</li>
+          <li>Hullman, J. & Diakopoulos, N. "Visualization Rhetoric" (2011)</li>
+          <li>Coddington, M. "Clarifying Journalism's Quantitative Turn" (2015)</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ── S2: MOCKUPS ── -->
+<section id="mockups">
+  <div class="section-num">02 &nbsp; Figma Mockups</div>
+
+  <div class="mockup-intro">
+    <h2 class="mockup-h">Interface <em>Design</em></h2>
+    <p class="mockup-deck">High-fidelity mockups showing the two primary views of the Institute for AI Accountability — the main claim feed and the methodology page.</p>
+  </div>
+
+  <!-- Mockup 1 -->
+  <div class="mockup-frame">
+    <div class="frame-label">
+      <span class="frame-num">Screen 01 / 02</span>
+      <span class="frame-title">The Claim Feed — Main View</span>
+    </div>
+    <div class="frame-screen">
+      <img src="mockup-1.png" alt="Figma mockup — Institute for AI Accountability main feed showing claim cards with Reality Gap data visualizations"/>
+    </div>
+    <div class="frame-caption">
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--red)"></div>
+        <div class="fc-title">Claim Cards</div>
+        <div class="fc-desc">Each card presents a verbatim CEO quote, a bespoke data visualization, and a distressed retraction stamp.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--oai)"></div>
+        <div class="fc-title">Three-Column Layout</div>
+        <div class="fc-desc">Left sidebar for filtering, central feed for claims, right sidebar for live accountability metrics.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--ink-3)"></div>
+        <div class="fc-title">Newspaper Masthead</div>
+        <div class="fc-desc">Serif editorial typography, scrolling ticker banner, and volume/issue metadata signal institutional authority.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mockup 2 -->
+  <div class="mockup-frame">
+    <div class="frame-label">
+      <span class="frame-num">Screen 02 / 02</span>
+      <span class="frame-title">Methodology — How We Measure</span>
+    </div>
+    <div class="frame-screen">
+      <img src="mockup-2.png" alt="Figma mockup — Methodology page showing the Reality Gap formula and worked examples"/>
+    </div>
+    <div class="frame-caption">
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--ink)"></div>
+        <div class="fc-title">Formula Display</div>
+        <div class="fc-desc">The Reality Gap™ formula is presented in a terminal-style dark box, signaling technical rigor.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--amber)"></div>
+        <div class="fc-title">Anchored TOC</div>
+        <div class="fc-desc">Right sidebar table of contents allows navigation through six methodology sections.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--meta)"></div>
+        <div class="fc-title">Versioned Changelog</div>
+        <div class="fc-desc">Methodology changelog with dates signals transparency and iterative rigor, modeled on academic preprints.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature callouts -->
+  <div class="mockup-features">
+    <div class="feat-card">
+      <div class="feat-icon">⊗</div>
+      <div class="feat-title">Retraction Stamps</div>
+      <div class="feat-desc">Distressed SVG filter applied to claim status stamps (RETRACTED / PARTIAL / DISPUTED) gives a physical, bureaucratic quality to digital accountability.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">∝</div>
+      <div class="feat-title">Area-Accurate Encoding</div>
+      <div class="feat-desc">Unlike bar charts that encode length, the visualizations use proportional area — following Information is Beautiful's principle that ink should map to value.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">●</div>
+      <div class="feat-title">Unit Mark Language</div>
+      <div class="feat-desc">Drawing on Dear Data's unit-mark vocabulary, each dot and symbol represents a discrete real-world event — a promise made, an error documented, a study replicated.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── S3: STYLE GUIDE ── -->
+<section id="style">
+  <div class="section-num">03 &nbsp; Style Guide &amp; Inspiration</div>
+
+  <h2 class="style-h">Design <em>System</em></h2>
+  <p class="style-deck">The visual language of The Silicon Audit is built from three sources: the editorial authority of print journalism, the analytical clarity of Information is Beautiful, and the intimate unit-mark vocabulary of Dear Data.</p>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section-num" style="margin-bottom:1.5rem">Typography</div>
+  <div class="type-grid">
+    <div class="type-card">
+      <div class="type-specimen">
+        <div style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;line-height:1;letter-spacing:-.03em;text-transform:uppercase">The Silicon<br/><em style="font-style:italic;font-weight:400">Audit</em></div>
+      </div>
+      <div class="type-meta">Playfair Display · Display / Headings · 900 weight + 400 italic</div>
+    </div>
+    <div class="type-card">
+      <div class="type-specimen">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;line-height:1.5;color:var(--ink-2)">"We will achieve AGI within the next twelve months. I'm actually quite confident about that."</div>
+      </div>
+      <div class="type-meta">Cormorant Garamond · Quotes / Deck copy · Italic</div>
+    </div>
+    <div class="type-card">
+      <div class="type-specimen" style="padding-bottom:1rem">
+        <div style="font-family:'Source Code Pro',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;line-height:2.2;color:var(--ink-2)">
+          FILED: 14 FEB 2026<br/>
+          REALITY GAP™ — −91%<br/>
+          CLAIM CATEGORY: TIMELINE
+        </div>
+      </div>
+      <div class="type-meta">Source Code Pro · Labels / Data / Mono text · 400–700</div>
+    </div>
+    <div class="type-card">
+      <div class="type-specimen">
+        <div style="font-family:'DM Sans',sans-serif;font-size:.95rem;line-height:1.85;color:var(--ink-2)">The technology industry operates under a peculiar epistemic norm: executives are rewarded for projecting certainty, and the press cycle has a memory of approximately eleven days.</div>
+      </div>
+      <div class="type-meta">DM Sans · Body / Prose · 300–500</div>
+    </div>
+  </div>
+
+  <!-- COLOUR -->
+  <div class="section-num" style="margin-bottom:1.5rem">Colour Palette</div>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#1a1814">
+      <div class="sw-name" style="color:rgba(255,255,255,.7)">Ink</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.4)">#1a1814</div>
+    </div>
+    <div class="swatch" style="background:#f7f4ef;border-color:var(--border)">
+      <div class="sw-name" style="color:var(--ink-3)">Off-White</div>
+      <div class="sw-hex" style="color:var(--ink-4)">#f7f4ef</div>
+    </div>
+    <div class="swatch" style="background:#bf2c1e">
+      <div class="sw-name" style="color:#fff">Stamp Red</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#bf2c1e</div>
+    </div>
+    <div class="swatch" style="background:#10a37f">
+      <div class="sw-name" style="color:#fff">OAI Green</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#10a37f</div>
+    </div>
+    <div class="swatch" style="background:#0866ff">
+      <div class="sw-name" style="color:#fff">Meta Blue</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#0866ff</div>
+    </div>
+    <div class="swatch" style="background:#c47d0e">
+      <div class="sw-name" style="color:#fff">Amber</div>
+      <div class="sw-hex" style="color:rgba(255,255,255,.7)">#c47d0e</div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section-num" style="margin-bottom:1.5rem">Key Components</div>
+  <div class="component-row">
+    <div class="comp-card">
+      <div class="comp-title">Retraction Stamps</div>
+      <div style="display:flex;gap:1.5rem;align-items:center;padding:.5rem 0 1rem;flex-wrap:wrap">
+        <div class="stamp-demo">Retracted</div>
+        <div class="stamp-demo" style="color:var(--amber);border-color:var(--amber)">Partial</div>
+        <div class="stamp-demo" style="color:var(--meta);border-color:var(--meta)">Disputed</div>
+      </div>
+      <p style="font-size:.78rem;color:var(--ink-3);line-height:1.6">SVG feTurbulence displacement filter gives stamps a physically distressed quality. Rotation angle: 10–14°.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-title">Company Badges</div>
+      <div class="badge-row" style="margin-bottom:1rem">
+        <span class="badge-demo bd-oai">OpenAI</span>
+        <span class="badge-demo bd-meta">Meta</span>
+        <span class="badge-demo bd-red">Tesla</span>
+        <span class="badge-demo bd-amb">Disputed</span>
+      </div>
+      <p style="font-size:.78rem;color:var(--ink-3);line-height:1.6">Company-specific accent colors appear <em>only</em> on badges and their corresponding chart lines. Not used decoratively elsewhere.</p>
+    </div>
+  </div>
+  <div class="component-row">
+    <div class="comp-card">
+      <div class="comp-title">Sample Claim Card</div>
+      <div class="claim-mini">
+        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+          <span class="badge-demo bd-oai">OpenAI</span>
+          <span style="font-family:'Source Code Pro',monospace;font-size:.58rem;color:var(--ink-4)">Filed: 14 Feb 2026</span>
+        </div>
+        <div class="claim-mini-quote">"We will achieve AGI within the next twelve months."</div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.56rem;color:var(--ink-4);letter-spacing:.08em;text-transform:uppercase">→ Visualization panel here</div>
+        <div style="position:absolute;top:.8rem;right:.8rem;transform:rotate(10deg);font-family:'Source Code Pro',monospace;font-size:.6rem;font-weight:700;letter-spacing:.2em;border:2px solid var(--red);color:var(--red);padding:2px 7px;opacity:.8">RETRACTED</div>
+      </div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-title">Visualization Strategies</div>
+      <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.8rem;color:var(--ink-3);line-height:1.55">
+        <div style="display:flex;gap:.6rem;align-items:flex-start">
+          <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--red);line-height:1;flex-shrink:0">∝</span>
+          <span><strong style="color:var(--ink)">Proportional circles</strong> — area encodes claimed vs. observed scale (IIB method)</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start">
+          <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--red);line-height:1;flex-shrink:0">⊗</span>
+          <span><strong style="color:var(--ink)">Unit marks</strong> — each symbol = one real event (Dear Data method)</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start">
+          <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--red);line-height:1;flex-shrink:0">●</span>
+          <span><strong style="color:var(--ink)">Dot plots</strong> — showing spread of study results vs. outlier claim</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start">
+          <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--red);line-height:1;flex-shrink:0">∿</span>
+          <span><strong style="color:var(--ink)">Dot fields</strong> — density of marks = density of errors (Dear Data)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSPIRATION -->
+  <div class="section-num" style="margin-bottom:1.5rem">Inspiration Sources</div>
+  <div class="inspo-grid">
+
+    <!-- IIB -->
+    <div class="inspo-card">
+      <div class="inspo-visual">
+        <div style="display:flex;align-items:center;gap:2rem;position:relative">
+          <div class="iib-bubble-big">
+            <span style="font-family:'Playfair Display',serif;font-size:.85rem;font-weight:700;color:#0866ff;opacity:.7;text-align:center;line-height:1.2">1B<br/>promised</span>
+            <div class="iib-bubble-small"></div>
+            <span class="iib-label-s">200K actual</span>
+          </div>
+        </div>
+      </div>
+      <div class="inspo-body">
+        <div class="inspo-tag">Primary Influence · Data Visualization</div>
+        <div class="inspo-title">Information is Beautiful</div>
+        <p class="inspo-desc">David McCandless's principle that <em>area should be proportional to value</em> directly informs the bubble comparison visualizations. His use of clean geometric forms to encode magnitude makes the Reality Gap™ viscerally legible without explanation.</p>
+        <a href="https://informationisbeautiful.net" class="inspo-link" target="_blank">informationisbeautiful.net ↗</a>
+      </div>
+    </div>
+
+    <!-- Dear Data -->
+    <div class="inspo-card">
+      <div class="inspo-visual">
+        <div class="dd-preview">
+          <div class="dd-circles">
+            <div class="dd-c"></div><div class="dd-c"></div><div class="dd-c"></div>
+            <div class="dd-c"></div><div class="dd-c"></div><div class="dd-c"></div>
+            <div class="dd-c"></div><div class="dd-c"></div><div class="dd-c"></div>
+            <div class="dd-c"></div><div class="dd-c"></div><div class="dd-c pending"></div>
+          </div>
+          <div style="font-family:'Source Code Pro',monospace;font-size:.55rem;color:var(--ink-4);letter-spacing:.06em;margin-top:.5rem">⊗ = one missed deadline</div>
+        </div>
+      </div>
+      <div class="inspo-body">
+        <div class="inspo-tag">Primary Influence · Personal Data</div>
+        <div class="inspo-title">Dear Data</div>
+        <p class="inspo-desc">Giorgia Lupi and Stefanie Posavec's handmade postcards establish the unit-mark vocabulary used throughout the project. Each mark represents a discrete real-world event — one broken promise, one documented error. The hand-drawn quality (reproduced via SVG feTurbulence) makes data feel human-scale and personal.</p>
+        <a href="https://www.dear-data.com" class="inspo-link" target="_blank">dear-data.com ↗</a>
+      </div>
+    </div>
+
+    <!-- Previous work -->
+    <div class="inspo-card">
+      <div class="inspo-visual" style="padding:0;background:var(--ink);overflow:hidden">
+        <img src="https://haniflearnscoding.github.io/hanifhashim.github.io/images/Power1.png"
+             alt="AI Magazine previous work"
+             style="width:100%;height:100%;object-fit:cover;object-position:top;opacity:.85"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div style="display:none;width:100%;height:100%;flex-direction:column;gap:.5rem;align-items:flex-start;justify-content:flex-end;padding:1.25rem">
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:rgba(255,255,255,.9);line-height:1">AI<br/>Magazine</div>
+          <div style="font-family:'Source Code Pro',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)">Previous Work · DART</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;width:100%">
+            <div style="height:4px;background:rgba(255,255,255,.15);border-radius:1px"></div>
+            <div style="height:4px;width:60%;background:var(--red);border-radius:1px"></div>
+            <div style="height:4px;width:80%;background:rgba(255,255,255,.1);border-radius:1px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="inspo-body">
+        <div class="inspo-tag">Previous Work · Editorial Design</div>
+        <div class="inspo-title">AI Magazine — DART</div>
+        <p class="inspo-desc">A prior editorial design project exploring the visual language of technology journalism. The fragmented grid system, typographic tension between serif authority and monospace data, and the tension between "sterile tech aesthetics" and critical content directly inform The Silicon Audit's design approach.</p>
+        <a href="https://haniflearnscoding.github.io/hanifhashim.github.io/ai-magazine.html" class="inspo-link" target="_blank">View project ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Design Principles -->
+  <div class="section-num" style="margin-bottom:1.5rem">Core Design Principles</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:900px">
+    <div style="padding:1.25rem;border:1px solid var(--border)">
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.5rem">01</div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:.4rem">Area ∝ Value</div>
+      <p style="font-size:.82rem;color:var(--ink-3);line-height:1.6">Visual encoding uses area, not length. A circle ten times larger = a value ten times larger. No distortion.</p>
+    </div>
+    <div style="padding:1.25rem;border:1px solid var(--border)">
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.5rem">02</div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:.4rem">One Mark, One Event</div>
+      <p style="font-size:.82rem;color:var(--ink-3);line-height:1.6">Every symbol in a unit chart represents exactly one real-world occurrence. Density of marks = density of reality.</p>
+    </div>
+    <div style="padding:1.25rem;border:1px solid var(--border)">
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.5rem">03</div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:.4rem">Color is Semantic</div>
+      <p style="font-size:.82rem;color:var(--ink-3);line-height:1.6">Company colors (OAI green, Meta blue) appear only for that company's data. Red = observed/actual. Not decorative.</p>
+    </div>
+    <div style="padding:1.25rem;border:1px solid var(--border)">
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.5rem">04</div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:.4rem">Satire + Rigor</div>
+      <p style="font-size:.82rem;color:var(--ink-3);line-height:1.6">Tone is sharp, but every figure is a calculation with cited sources. The numbers speak for themselves.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="ft-left">The Silicon <em>Audit</em></div>
+  <div class="ft-right">
+    DART 449 · Midterm Proposal<br/>
+    Abdul Hanif Hashim · Spring 2026
+  </div>
+</footer>
+
+<script>
+// Active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

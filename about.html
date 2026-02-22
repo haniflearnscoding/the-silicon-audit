@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About — The Silicon Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"/>
+<style>
+:root{
+  --cream:#f6f2ea;
+  --cream-2:#efe9dc;
+  --cream-3:#e6dfd0;
+  --ink:#1c1a14;
+  --ink-2:#3a3629;
+  --ink-3:#7a7460;
+  --ink-4:#a09880;
+  --stamp:#bf2c1e;
+  --stamp-bg:rgba(191,44,30,.09);
+  --oai:#10a37f;
+  --meta:#0866ff;
+  --amber:#c47d0e;
+  --amber-bg:rgba(196,125,14,.08);
+  --border:#c9c2ae;
+  --border-2:#ddd7c8;
+  --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.07);
+  --r:2px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background-color:var(--cream);
+  color:var(--ink);
+  font-family:'Libre Baskerville',Georgia,serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:crosshair;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;
+}
+
+/* ── TICKER ── */
+.ticker{background:var(--ink);color:var(--cream);padding:.38rem 0;overflow:hidden;white-space:nowrap;font-family:'Source Code Pro',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
+.ticker-track{display:inline-flex;gap:3rem;animation:ticker 55s linear infinite;}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:.75rem;}
+.ticker-dot{width:5px;height:5px;background:var(--stamp);border-radius:50%;flex-shrink:0;}
+
+/* ── HEADER ── */
+header{background:var(--cream);border-bottom:2px solid var(--ink);position:sticky;top:0;z-index:200;}
+.mast-eyebrow{display:flex;justify-content:space-between;align-items:center;padding:.45rem clamp(1rem,4vw,3rem);border-bottom:1px solid var(--border);font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
+.mast-eyebrow .alert{color:var(--stamp);border:1px solid var(--stamp);padding:1px 8px;font-size:.55rem;letter-spacing:.12em;animation:blink 2.4s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.mast-core{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:.7rem clamp(1rem,4vw,3rem);gap:1rem;}
+.mast-left{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--ink-3);line-height:1.9;}
+.mast-right{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--ink-3);line-height:1.9;text-align:right;}
+.site-name{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.6rem);font-weight:900;letter-spacing:-.03em;line-height:1;text-align:center;text-transform:uppercase;}
+.site-name em{font-style:italic;font-weight:400;font-size:.82em;letter-spacing:-.01em;}
+.mast-tagline{text-align:center;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:var(--ink-3);letter-spacing:.04em;margin-top:.25rem;}
+.mast-nav{display:flex;justify-content:center;align-items:center;gap:0;padding:.42rem 0;border-top:1px solid var(--border);font-family:'Source Code Pro',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
+.mast-nav a{color:var(--ink-2);text-decoration:none;padding:.2rem 1.1rem;border-right:1px solid var(--border);transition:background .15s,color .15s;cursor:crosshair;}
+.mast-nav a:first-child{border-left:1px solid var(--border);}
+.mast-nav a:hover{background:var(--ink);color:var(--cream);}
+.mast-nav a.active{background:var(--ink);color:var(--cream);}
+.mast-nav a.hot{color:var(--stamp);}
+
+/* ── PAGE SHELL ── */
+.page-wrap{max-width:980px;margin:0 auto;padding:3.5rem clamp(1rem,4vw,2.5rem) 5rem;}
+
+/* ── PAGE HEADER ── */
+.page-kicker{font-family:'Source Code Pro',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.75rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;text-transform:uppercase;margin-bottom:.6rem;}
+.page-title em{font-style:italic;font-weight:400;}
+.page-deck{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-style:italic;color:var(--ink-2);line-height:1.55;max-width:640px;margin-bottom:2rem;}
+.page-rule{border:none;height:5px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);margin-bottom:2.5rem;}
+
+/* ── LAYOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 280px;gap:3.5rem;align-items:start;}
+@media(max-width:720px){.about-grid{grid-template-columns:1fr;}}
+
+/* ── PROSE ── */
+.prose h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:-.01em;margin:2.5rem 0 .75rem;text-transform:uppercase;font-style:italic;}
+.prose h2:first-child{margin-top:0;}
+.prose p{font-size:1rem;line-height:1.85;color:var(--ink-2);margin-bottom:1.2rem;}
+.prose p:last-child{margin-bottom:0;}
+.prose strong{color:var(--ink);font-weight:700;}
+.prose em{font-style:italic;}
+.prose blockquote{border-left:2px solid var(--border);padding-left:1.25rem;margin:1.75rem 0;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--ink-3);line-height:1.6;}
+.section-divider{border:none;border-top:1px solid var(--border-2);margin:2.5rem 0;}
+
+/* pullquote */
+.pull{
+  background:#fff;border:1px solid var(--border);
+  padding:1.4rem 1.5rem;margin:2rem 0;
+  border-radius:var(--r);
+  box-shadow:var(--shadow);
+  position:relative;
+}
+.pull::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,var(--cream-3) 0,var(--cream-3) 3px,transparent 3px,transparent 6px);opacity:.6;}
+.pull p{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;line-height:1.55;color:var(--ink);margin-bottom:0;}
+.pull cite{display:block;font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);margin-top:.75rem;font-style:normal;}
+
+/* ── TIMELINE ── */
+.timeline{list-style:none;position:relative;margin:1.5rem 0 2rem;}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--border);}
+.timeline li{display:flex;gap:1.25rem;margin-bottom:1.4rem;position:relative;}
+.tl-dot{width:15px;height:15px;border-radius:50%;background:var(--cream);border:2px solid var(--border);flex-shrink:0;margin-top:.2rem;position:relative;z-index:1;}
+.tl-dot.red{border-color:var(--stamp);background:var(--stamp-bg);}
+.tl-year{font-family:'Source Code Pro',monospace;font-size:.65rem;letter-spacing:.08em;font-weight:700;color:var(--ink-3);min-width:36px;margin-top:.2rem;}
+.tl-text{font-size:.9rem;line-height:1.6;color:var(--ink-2);}
+.tl-text strong{color:var(--ink);}
+
+/* ── SIDEBAR ── */
+.about-sidebar{}
+.sb-card{background:#fff;border:1px solid var(--border);padding:1.25rem;border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:1.5rem;position:relative;}
+.sb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,var(--cream-3) 0,var(--cream-3) 3px,transparent 3px,transparent 6px);opacity:.6;}
+.sb-label{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.9rem;border-bottom:1px solid var(--border-2);padding-bottom:.4rem;}
+
+.person{display:flex;gap:.9rem;margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px dotted var(--border-2);}
+.person:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--cream-2);border:1px solid var(--border);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.avatar svg{width:24px;height:24px;opacity:.35;}
+.person-info{}
+.person-name{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;line-height:1.2;margin-bottom:.2rem;}
+.person-role{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);}
+
+.stat-pill{display:flex;justify-content:space-between;align-items:baseline;padding:.38rem 0;border-bottom:1px dotted var(--border-2);font-family:'Source Code Pro',monospace;font-size:.65rem;color:var(--ink-3);}
+.stat-pill:last-child{border-bottom:none;}
+.stat-pill strong{color:var(--ink);font-weight:700;}
+
+.source-list{list-style:none;}
+.source-list li{font-family:'Source Code Pro',monospace;font-size:.6rem;color:var(--ink-3);padding:.3rem 0;border-bottom:1px dotted var(--border-2);line-height:1.5;}
+.source-list li:last-child{border-bottom:none;}
+
+/* ── FOOTER ── */
+footer{border-top:2px solid var(--ink);padding:2rem clamp(1rem,4vw,3rem);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1.5rem;margin-top:3rem;}
+.ft-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;}
+.ft-logo em{font-style:italic;font-weight:400;}
+.ft-copy{font-family:'Source Code Pro',monospace;font-size:.58rem;color:var(--ink-4);line-height:1.9;text-align:right;}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span>AGI DEADLINE EXTENDED — AGAIN</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FSD: 11 CONSECUTIVE MISSED MILESTONES</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>METAVERSE DAU: 200K vs. projected 1 BILLION</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>"SUPERHUMAN REASONING" FAILS PRIMARY SCHOOL ARITHMETIC</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CRYPTO PAYMENTS ADOPTION: −94% VS. 2021 FORECAST</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>AGI DEADLINE EXTENDED — AGAIN</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FSD: 11 CONSECUTIVE MISSED MILESTONES</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>METAVERSE DAU: 200K vs. projected 1 BILLION</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>"SUPERHUMAN REASONING" FAILS PRIMARY SCHOOL ARITHMETIC</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CRYPTO PAYMENTS ADOPTION: −94% VS. 2021 FORECAST</span>
+  </div>
+</div>
+
+<header>
+  <div class="mast-eyebrow">
+    <span>Vol. IV · No. 38 · Est. 2021 · Independent</span>
+    <span class="alert">● 4 NEW FILINGS THIS WEEK</span>
+    <span>Friday, 21 February 2026 · 847 Claims on Record</span>
+  </div>
+  <div class="mast-core">
+    <div class="mast-left">Peer-reviewed<br/>Independently funded<br/>No advertising</div>
+    <div>
+      <a href="index.html" style="text-decoration:none;color:inherit;">
+        <div class="site-name">The Silicon <em>Audit</em></div>
+        <div class="mast-tagline">A Bureaucratic Museum of Technological Hubris</div>
+      </a>
+    </div>
+    <div class="mast-right">Reality Index™<br/>This Issue: <span style="color:var(--stamp);font-weight:700">62% Retracted</span><br/>Avg. Gap: −67%</div>
+  </div>
+  <nav class="mast-nav">
+    <a href="index.html" class="hot">New Filings ▸ 4</a>
+    <a href="index.html">Archive</a>
+    <a href="index.html">Reality Index™</a>
+    <a href="methodology.html">Methodology</a>
+    <a href="index.html">Submit a Claim</a>
+    <a href="about.html" class="active">About</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="page-kicker">The Silicon Audit — About this Publication</div>
+  <h1 class="page-title">Who We <em>Are</em></h1>
+  <p class="page-deck">An independent record of the gap between what Silicon Valley promises and what it delivers — measured, cited, and permanently on file.</p>
+  <hr class="page-rule"/>
+
+  <div class="about-grid">
+    <!-- PROSE -->
+    <div class="prose">
+
+      <h2>The Premise</h2>
+      <p>The technology industry operates in a peculiar epistemic environment. Founders are rewarded for boldness. Investors prize conviction. Journalists amplify novelty. In this ecosystem, the distance between a claim and a commitment has become almost infinitely elastic — and nobody is keeping score.</p>
+      <p>The Silicon Audit keeps score.</p>
+      <p>We treat every public statement from a technology executive as a data point: a prediction with a timestamp, a subject, and an implied deadline. We log it. We wait. Then we compare what was said against what actually happened, compute the Reality Gap™, and publish the result — permanently, searchably, with full citations.</p>
+
+      <div class="pull">
+        <p>"We are not in the business of opinion. We are in the business of receipts."</p>
+        <cite>— Editorial Charter, The Silicon Audit, Vol. I No. 1</cite>
+      </div>
+
+      <h2>Why This Exists</h2>
+      <p>In 2021, a founder announced that their autonomous vehicle would complete a coast-to-coast drive without human intervention <strong>"by the end of the year."</strong> The year ended. The drive did not happen. The announcement was quietly deleted. Three months later, a new deadline was set. The pattern repeated.</p>
+      <p>No correction was issued. No retraction was published. The original claim vanished into the PR archive, and the coverage cycle moved on to the next announcement. This is not an isolated incident. It is the default operating mode of an industry that has learned there are no consequences for being wrong in public — provided you are wrong <em>confidently</em> and <em>at scale</em>.</p>
+      <p>The Silicon Audit exists because accountability requires memory, and the technology press cycle has a memory of approximately eleven days.</p>
+
+      <hr class="section-divider"/>
+
+      <h2>Our History</h2>
+      <ul class="timeline">
+        <li>
+          <div class="tl-dot red"></div>
+          <div class="tl-year">2021</div>
+          <div class="tl-text"><strong>Founded</strong> as a private research project by three journalists frustrated by the lack of systematic follow-up on technology claims. First 40 claims catalogued by hand.</div>
+        </li>
+        <li>
+          <div class="tl-dot"></div>
+          <div class="tl-year">2022</div>
+          <div class="tl-text"><strong>Public launch.</strong> Reality Index™ methodology formalised. Audit Committee established with independent academic oversight. First 200 claims published.</div>
+        </li>
+        <li>
+          <div class="tl-dot"></div>
+          <div class="tl-year">2023</div>
+          <div class="tl-text"><strong>Reader-funded model adopted.</strong> All advertising declined. Partnership with two university data journalism programmes established for verification support.</div>
+        </li>
+        <li>
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024</div>
+          <div class="tl-text"><strong>500th claim catalogued.</strong> Methodology peer-reviewed and published in the <em>Journal of Computational Journalism</em>. Reality Index™ cited in three Congressional hearings.</div>
+        </li>
+        <li>
+          <div class="tl-dot red"></div>
+          <div class="tl-year">2026</div>
+          <div class="tl-text"><strong>847 claims on record</strong> across 14 companies. Avg. Reality Gap™: −67%. We are still here. They are still doing it.</div>
+        </li>
+      </ul>
+
+      <hr class="section-divider"/>
+
+      <h2>What We Are Not</h2>
+      <p>We are not a political publication. We do not take positions on regulation, market structure, or the merits of specific technologies. We do not short-sell stocks. We hold no financial positions in any company we audit. Our editorial decisions are made solely on the basis of whether a claim is specific, public, verifiable, and overdue for follow-up.</p>
+      <p>We are also not a court. The Reality Gap™ is a descriptive measure, not a legal finding. We do not allege fraud or malice. We document the gap between what was said and what occurred — and we let readers draw their own conclusions.</p>
+      <p>We are satirical in tone and rigorous in method. These are not contradictory positions.</p>
+
+      <hr class="section-divider"/>
+
+      <h2>Editorial Independence</h2>
+      <p>The Silicon Audit is funded entirely by reader subscriptions and small grants from journalism foundations. We accept no advertising, no sponsored content, and no investment from technology companies or their associated funds. Our Audit Committee members are compensated for their time and are required to disclose any financial relationships with companies under review.</p>
+      <p>Corrections are published prominently. If we get a Reality Gap™ wrong, we say so — at the top of the filing, not buried in a footnote. This is not a courtesy. It is the minimum standard of a publication that exists to enforce accountability.</p>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="about-sidebar">
+
+      <div class="sb-card">
+        <div class="sb-label">Audit Committee</div>
+        <div class="person">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div class="person-info">
+            <div class="person-name">Dr. E. Cartwright</div>
+            <div class="person-role">Methods & Standards</div>
+          </div>
+        </div>
+        <div class="person">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div class="person-info">
+            <div class="person-name">J. Okubo</div>
+            <div class="person-role">Data Verification</div>
+          </div>
+        </div>
+        <div class="person">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div class="person-info">
+            <div class="person-name">A. Patel</div>
+            <div class="person-role">Legal Review</div>
+          </div>
+        </div>
+        <div class="person">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div class="person-info">
+            <div class="person-name">M. Lindström</div>
+            <div class="person-role">Archive & Sources</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-label">Publication Stats</div>
+        <div class="stat-pill"><span>Founded</span><strong>2021</strong></div>
+        <div class="stat-pill"><span>Claims on record</span><strong>847</strong></div>
+        <div class="stat-pill"><span>Companies audited</span><strong>14</strong></div>
+        <div class="stat-pill"><span>Avg. Reality Gap™</span><strong style="color:var(--stamp)">−67%</strong></div>
+        <div class="stat-pill"><span>Largest gap ever</span><strong style="color:var(--stamp)">−99.6%</strong></div>
+        <div class="stat-pill"><span>Advertising revenue</span><strong style="color:var(--oai)">$0.00</strong></div>
+        <div class="stat-pill"><span>Corrections issued</span><strong>11</strong></div>
+        <div class="stat-pill"><span>C&D letters received</span><strong>3</strong></div>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-label">Press & Citations</div>
+        <ul class="source-list">
+          <li>Congressional testimony, Senate AI Subcommittee, 2024</li>
+          <li><em>Journal of Computational Journalism</em>, Vol. 12, 2024</li>
+          <li>Columbia Journalism Review, March 2023</li>
+          <li>Reuters Fact Check partnership, 2023–present</li>
+          <li>Cited in three FTC filings, 2022–2025</li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-label">Contact</div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.62rem;color:var(--ink-3);line-height:2;">
+          <div>tips@siliconaudit.press</div>
+          <div>corrections@siliconaudit.press</div>
+          <div>legal@siliconaudit.press</div>
+          <div style="margin-top:.75rem;color:var(--ink-4);">PGP key available on request.<br/>Signal available for sensitive sources.</div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-logo">The Silicon <em>Audit</em></div>
+  <div class="ft-copy">Vol. IV · Est. 2021 · Independent · No Affiliation<br/>All claims cross-referenced. All gaps measured.<br/>© 2026 The Silicon Audit. Satirical publication.</div>
+</footer>
+
+</body>
+</html>

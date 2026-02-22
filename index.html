@@ -1,1113 +1,1122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Silicon Audit — A Bureaucratic Museum of Tech Claims</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Code+Pro:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --paper: #f5f2ec;
-      --paper-dark: #ede9df;
-      --ink: #1a1a18;
-      --ink-faint: #3a3a36;
-      --ink-ghost: #7a7870;
-      --red-stamp: #c0392b;
-      --red-stamp-light: rgba(192, 57, 43, 0.12);
-      --oai-green: #10a37f;
-      --meta-blue: #0866ff;
-      --amber: #d97706;
-      --border: #c8c3b5;
-      --border-light: #ddd9cf;
-      --shadow: rgba(0,0,0,0.06);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Silicon Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"/>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+/* ─────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────── */
+:root{
+  --cream:#f6f2ea;
+  --cream-2:#efe9dc;
+  --cream-3:#e6dfd0;
+  --ink:#1c1a14;
+  --ink-2:#3a3629;
+  --ink-3:#7a7460;
+  --ink-4:#a09880;
+  --stamp:#bf2c1e;
+  --stamp-bg:rgba(191,44,30,.09);
+  --oai:#10a37f;
+  --meta:#0866ff;
+  --amber:#c47d0e;
+  --amber-bg:rgba(196,125,14,.08);
+  --border:#c9c2ae;
+  --border-2:#ddd7c8;
+  --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.07);
+  --r:2px;
+}
 
-    body {
-      background: var(--paper);
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-      color: var(--ink);
-      font-family: 'EB Garamond', Georgia, serif;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
 
-    /* ── MASTHEAD ── */
-    header {
-      border-bottom: 2px solid var(--ink);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      position: sticky;
-      top: 0;
-      background: var(--paper);
-      z-index: 100;
-      backdrop-filter: blur(4px);
-    }
+body{
+  background-color:var(--cream);
+  color:var(--ink);
+  font-family:'Libre Baskerville',Georgia,serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:crosshair;
+}
 
-    .masthead-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 0 0.6rem;
-      border-bottom: 1px solid var(--border);
-      gap: 1rem;
-    }
+/* paper grain overlay */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;
+}
 
-    .masthead-meta {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.65rem;
-      color: var(--ink-ghost);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
+/* horizontal rule utility */
+.rule{border:none;border-top:1px solid var(--border);margin:0;}
+.rule-thick{border:none;border-top:2px solid var(--ink);margin:0;}
+.rule-double{border:none;height:5px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);margin:0;}
 
-    .site-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      text-align: center;
-      line-height: 1;
-    }
+/* ─────────────────────────────────────────
+   SVG STAMP FILTER
+───────────────────────────────────────── */
+svg.defs{position:absolute;width:0;height:0;overflow:hidden;}
 
-    .site-title span.audit {
-      font-style: italic;
-      font-weight: 400;
-    }
+/* ─────────────────────────────────────────
+   TICKER
+───────────────────────────────────────── */
+.ticker{
+  background:var(--ink);
+  color:var(--cream);
+  padding:.38rem 0;
+  overflow:hidden;
+  white-space:nowrap;
+  font-family:'Source Code Pro',monospace;
+  font-size:.62rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.ticker-track{
+  display:inline-flex;gap:3rem;
+  animation:ticker 55s linear infinite;
+}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:.75rem;}
+.ticker-dot{width:5px;height:5px;background:var(--stamp);border-radius:50%;flex-shrink:0;}
+.ticker-item b{color:var(--stamp);font-weight:700;}
 
-    .masthead-issue {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.65rem;
-      color: var(--ink-ghost);
-      text-align: right;
-      letter-spacing: 0.04em;
-    }
+/* ─────────────────────────────────────────
+   MASTHEAD
+───────────────────────────────────────── */
+header{
+  background:var(--cream);
+  border-bottom:2px solid var(--ink);
+  position:sticky;top:0;z-index:200;
+}
 
-    .masthead-sub {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0.5rem 0;
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-    }
+.mast-eyebrow{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.45rem clamp(1rem,4vw,3rem);
+  border-bottom:1px solid var(--border);
+  font-family:'Source Code Pro',monospace;
+  font-size:.6rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.mast-eyebrow .alert{
+  color:var(--stamp);
+  border:1px solid var(--stamp);
+  padding:1px 8px;
+  font-size:.55rem;
+  letter-spacing:.12em;
+  animation:blink 2.4s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 
-    .masthead-sub a {
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px dotted var(--border);
-      padding-bottom: 1px;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .masthead-sub a:hover { color: var(--ink); }
+.mast-core{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:.7rem clamp(1rem,4vw,3rem);
+  gap:1rem;
+}
+.mast-left{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--ink-3);line-height:1.9;}
+.mast-right{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--ink-3);line-height:1.9;text-align:right;}
 
-    .masthead-sub .sep { color: var(--border); }
+.site-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.6rem);
+  font-weight:900;
+  letter-spacing:-.03em;
+  line-height:1;
+  text-align:center;
+  text-transform:uppercase;
+}
+.site-name em{
+  font-style:italic;
+  font-weight:400;
+  font-size:.82em;
+  letter-spacing:-.01em;
+}
 
-    /* ── LAYOUT ── */
-    .page-layout {
-      display: grid;
-      grid-template-columns: 1fr clamp(580px, 58vw, 760px) 260px;
-      gap: 0;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 clamp(1rem, 3vw, 2rem);
-      align-items: start;
-    }
+.mast-tagline{
+  text-align:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:.95rem;
+  font-style:italic;
+  color:var(--ink-3);
+  letter-spacing:.04em;
+  margin-top:.25rem;
+}
 
-    /* ── SIDEBAR LEFT ── */
-    .sidebar-left {
-      padding: 2rem 1.5rem 2rem 0;
-      border-right: 1px solid var(--border);
-      position: sticky;
-      top: 90px;
-    }
+.mast-nav{
+  display:flex;justify-content:center;align-items:center;
+  gap:0;
+  padding:.42rem 0;
+  border-top:1px solid var(--border);
+  font-family:'Source Code Pro',monospace;
+  font-size:.62rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.mast-nav a{
+  color:var(--ink-2);text-decoration:none;
+  padding:.2rem 1.1rem;
+  border-right:1px solid var(--border);
+  transition:background .15s,color .15s;
+  cursor:crosshair;
+}
+.mast-nav a:first-child{border-left:1px solid var(--border);}
+.mast-nav a:hover{background:var(--ink);color:var(--cream);}
+.mast-nav a.hot{color:var(--stamp);}
 
-    .sidebar-section { margin-bottom: 2.5rem; }
+/* ─────────────────────────────────────────
+   PAGE LAYOUT
+───────────────────────────────────────── */
+.layout{
+  display:grid;
+  grid-template-columns:220px 1fr 230px;
+  max-width:1320px;
+  margin:0 auto;
+  padding:0 clamp(.75rem,2vw,1.5rem);
+  gap:0;
+  align-items:start;
+}
 
-    .sidebar-label {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--ink-ghost);
-      margin-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border-light);
-      padding-bottom: 0.4rem;
-    }
+/* ─────────────────────────────────────────
+   LEFT SIDEBAR
+───────────────────────────────────────── */
+.col-left{
+  padding:1.75rem 1.5rem 2rem 0;
+  border-right:1px solid var(--border);
+  position:sticky;top:130px;
+}
 
-    .stat-block {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
+.sb-heading{
+  font-family:'Source Code Pro',monospace;
+  font-size:.55rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-4);
+  border-bottom:1px solid var(--border-2);
+  padding-bottom:.4rem;margin-bottom:.9rem;
+}
 
-    .stat-item { }
-    .stat-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      line-height: 1;
-      display: block;
-    }
-    .stat-value.green { color: var(--oai-green); }
-    .stat-value.red { color: var(--red-stamp); }
-    .stat-value.blue { color: var(--meta-blue); }
-    .stat-value.amber { color: var(--amber); }
+.index-stat{margin-bottom:1.6rem;}
+.index-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.6rem;font-weight:900;
+  line-height:.9;display:block;
+}
+.index-num.red{color:var(--stamp);}
+.index-num.grn{color:var(--oai);}
+.index-num.amb{color:var(--amber);}
+.index-desc{
+  font-family:'Source Code Pro',monospace;
+  font-size:.58rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-4);
+  margin-top:.35rem;display:block;
+}
 
-    .stat-label {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.62rem;
-      color: var(--ink-ghost);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
+.divider{height:1px;background:var(--border-2);margin:1.4rem 0;}
 
-    .filter-list { list-style: none; }
-    .filter-list li {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.72rem;
-      padding: 0.3rem 0;
-      border-bottom: 1px dotted var(--border-light);
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: color 0.15s;
-    }
-    .filter-list li:hover { color: var(--red-stamp); }
-    .filter-list li .count {
-      background: var(--paper-dark);
-      border: 1px solid var(--border);
-      padding: 0 5px;
-      border-radius: 2px;
-      font-size: 0.6rem;
-    }
+.filter-list{list-style:none;}
+.filter-list li{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Source Code Pro',monospace;font-size:.65rem;
+  padding:.38rem 0;border-bottom:1px dotted var(--border-2);
+  cursor:crosshair;transition:color .15s;color:var(--ink-2);
+}
+.filter-list li:hover,.filter-list li.on{color:var(--stamp);}
+.filter-list li .n{
+  font-size:.55rem;padding:1px 5px;background:var(--cream-2);
+  border:1px solid var(--border);color:var(--ink-3);
+}
+.filter-list li.on .n{background:var(--stamp-bg);border-color:var(--stamp);color:var(--stamp);}
 
-    .filter-list li.active {
-      color: var(--red-stamp);
-      font-weight: 600;
-    }
-    .filter-list li.active .count {
-      background: var(--red-stamp-light);
-      border-color: var(--red-stamp);
-      color: var(--red-stamp);
-    }
+.gap-table{width:100%;border-collapse:collapse;margin-top:.25rem;}
+.gap-table td{
+  font-family:'Source Code Pro',monospace;font-size:.58rem;
+  padding:.3rem 0;border-bottom:1px dotted var(--border-2);
+  color:var(--ink-3);
+}
+.gap-table td:last-child{text-align:right;color:var(--stamp);font-weight:700;}
 
-    /* ── MAIN FEED ── */
-    .feed {
-      padding: 2rem 2rem;
-      border-right: 1px solid var(--border);
-    }
+/* ─────────────────────────────────────────
+   FEED
+───────────────────────────────────────── */
+.col-feed{padding:1.75rem 2rem;}
 
-    .feed-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border-light);
-    }
+.feed-top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:1.25rem;
+}
+.feed-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-style:italic;color:var(--ink-2);
+}
+.feed-ctrl{
+  font-family:'Source Code Pro',monospace;font-size:.58rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);
+}
 
-    .feed-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-style: italic;
-    }
+.method-strip{
+  border-left:3px solid var(--amber);
+  background:var(--amber-bg);
+  padding:.6rem .9rem;
+  font-family:'Source Code Pro',monospace;font-size:.62rem;
+  color:var(--ink-3);line-height:1.75;
+  margin-bottom:1.75rem;
+}
+.method-strip strong{color:var(--amber);letter-spacing:.06em;text-transform:uppercase;}
 
-    .feed-sort {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.62rem;
-      color: var(--ink-ghost);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
+/* ── CARD ── */
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  padding:1.6rem;
+  margin-bottom:2rem;
+  position:relative;
+  box-shadow:var(--shadow);
+  border-radius:var(--r);
+  overflow:hidden;
+  opacity:0;transform:translateY(18px);
+  transition:box-shadow .25s,transform .25s;
+}
+.card.visible{opacity:1;transform:none;}
+.card:hover{box-shadow:0 4px 0 rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.11);}
 
-    /* ── CLAIM CARD ── */
-    .claim-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      margin-bottom: 1.75rem;
-      padding: 1.5rem;
-      position: relative;
-      box-shadow: 2px 3px 8px var(--shadow), 0 1px 2px rgba(0,0,0,0.04);
-      overflow: hidden;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .claim-card:hover {
-      box-shadow: 3px 5px 16px rgba(0,0,0,0.1);
-      transform: translateY(-1px);
-    }
+/* aged top edge */
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:repeating-linear-gradient(90deg,var(--cream-3) 0,var(--cream-3) 3px,transparent 3px,transparent 6px);
+  opacity:.6;
+}
 
-    /* Paper fold corner */
-    .claim-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 0; height: 0;
-      border-style: solid;
-      border-width: 0 0 18px 18px;
-      border-color: transparent transparent var(--paper-dark) transparent;
-    }
+/* ── STAMP ── */
+.stamp-wrap{
+  position:absolute;top:1.1rem;right:1.1rem;
+  transform:rotate(10deg);
+  pointer-events:none;
+  filter:url(#roughen);
+}
+.stamp{
+  font-family:'Source Code Pro',monospace;
+  font-size:.72rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;
+  border:2.5px solid var(--stamp);
+  color:var(--stamp);
+  padding:4px 10px;
+  background:rgba(255,255,255,.55);
+  opacity:.85;
+  white-space:nowrap;
+}
+.stamp.amber-stamp{color:var(--amber);border-color:var(--amber);}
+.stamp.blue-stamp{color:var(--meta);border-color:var(--meta);}
 
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
+/* ── CARD META ── */
+.card-top{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem;flex-wrap:wrap;}
 
-    .company-tag {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.6rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      padding: 2px 7px;
-      border-radius: 2px;
-      border: 1px solid;
-    }
-    .tag-oai { color: var(--oai-green); border-color: var(--oai-green); background: rgba(16,163,127,0.07); }
-    .tag-meta { color: var(--meta-blue); border-color: var(--meta-blue); background: rgba(8,102,255,0.07); }
-    .tag-tesla { color: #e31937; border-color: #e31937; background: rgba(227,25,55,0.07); }
-    .tag-msft { color: #737373; border-color: #737373; background: rgba(115,115,115,0.07); }
-    .tag-google { color: #4285f4; border-color: #4285f4; background: rgba(66,133,244,0.07); }
+.co-badge{
+  font-family:'Source Code Pro',monospace;
+  font-size:.58rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:2px 8px;border:1px solid;border-radius:1px;
+}
+.co-oai{color:var(--oai);border-color:var(--oai);background:rgba(16,163,127,.07);}
+.co-meta{color:var(--meta);border-color:var(--meta);background:rgba(8,102,255,.07);}
+.co-tesla{color:#d42b2b;border-color:#d42b2b;background:rgba(212,43,43,.07);}
+.co-goog{color:#1a73e8;border-color:#1a73e8;background:rgba(26,115,232,.07);}
+.co-msft{color:#666;border-color:#888;background:rgba(100,100,100,.07);}
 
-    .card-date {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.62rem;
-      color: var(--ink-ghost);
-    }
+.card-date{font-family:'Source Code Pro',monospace;font-size:.58rem;color:var(--ink-4);}
+.card-cat{margin-left:auto;font-family:'Source Code Pro',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);}
 
-    .card-category {
-      margin-left: auto;
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.58rem;
-      color: var(--ink-ghost);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
+.card-speaker{
+  font-family:'Source Code Pro',monospace;font-size:.64rem;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);
+  margin-bottom:.55rem;
+}
 
-    .card-speaker {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.68rem;
-      color: var(--ink-ghost);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
+.card-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.18rem;font-style:italic;line-height:1.6;
+  color:var(--ink);
+  border-left:2px solid var(--cream-3);
+  padding-left:1rem;
+  margin-bottom:1.25rem;
+  position:relative;
+}
+.card-quote::before{
+  content:'\201C';
+  font-size:4rem;line-height:0;
+  position:absolute;left:-.5rem;top:.9rem;
+  color:var(--cream-3);
+  font-family:'Playfair Display',serif;
+}
 
-    .card-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      line-height: 1.55;
-      font-style: italic;
-      color: var(--ink);
-      position: relative;
-      padding-left: 1rem;
-      margin-bottom: 1.25rem;
-      border-left: 2px solid var(--border);
-    }
-    .card-quote::before {
-      content: '\201C';
-      position: absolute;
-      left: -0.1rem;
-      top: -0.3rem;
-      font-size: 2.5rem;
-      color: var(--border);
-      font-family: 'Playfair Display', serif;
-      line-height: 1;
-    }
+/* ── SPARKLINE PANEL ── */
+.spark-panel{
+  background:var(--cream);border:1px solid var(--border-2);
+  padding:.9rem 1rem;margin-bottom:1.25rem;
+  border-radius:var(--r);
+}
+.spark-top{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:.5rem;
+  font-family:'Source Code Pro',monospace;font-size:.58rem;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--ink-4);
+}
+.gap-badge{
+  font-family:'Source Code Pro',monospace;font-size:.58rem;font-weight:700;
+  padding:2px 7px;border-radius:1px;
+}
+.gap-h{background:var(--stamp-bg);color:var(--stamp);border:1px solid var(--stamp);}
+.gap-m{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);}
+.gap-l{background:rgba(16,163,127,.08);color:var(--oai);border:1px solid var(--oai);}
 
-    /* ── SPARKLINE SECTION ── */
-    .sparkline-section {
-      margin-bottom: 1.25rem;
-      background: var(--paper);
-      border: 1px solid var(--border-light);
-      border-radius: 2px;
-      padding: 0.9rem 1rem;
-    }
+.legend{display:flex;gap:1.25rem;margin-bottom:.5rem;}
+.leg-item{display:flex;align-items:center;gap:.35rem;font-family:'Source Code Pro',monospace;font-size:.56rem;color:var(--ink-4);}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
-    .sparkline-label {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--ink-ghost);
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-    }
+.spark-note{
+  font-family:'Source Code Pro',monospace;font-size:.56rem;
+  color:var(--ink-4);text-align:right;margin-top:.35rem;
+  font-style:italic;
+}
 
-    .sparkline-legend {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.58rem;
-      color: var(--ink-ghost);
-    }
-    .legend-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-    }
-    .dot-claimed { background: var(--oai-green); }
-    .dot-actual { background: var(--red-stamp); }
-    .dot-meta-claimed { background: var(--meta-blue); }
-    .dot-tesla-claimed { background: #e31937; }
-    .dot-google-claimed { background: #4285f4; }
+/* ── CARD FOOTER ── */
+.card-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px dotted var(--border-2);padding-top:.75rem;
+}
+.pills{display:flex;gap:.35rem;flex-wrap:wrap;}
+.pill{
+  font-family:'Source Code Pro',monospace;font-size:.54rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:1px 7px;border:1px solid var(--border);
+  color:var(--ink-4);border-radius:20px;
+  background:var(--cream-2);
+}
+.card-links{display:flex;gap:.75rem;}
+.card-links button{
+  font-family:'Source Code Pro',monospace;font-size:.58rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  background:none;border:none;color:var(--ink-4);
+  cursor:crosshair;text-decoration:underline;text-underline-offset:2px;
+  transition:color .15s;padding:0;
+}
+.card-links button:hover{color:var(--ink);}
+.card-links .primary{color:var(--stamp);}
 
-    .sparkline-wrap {
-      width: 100%;
-      overflow: hidden;
-    }
+/* ─────────────────────────────────────────
+   RIGHT SIDEBAR
+───────────────────────────────────────── */
+.col-right{
+  padding:1.75rem 0 2rem 1.5rem;
+  position:sticky;top:130px;
+}
 
-    .reality-gap-label {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.62rem;
-      color: var(--red-stamp);
-      margin-top: 0.4rem;
-      text-align: right;
-    }
+.ticker-box{
+  border:1px solid var(--border);
+  background:#fff;
+  padding:.75rem;
+  margin-bottom:1.5rem;
+  border-radius:var(--r);
+}
+.t-row{
+  display:flex;justify-content:space-between;
+  font-family:'Source Code Pro',monospace;font-size:.62rem;
+  padding:.32rem 0;border-bottom:1px dotted var(--border-2);
+  color:var(--ink-3);
+}
+.t-row:last-child{border-bottom:none;}
+.t-val{font-weight:700;}
+.t-val.dn{color:var(--stamp);}
+.t-val.up{color:var(--oai);}
 
-    /* ── STAMP ── */
-    .stamp-container {
-      position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
-      transform: rotate(12deg);
-      pointer-events: none;
-    }
+.mini-card{
+  border:1px solid var(--border-2);background:#fff;
+  padding:.8rem;margin-bottom:.7rem;
+  border-radius:var(--r);cursor:crosshair;
+  transition:border-color .15s,box-shadow .15s;
+}
+.mini-card:hover{border-color:var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.mc-co{font-family:'Source Code Pro',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-4);margin-bottom:.3rem;}
+.mc-txt{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--ink-2);line-height:1.45;}
 
-    .stamp {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--red-stamp);
-      border: 2.5px solid var(--red-stamp);
-      padding: 4px 8px;
-      opacity: 0.82;
-      border-radius: 2px;
-      background: rgba(255,255,255,0.6);
-      white-space: nowrap;
-    }
+.committee{font-family:'Source Code Pro',monospace;font-size:.6rem;color:var(--ink-4);line-height:2;}
+.committee span{display:block;}
 
-    .stamp.partial {
-      color: var(--amber);
-      border-color: var(--amber);
-    }
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer{
+  border-top:2px solid var(--ink);
+  padding:2rem clamp(1rem,4vw,3rem);
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:1.5rem;
+  margin-top:3rem;
+}
+.ft-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:900;letter-spacing:-.02em;
+  text-transform:uppercase;
+}
+.ft-logo em{font-style:italic;font-weight:400;}
+.ft-copy{
+  font-family:'Source Code Pro',monospace;font-size:.58rem;
+  color:var(--ink-4);line-height:1.9;text-align:right;
+}
 
-    .stamp.disputed {
-      color: var(--meta-blue);
-      border-color: var(--meta-blue);
-    }
-
-    /* ── CARD FOOTER ── */
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px dotted var(--border-light);
-      padding-top: 0.75rem;
-      margin-top: 0.25rem;
-    }
-
-    .card-tags {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-
-    .tag-pill {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.56rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 1px 6px;
-      background: var(--paper-dark);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      color: var(--ink-ghost);
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .action-btn {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-ghost);
-      cursor: pointer;
-      border: none;
-      background: none;
-      padding: 0;
-      transition: color 0.15s;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .action-btn:hover { color: var(--ink); }
-
-    .gap-badge {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.6rem;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 2px;
-    }
-    .gap-high { background: rgba(192,57,43,0.12); color: var(--red-stamp); border: 1px solid var(--red-stamp); }
-    .gap-med { background: rgba(217,119,6,0.12); color: var(--amber); border: 1px solid var(--amber); }
-    .gap-low { background: rgba(16,163,127,0.12); color: var(--oai-green); border: 1px solid var(--oai-green); }
-
-    /* ── SIDEBAR RIGHT ── */
-    .sidebar-right {
-      padding: 2rem 0 2rem 1.5rem;
-      position: sticky;
-      top: 90px;
-    }
-
-    .sidebar-right .sidebar-section { margin-bottom: 2rem; }
-
-    .mini-card {
-      border: 1px solid var(--border-light);
-      background: #fff;
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .mini-card:hover {
-      border-color: var(--border);
-      box-shadow: 1px 2px 6px var(--shadow);
-    }
-
-    .mini-card-co {
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.58rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--ink-ghost);
-      margin-bottom: 0.3rem;
-    }
-    .mini-card-text {
-      font-family: 'EB Garamond', serif;
-      font-size: 0.82rem;
-      line-height: 1.4;
-      font-style: italic;
-      color: var(--ink-faint);
-    }
-
-    .ticker-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.4rem 0;
-      border-bottom: 1px dotted var(--border-light);
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.65rem;
-    }
-    .ticker-label { color: var(--ink-faint); }
-    .ticker-val { font-weight: 600; }
-    .ticker-val.down { color: var(--red-stamp); }
-    .ticker-val.up { color: var(--oai-green); }
-
-    /* ── BANNER ── */
-    .breaking-banner {
-      background: var(--ink);
-      color: var(--paper);
-      padding: 0.4rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border-top: 1px solid var(--border);
-    }
-    .banner-inner {
-      display: inline-flex;
-      gap: 4rem;
-      animation: marquee 40s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .banner-item { display: inline-flex; align-items: center; gap: 0.75rem; }
-    .banner-divider { opacity: 0.3; }
-
-    /* ── METHODOLOGY NOTE ── */
-    .method-note {
-      margin: 0 2rem 1.5rem;
-      padding: 0.75rem 1rem;
-      border-left: 3px solid var(--amber);
-      background: rgba(217,119,6,0.05);
-      font-family: 'Source Code Pro', monospace;
-      font-size: 0.65rem;
-      color: var(--ink-ghost);
-      line-height: 1.7;
-    }
-    .method-note strong {
-      color: var(--amber);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1100px) {
-      .page-layout {
-        grid-template-columns: 200px 1fr;
-      }
-      .sidebar-right { display: none; }
-    }
-    @media (max-width: 720px) {
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar-left { display: none; }
-      .feed { padding: 1.25rem 1rem; border-right: none; }
-    }
-  </style>
+/* ─────────────────────────────────────────
+   ENTRY ANIMATION
+───────────────────────────────────────── */
+.card{transition:opacity .5s ease, transform .5s ease, box-shadow .25s;}
+</style>
 </head>
 <body>
 
-<!-- ── MASTHEAD ── -->
+<!-- stamp distress filter -->
+<svg class="defs" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="roughen" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.035" numOctaves="3" result="noise" seed="2"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ── TICKER ── -->
+<div class="ticker" aria-label="Breaking updates">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span>AGI DEADLINE EXTENDED — <b>AGAIN</b></span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FSD: 11 CONSECUTIVE MISSED MILESTONES</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>METAVERSE DAU: <b>200K</b> vs. projected <b>1 BILLION</b></span>
+    <span class="ticker-item"><span class="ticker-dot"></span>"SUPERHUMAN REASONING" FAILS PRIMARY SCHOOL ARITHMETIC</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CRYPTO PAYMENTS ADOPTION: <b>−94%</b> VS. 2021 FORECAST</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>BLOCKCHAIN SUPPLY CHAIN PILOTS: <b>0</b> IN PRODUCTION</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>AGI DEADLINE EXTENDED — <b>AGAIN</b></span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FSD: 11 CONSECUTIVE MISSED MILESTONES</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>METAVERSE DAU: <b>200K</b> vs. projected <b>1 BILLION</b></span>
+    <span class="ticker-item"><span class="ticker-dot"></span>"SUPERHUMAN REASONING" FAILS PRIMARY SCHOOL ARITHMETIC</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CRYPTO PAYMENTS ADOPTION: <b>−94%</b> VS. 2021 FORECAST</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>BLOCKCHAIN SUPPLY CHAIN PILOTS: <b>0</b> IN PRODUCTION</span>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
 <header>
-  <div class="masthead-top">
-    <div class="masthead-meta">
-      Vol. IV, No. 38<br />Est. 2021 — Independently Funded
+  <div class="mast-eyebrow">
+    <span>Vol. IV · No. 38 · Est. 2021 · Independent</span>
+    <span class="alert">● 4 NEW FILINGS THIS WEEK</span>
+    <span>Friday, 21 February 2026 · 847 Claims on Record</span>
+  </div>
+  <div class="mast-core">
+    <div class="mast-left">
+      Peer-reviewed<br/>
+      Independently funded<br/>
+      No advertising
     </div>
-    <div class="site-title">The Silicon <span class="audit">Audit</span></div>
-    <div class="masthead-issue">
-      Friday, 21 February 2026<br />
-      <span style="color: var(--red-stamp); font-size: 0.6rem;">38 OPEN RETRACTIONS</span>
+    <div>
+      <div class="site-name">The Silicon <em>Audit</em></div>
+      <div class="mast-tagline">A Bureaucratic Museum of Technological Hubris</div>
+    </div>
+    <div class="mast-right">
+      Reality Index™<br/>
+      This Issue: <span style="color:var(--stamp);font-weight:700">62% Retracted</span><br/>
+      Avg. Gap: −67%
     </div>
   </div>
-  <nav class="masthead-sub">
-    <a>Archive</a>
-    <span class="sep">·</span>
-    <a>Methodology</a>
-    <span class="sep">·</span>
-    <a style="color: var(--red-stamp);">New Filings ▸ 4</a>
-    <span class="sep">·</span>
-    <a>Reality Index</a>
-    <span class="sep">·</span>
-    <a>Submit a Claim</a>
+  <nav class="mast-nav">
+    <a href="index.html" class="hot">New Filings ▸ 4</a>
+    <a href="index.html">Archive</a>
+    <a href="index.html">Reality Index™</a>
+    <a href="methodology.html">Methodology</a>
+    <a href="index.html">Submit a Claim</a>
+    <a href="about.html">About</a>
   </nav>
 </header>
 
-<!-- ── TICKER BANNER ── -->
-<div class="breaking-banner">
-  <div class="banner-inner">
-    <span class="banner-item">⬤ AGI TIMELINE REVISED UPWARD — AGAIN &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ FSD MILESTONE MISSED (Q11 CONSECUTIVE) &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ METAVERSE DAU: 2.1M vs. projected 500M &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ "SUPERHUMAN REASONING" STILL FAILS 3RD GRADE MATH &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ GPT-5 LAUNCH DATE: TBD (WAS Q3 2024) &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ AGI TIMELINE REVISED UPWARD — AGAIN &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ FSD MILESTONE MISSED (Q11 CONSECUTIVE) &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ METAVERSE DAU: 2.1M vs. projected 500M &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ "SUPERHUMAN REASONING" STILL FAILS 3RD GRADE MATH &nbsp;<span class="banner-divider">|</span></span>
-    <span class="banner-item">⬤ GPT-5 LAUNCH DATE: TBD (WAS Q3 2024) &nbsp;<span class="banner-divider">|</span></span>
-  </div>
-</div>
+<!-- ── THREE-COLUMN LAYOUT ── -->
+<div class="layout">
 
-<!-- ── LAYOUT ── -->
-<div class="page-layout">
-
-  <!-- LEFT SIDEBAR -->
-  <aside class="sidebar-left">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Reality Index™</div>
-      <div class="stat-block">
-        <div class="stat-item">
-          <span class="stat-value red">62%</span>
-          <span class="stat-label">Claims Retracted</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value amber">24%</span>
-          <span class="stat-label">Partially Verified</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value green">14%</span>
-          <span class="stat-label">Substantiated</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" style="font-size:1.4rem; color:var(--ink);">847</span>
-          <span class="stat-label">Claims Catalogued</span>
-        </div>
+  <!-- LEFT ── -->
+  <aside class="col-left">
+    <section>
+      <div class="sb-heading">Reality Index™</div>
+      <div class="index-stat">
+        <span class="index-num red">62%</span>
+        <span class="index-desc">Claims Retracted</span>
       </div>
-    </div>
+      <div class="index-stat">
+        <span class="index-num amb">24%</span>
+        <span class="index-desc">Partially Verified</span>
+      </div>
+      <div class="index-stat">
+        <span class="index-num grn">14%</span>
+        <span class="index-desc">Substantiated</span>
+      </div>
+      <div class="index-stat">
+        <span class="index-num" style="font-size:2rem;color:var(--ink)">847</span>
+        <span class="index-desc">Claims Catalogued</span>
+      </div>
+    </section>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">Filter by Company</div>
-      <ul class="filter-list">
-        <li class="active">All <span class="count">847</span></li>
-        <li>OpenAI <span class="count">218</span></li>
-        <li>Meta <span class="count">191</span></li>
-        <li>Tesla / xAI <span class="count">176</span></li>
-        <li>Google DeepMind <span class="count">142</span></li>
-        <li>Microsoft <span class="count">73</span></li>
-        <li>Apple <span class="count">47</span></li>
-      </ul>
-    </div>
+    <div class="divider"></div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">Filter by Category</div>
-      <ul class="filter-list">
-        <li>Timeline Claims <span class="count">312</span></li>
-        <li>User/Scale Metrics <span class="count">204</span></li>
-        <li>Safety Promises <span class="count">168</span></li>
-        <li>Revenue Forecasts <span class="count">93</span></li>
-        <li>Technical Capability <span class="count">70</span></li>
+    <section>
+      <div class="sb-heading">Filter by Company</div>
+      <ul class="filter-list" id="coFilter">
+        <li class="on">All <span class="n">847</span></li>
+        <li>OpenAI <span class="n">218</span></li>
+        <li>Meta <span class="n">191</span></li>
+        <li>Tesla / xAI <span class="n">176</span></li>
+        <li>Google <span class="n">142</span></li>
+        <li>Microsoft <span class="n">73</span></li>
+        <li>Apple <span class="n">47</span></li>
       </ul>
-    </div>
+    </section>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">Biggest Reality Gaps</div>
-      <ul class="filter-list">
-        <li>Metaverse Users <span class="count">−99.6%</span></li>
-        <li>FSD Autonomy <span class="count">−94%</span></li>
-        <li>AGI by 2020 <span class="count">+∞ yrs</span></li>
-        <li>Crypto Payments <span class="count">−88%</span></li>
+    <div class="divider"></div>
+
+    <section>
+      <div class="sb-heading">Filter by Category</div>
+      <ul class="filter-list" id="catFilter">
+        <li class="on">All Categories <span class="n">847</span></li>
+        <li>Timeline Claims <span class="n">312</span></li>
+        <li>Scale / Metrics <span class="n">204</span></li>
+        <li>Safety Promises <span class="n">168</span></li>
+        <li>Revenue Forecasts <span class="n">93</span></li>
+        <li>Technical Capability <span class="n">70</span></li>
       </ul>
-    </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <div class="sb-heading">Largest Reality Gaps</div>
+      <table class="gap-table">
+        <tr><td>Metaverse Users</td><td>−99.6%</td></tr>
+        <tr><td>FSD Autonomy</td><td>−94%</td></tr>
+        <tr><td>AGI by 2020</td><td>+∞ yrs</td></tr>
+        <tr><td>Crypto Payments</td><td>−88%</td></tr>
+        <tr><td>Copilot ROI</td><td>−71%</td></tr>
+      </table>
+    </section>
   </aside>
 
-  <!-- MAIN FEED -->
-  <main class="feed">
-    <div class="feed-header">
-      <span class="feed-title">Recent Filings — Chronological</span>
-      <span class="feed-sort">SORT: Date Filed ▾</span>
+  <!-- FEED ── -->
+  <main class="col-feed">
+    <div class="feed-top">
+      <span class="feed-label">Recent Filings — Chronological</span>
+      <span class="feed-ctrl">Sort: Date Filed ▾</span>
     </div>
 
-    <div class="method-note">
-      <strong>Methodology:</strong> Each claim is cross-referenced against quarterly earnings reports, peer-reviewed benchmarks, regulatory filings, and contemporaneous press coverage. Reality Gap™ is computed as percentage deviation from stated projection at stated deadline. Sources on file. This publication is satirical in nature.
+    <div class="method-strip">
+      <strong>Methodology:</strong> Each claim is cross-referenced against quarterly earnings reports, peer-reviewed benchmarks, regulatory filings, and contemporaneous press coverage. Reality Gap™ is computed as percentage deviation from stated projection at stated deadline. All sources on file. This publication is satirical in nature and intended for educational purposes.
     </div>
 
-    <!-- ── CARD 1: OpenAI AGI ── -->
-    <div class="claim-card">
-      <div class="stamp-container">
-        <div class="stamp">RETRACTED</div>
-      </div>
+    <!-- ─── CARD 1: OpenAI AGI ─── -->
+    <article class="card" id="c1">
+      <div class="stamp-wrap"><div class="stamp">Retracted</div></div>
 
-      <div class="card-meta">
-        <span class="company-tag tag-oai">OpenAI</span>
+      <div class="card-top">
+        <span class="co-badge co-oai">OpenAI</span>
         <span class="card-date">Filed: 14 Feb 2026</span>
-        <span class="card-category">Timeline Claim</span>
+        <span class="card-cat">Timeline Claim</span>
+      </div>
+      <div class="card-speaker">Sam Altman, CEO — Davos Economic Forum, January 2025</div>
+      <blockquote class="card-quote">
+        "We will achieve AGI within the next twelve months. I'm actually quite confident about that. This is not hype — the evaluations are extraordinary, and the trajectory is clear."
+      </blockquote>
+
+      <div class="spark-panel">
+        <div class="spark-top">
+          <span>Proportional Area — Confidence Expressed vs. Capability Observed</span>
+          <span class="gap-badge gap-h">Gap: −91%</span>
+        </div>
+        <svg width="100%" height="154" viewBox="0 0 520 154" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- CLAIMED: outer ring, r=70 -->
+          <circle cx="106" cy="77" r="70" stroke="#10a37f" stroke-width="1.5" stroke-dasharray="5 3.5" opacity=".6"/>
+          <!-- ACTUAL: inner filled circle, r = 70 × √0.09 = 21 -->
+          <circle cx="106" cy="77" r="21" fill="#bf2c1e" fill-opacity=".82"/>
+          <text x="106" y="82" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="9.5" font-weight="700" fill="white">9%</text>
+          <!-- connector to claimed annotation -->
+          <line x1="152" y1="22" x2="208" y2="42" stroke="#c9c2ae" stroke-width=".9"/>
+          <text x="212" y="38" font-family="'Source Code Pro',monospace" font-size="7" fill="#7a7460" letter-spacing=".14em">CLAIMED</text>
+          <text x="212" y="56" font-family="'Playfair Display',serif" font-size="22" font-weight="900" fill="#10a37f" letter-spacing="-.02em">100%</text>
+          <text x="212" y="68" font-family="'Cormorant Garamond',serif" font-size="10.5" fill="#7a7460" font-style="italic">AGI-level capability, within 12 months</text>
+          <!-- horizontal divider -->
+          <line x1="212" y1="78" x2="514" y2="78" stroke="#ddd7c8" stroke-width=".5" stroke-dasharray="2 4"/>
+          <!-- connector to actual annotation -->
+          <line x1="126" y1="84" x2="208" y2="106" stroke="#c9c2ae" stroke-width=".9"/>
+          <text x="212" y="100" font-family="'Source Code Pro',monospace" font-size="7" fill="#7a7460" letter-spacing=".14em">OBSERVED</text>
+          <text x="212" y="118" font-family="'Playfair Display',serif" font-size="22" font-weight="900" fill="#bf2c1e" letter-spacing="-.02em">9%</text>
+          <text x="212" y="130" font-family="'Cormorant Garamond',serif" font-size="10.5" fill="#7a7460" font-style="italic">ARC-AGI-2 benchmark, Feb 2026</text>
+          <!-- caption -->
+          <text x="212" y="150" font-family="'Cormorant Garamond',serif" font-size="10" fill="#a09880" font-style="italic">The empty ring between the circles is the unfulfilled promise.</text>
+          <text x="8" y="150" font-family="'Source Code Pro',monospace" font-size="6" fill="#c9c2ae" letter-spacing=".08em">AREA ∝ VALUE</text>
+        </svg>
       </div>
 
-      <div class="card-speaker">Sam Altman, CEO — Davos, Jan 2025</div>
-      <div class="card-quote">
-        "We will achieve AGI within the next twelve months. I'm actually quite confident about that. This is not hype — the evals are extraordinary."
-      </div>
-
-      <div class="sparkline-section">
-        <div class="sparkline-label">
-          <span>Reality Gap™ — AGI Capability Score vs. Benchmark</span>
-          <span class="gap-badge gap-high">Gap: −91%</span>
+      <div class="card-foot">
+        <div class="pills">
+          <span class="pill">AGI</span><span class="pill">Timeline</span><span class="pill">Benchmarks</span>
         </div>
-        <div class="sparkline-legend">
-          <div class="legend-item"><div class="legend-dot dot-claimed"></div>Projected</div>
-          <div class="legend-item"><div class="legend-dot dot-actual"></div>Observed (ARC-AGI-2)</div>
-        </div>
-        <div class="sparkline-wrap">
-          <svg width="100%" height="72" viewBox="0 0 520 72" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Grid lines -->
-            <line x1="0" y1="18" x2="520" y2="18" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <line x1="0" y1="36" x2="520" y2="36" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <line x1="0" y1="54" x2="520" y2="54" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <!-- Claimed trajectory (optimistic, shoots up) -->
-            <path d="M 0,62 C 60,55 120,42 180,28 C 240,14 300,6 360,4 C 420,3 480,3 520,2" stroke="#10a37f" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7"/>
-            <!-- Actual (flat with slight rise) -->
-            <path d="M 0,64 C 40,63 80,61 130,60 C 180,59 240,58 300,57 C 360,57 420,56 520,56" stroke="#c0392b" stroke-width="2" stroke-linecap="round"/>
-            <!-- Fill area between -->
-            <path d="M 0,62 C 60,55 120,42 180,28 C 240,14 300,6 360,4 C 420,3 480,3 520,2 L 520,56 C 420,56 360,57 300,57 C 240,58 180,59 130,60 C 80,61 40,63 0,64 Z" fill="#c0392b" fill-opacity="0.06"/>
-            <!-- Timeline marker -->
-            <line x1="390" y1="0" x2="390" y2="72" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,3" opacity="0.5"/>
-            <text x="392" y="10" font-family="monospace" font-size="7" fill="#c0392b" opacity="0.7">Deadline</text>
-          </svg>
-        </div>
-        <div class="reality-gap-label">← Projected path vs. actual progress. Gap area shaded.</div>
-      </div>
-
-      <div class="card-footer">
-        <div class="card-tags">
-          <span class="tag-pill">AGI</span>
-          <span class="tag-pill">Timeline</span>
-          <span class="tag-pill">Benchmarks</span>
-        </div>
-        <div class="card-actions">
-          <button class="action-btn">Sources (7)</button>
-          <button class="action-btn">Cite</button>
-          <button class="action-btn" style="color:var(--red-stamp)">Full Audit ▸</button>
+        <div class="card-links">
+          <button>Sources (7)</button>
+          <button>Cite</button>
+          <button class="primary">Full Audit ▸</button>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- ── CARD 2: Meta Metaverse ── -->
-    <div class="claim-card">
-      <div class="stamp-container">
-        <div class="stamp">RETRACTED</div>
-      </div>
+    <!-- ─── CARD 2: Meta Metaverse ─── -->
+    <article class="card" id="c2">
+      <div class="stamp-wrap"><div class="stamp">Retracted</div></div>
 
-      <div class="card-meta">
-        <span class="company-tag tag-meta">Meta</span>
+      <div class="card-top">
+        <span class="co-badge co-meta">Meta</span>
         <span class="card-date">Filed: 02 Jan 2026</span>
-        <span class="card-category">Scale Metric</span>
+        <span class="card-cat">Scale Metric</span>
+      </div>
+      <div class="card-speaker">Mark Zuckerberg, CEO — Meta Connect Keynote, October 2021</div>
+      <blockquote class="card-quote">
+        "The metaverse will be home to a billion people in the next decade. This is the next chapter for the internet, and we are going to build it."
+      </blockquote>
+
+      <div class="spark-panel">
+        <div class="spark-top">
+          <span>Proportional Bubbles — Promised vs. Actual Daily Active Users</span>
+          <span class="gap-badge gap-h">Gap: −99.6%</span>
+        </div>
+        <svg width="100%" height="164" viewBox="0 0 520 164" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- PROMISED: 1 billion DAU, r=77 -->
+          <circle cx="115" cy="82" r="77" stroke="#0866ff" stroke-width="1.4" stroke-dasharray="5 3.5" opacity=".55"/>
+          <text x="115" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#0866ff" letter-spacing=".1em" opacity=".7">PROMISED</text>
+          <text x="115" y="90" text-anchor="middle" font-family="'Playfair Display',serif" font-size="16" font-weight="700" fill="#0866ff" opacity=".7">1,000,000,000</text>
+          <text x="115" y="103" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="10" fill="#0866ff" font-style="italic" opacity=".6">daily active users by 2031</text>
+          <!-- ACTUAL: ~200K. True scale r = 77×√(200000/1e9) ≈ 1px — shown at r=3.5 -->
+          <circle cx="330" cy="82" r="3.5" fill="#bf2c1e"/>
+          <line x1="330" y1="74" x2="330" y2="58" stroke="#bf2c1e" stroke-width=".9" opacity=".75"/>
+          <text x="330" y="51" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#bf2c1e" letter-spacing=".1em">ACTUAL</text>
+          <text x="330" y="40" text-anchor="middle" font-family="'Playfair Display',serif" font-size="14" font-weight="700" fill="#bf2c1e">~200,000</text>
+          <text x="330" y="29" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#7a7460" font-style="italic">peak DAU, Nov 2022</text>
+          <!-- stats block -->
+          <text x="405" y="62" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880" letter-spacing=".1em">REALITY GAP</text>
+          <text x="405" y="84" font-family="'Playfair Display',serif" font-size="24" font-weight="900" fill="#bf2c1e" letter-spacing="-.02em">−99.6%</text>
+          <line x1="405" y1="92" x2="512" y2="92" stroke="#ddd7c8" stroke-width=".5"/>
+          <text x="405" y="105" font-family="'Cormorant Garamond',serif" font-size="11" fill="#7a7460" font-style="italic">1 in 5,000 promised users</text>
+          <text x="405" y="118" font-family="'Cormorant Garamond',serif" font-size="11" fill="#7a7460" font-style="italic">ever materialised.</text>
+          <!-- scale note -->
+          <text x="8" y="159" font-family="'Source Code Pro',monospace" font-size="5.5" fill="#c9c2ae" letter-spacing=".06em">AT TRUE PROPORTIONAL SCALE THE ACTUAL DOT (RIGHT) WOULD BE ~1 PIXEL WIDE. SHOWN ENLARGED. AREA ∝ VALUE.</text>
+        </svg>
       </div>
 
-      <div class="card-speaker">Mark Zuckerberg, CEO — Meta Connect, Oct 2021</div>
-      <div class="card-quote">
-        "The metaverse will be home to a billion people in the next decade. This is the successor to the mobile internet and we are building it."
-      </div>
-
-      <div class="sparkline-section">
-        <div class="sparkline-label">
-          <span>Reality Gap™ — Projected vs. Actual Horizon Worlds DAU</span>
-          <span class="gap-badge gap-high">Gap: −99.6%</span>
+      <div class="card-foot">
+        <div class="pills">
+          <span class="pill">Metaverse</span><span class="pill">DAU</span><span class="pill">VR</span>
         </div>
-        <div class="sparkline-legend">
-          <div class="legend-item"><div class="legend-dot dot-meta-claimed"></div>Projected DAU (annualized)</div>
-          <div class="legend-item"><div class="legend-dot dot-actual"></div>Actual DAU (WSJ source)</div>
-        </div>
-        <div class="sparkline-wrap">
-          <svg width="100%" height="72" viewBox="0 0 520 72" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="18" x2="520" y2="18" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <line x1="0" y1="36" x2="520" y2="36" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <line x1="0" y1="54" x2="520" y2="54" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <!-- Claimed: steep logarithmic rise toward 1B -->
-            <path d="M 0,68 C 60,50 120,25 200,10 C 280,3 350,2 520,1" stroke="#0866ff" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7"/>
-            <!-- Actual: rises briefly then crashes and stays flat near bottom -->
-            <path d="M 0,69 C 40,68 80,60 110,52 C 130,48 150,58 180,62 C 220,66 300,67 520,68" stroke="#c0392b" stroke-width="2" stroke-linecap="round"/>
-            <path d="M 0,68 C 60,50 120,25 200,10 C 280,3 350,2 520,1 L 520,68 C 300,67 220,66 180,62 C 150,58 130,48 110,52 C 80,60 40,68 0,69 Z" fill="#c0392b" fill-opacity="0.06"/>
-          </svg>
-        </div>
-        <div class="reality-gap-label">Projected: ~1 billion by 2031 &nbsp;|&nbsp; Actual: ~200K peak DAU (2022)</div>
-      </div>
-
-      <div class="card-footer">
-        <div class="card-tags">
-          <span class="tag-pill">Metaverse</span>
-          <span class="tag-pill">DAU</span>
-          <span class="tag-pill">VR</span>
-        </div>
-        <div class="card-actions">
-          <button class="action-btn">Sources (12)</button>
-          <button class="action-btn">Cite</button>
-          <button class="action-btn" style="color:var(--red-stamp)">Full Audit ▸</button>
+        <div class="card-links">
+          <button>Sources (12)</button>
+          <button>Cite</button>
+          <button class="primary">Full Audit ▸</button>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- ── CARD 3: Tesla FSD ── -->
-    <div class="claim-card">
-      <div class="stamp-container">
-        <div class="stamp">RETRACTED</div>
-      </div>
+    <!-- ─── CARD 3: Tesla FSD ─── -->
+    <article class="card" id="c3">
+      <div class="stamp-wrap"><div class="stamp">Retracted</div></div>
 
-      <div class="card-meta">
-        <span class="company-tag tag-tesla">Tesla</span>
+      <div class="card-top">
+        <span class="co-badge co-tesla">Tesla</span>
         <span class="card-date">Filed: 18 Nov 2025</span>
-        <span class="card-category">Technical Capability</span>
+        <span class="card-cat">Technical Capability</span>
+      </div>
+      <div class="card-speaker">Elon Musk, CEO — Tesla Q3 Earnings Call, October 2016</div>
+      <blockquote class="card-quote">
+        "A Tesla will be able to drive itself from Los Angeles to New York without any human intervention by the end of 2017. This is going to happen."
+      </blockquote>
+
+      <div class="spark-panel">
+        <div class="spark-top">
+          <span>Unit Record — One Mark Per Public "Full Self-Driving" Deadline</span>
+          <span class="gap-badge gap-h">11 Consecutive Misses</span>
+        </div>
+        <svg width="100%" height="122" viewBox="0 0 520 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="sk">
+              <feTurbulence type="fractalNoise" baseFrequency="0.045 0.04" numOctaves="4" seed="17"/>
+              <feDisplacementMap in="SourceGraphic" scale="1.5"/>
+            </filter>
+          </defs>
+          <!-- 11 broken circles + 1 pending. cy=50, r=14, spacing=42, starting cx=21 -->
+          <!-- Cross lines: (cx±9, cy±9) -->
+          <circle cx="21" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="12" y1="41" x2="30" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="30" y1="41" x2="12" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="21" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2014</text>
+
+          <circle cx="63" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="54" y1="41" x2="72" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="72" y1="41" x2="54" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="63" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2016</text>
+
+          <circle cx="105" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="96" y1="41" x2="114" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="114" y1="41" x2="96" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="105" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2017</text>
+
+          <circle cx="147" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="138" y1="41" x2="156" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="156" y1="41" x2="138" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="147" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2018</text>
+
+          <circle cx="189" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="180" y1="41" x2="198" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="198" y1="41" x2="180" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="189" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2019</text>
+
+          <circle cx="231" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="222" y1="41" x2="240" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="240" y1="41" x2="222" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="231" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2020</text>
+
+          <circle cx="273" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="264" y1="41" x2="282" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="282" y1="41" x2="264" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="273" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2021</text>
+
+          <circle cx="315" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="306" y1="41" x2="324" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="324" y1="41" x2="306" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="315" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2022</text>
+
+          <circle cx="357" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="348" y1="41" x2="366" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="366" y1="41" x2="348" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="357" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2023</text>
+
+          <circle cx="399" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="390" y1="41" x2="408" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="408" y1="41" x2="390" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="399" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2024</text>
+
+          <circle cx="441" cy="50" r="14" stroke="#d42b2b" stroke-width="1.5" filter="url(#sk)"/>
+          <line x1="432" y1="41" x2="450" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="450" y1="41" x2="432" y2="59" stroke="#d42b2b" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="441" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#7a7460">2025</text>
+
+          <!-- 12th: pending, dashed -->
+          <circle cx="483" cy="50" r="14" stroke="#c9c2ae" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+          <text x="483" y="55" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="9" fill="#c9c2ae">?</text>
+          <text x="483" y="72" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#c9c2ae">2026?</text>
+
+          <!-- LEGEND -->
+          <circle cx="10" cy="95" r="8" stroke="#d42b2b" stroke-width="1.4"/>
+          <line x1="4" y1="89" x2="16" y2="101" stroke="#d42b2b" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="16" y1="89" x2="4" y2="101" stroke="#d42b2b" stroke-width="1.4" stroke-linecap="round"/>
+          <text x="24" y="98" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= one publicly announced "full autonomy" completion deadline, missed</text>
+          <circle cx="10" cy="113" r="8" stroke="#c9c2ae" stroke-width="1.1" stroke-dasharray="2.5 2"/>
+          <text x="24" y="116" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= pending / unresolved as of publication date</text>
+        </svg>
       </div>
 
-      <div class="card-speaker">Elon Musk, CEO — Tesla Earnings Call, Oct 2016</div>
-      <div class="card-quote">
-        "A Tesla will be able to drive itself from LA to New York without any human intervention by the end of 2017. This is going to happen."
-      </div>
-
-      <div class="sparkline-section">
-        <div class="sparkline-label">
-          <span>Reality Gap™ — FSD "Complete Autonomy" Deadline (Revised Dates)</span>
-          <span class="gap-badge gap-high">Gap: +9 yrs (ongoing)</span>
+      <div class="card-foot">
+        <div class="pills">
+          <span class="pill">FSD</span><span class="pill">Autonomy</span><span class="pill">Timelines</span>
         </div>
-        <div class="sparkline-legend">
-          <div class="legend-item"><div class="legend-dot dot-tesla-claimed"></div>Announced Completion Date</div>
-          <div class="legend-item"><div class="legend-dot dot-actual"></div>Actual Status</div>
-        </div>
-        <div class="sparkline-wrap">
-          <!-- Bar chart of missed deadlines -->
-          <svg width="100%" height="80" viewBox="0 0 520 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="70" x2="520" y2="70" stroke="#c8c3b5" stroke-width="1"/>
-            <!-- Each bar = a missed deadline -->
-            <rect x="10" y="30" width="52" height="40" fill="#e3193720" rx="1"/>
-            <rect x="10" y="30" width="52" height="4" fill="#e31937" rx="1"/>
-            <text x="36" y="25" text-anchor="middle" font-family="monospace" font-size="7" fill="#7a7870">2017</text>
-
-            <rect x="80" y="25" width="52" height="45" fill="#e3193720" rx="1"/>
-            <rect x="80" y="25" width="52" height="4" fill="#e31937" rx="1"/>
-            <text x="106" y="20" text-anchor="middle" font-family="monospace" font-size="7" fill="#7a7870">2018</text>
-
-            <rect x="150" y="20" width="52" height="50" fill="#e3193720" rx="1"/>
-            <rect x="150" y="20" width="52" height="4" fill="#e31937" rx="1"/>
-            <text x="176" y="15" text-anchor="middle" font-family="monospace" font-size="7" fill="#7a7870">2019</text>
-
-            <rect x="220" y="15" width="52" height="55" fill="#e3193720" rx="1"/>
-            <rect x="220" y="15" width="52" height="4" fill="#e31937" rx="1"/>
-            <text x="246" y="10" text-anchor="middle" font-family="monospace" font-size="7" fill="#7a7870">2020</text>
-
-            <rect x="290" y="12" width="52" height="58" fill="#e3193720" rx="1"/>
-            <rect x="290" y="12" width="52" height="4" fill="#e31937" rx="1"/>
-            <text x="316" y="7" text-anchor="middle" font-family="monospace" font-size="7" fill="#7a7870">2022</text>
-
-            <rect x="360" y="8" width="52" height="62" fill="#e3193720" rx="1"/>
-            <rect x="360" y="8" width="52" height="4" fill="#e31937" rx="1"/>
-            <text x="386" y="5" text-anchor="middle" font-family="monospace" font-size="7" fill="#7a7870">2024</text>
-
-            <rect x="430" y="5" width="52" height="65" fill="#e3193715" rx="1" stroke="#e31937" stroke-width="1" stroke-dasharray="2,2"/>
-            <text x="456" y="4" text-anchor="middle" font-family="monospace" font-size="7" fill="#e31937">2026?</text>
-            <text x="456" y="50" text-anchor="middle" font-family="monospace" font-size="8" fill="#e31937" opacity="0.6">TBD</text>
-          </svg>
-        </div>
-        <div class="reality-gap-label">Each bar = one missed "completion" deadline. 11 consecutive misses.</div>
-      </div>
-
-      <div class="card-footer">
-        <div class="card-tags">
-          <span class="tag-pill">FSD</span>
-          <span class="tag-pill">Autonomy</span>
-          <span class="tag-pill">Timelines</span>
-        </div>
-        <div class="card-actions">
-          <button class="action-btn">Sources (19)</button>
-          <button class="action-btn">Cite</button>
-          <button class="action-btn" style="color:var(--red-stamp)">Full Audit ▸</button>
+        <div class="card-links">
+          <button>Sources (19)</button>
+          <button>Cite</button>
+          <button class="primary">Full Audit ▸</button>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- ── CARD 4: Google AI Overview ── -->
-    <div class="claim-card">
-      <div class="stamp-container">
-        <div class="stamp partial">DISPUTED</div>
-      </div>
+    <!-- ─── CARD 4: Google AI Overviews ─── -->
+    <article class="card" id="c4">
+      <div class="stamp-wrap"><div class="stamp amber-stamp">Disputed</div></div>
 
-      <div class="card-meta">
-        <span class="company-tag tag-google">Google DeepMind</span>
+      <div class="card-top">
+        <span class="co-badge co-goog">Google DeepMind</span>
         <span class="card-date">Filed: 05 Sep 2025</span>
-        <span class="card-category">Safety Promise</span>
+        <span class="card-cat">Safety Promise</span>
+      </div>
+      <div class="card-speaker">Sundar Pichai, CEO — Google I/O Keynote, May 2024</div>
+      <blockquote class="card-quote">
+        "AI Overviews have been exhaustively tested for accuracy and helpfulness. Users will receive grounded, reliable responses. We are confident in the system's quality at launch."
+      </blockquote>
+
+      <div class="spark-panel">
+        <div class="spark-top">
+          <span>Dot Record — Each Mark Is One Documented Public Error, Week 1 Post-Launch</span>
+          <span class="gap-badge gap-m">Gap: +340%</span>
+        </div>
+        <svg width="100%" height="148" viewBox="0 0 520 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="sk2">
+              <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7"/>
+              <feDisplacementMap in="SourceGraphic" scale="1.2"/>
+            </filter>
+          </defs>
+          <!-- Zone labels -->
+          <text x="75" y="12" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#1a73e8" letter-spacing=".1em">PRE-LAUNCH</text>
+          <text x="75" y="22" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#1a73e8" letter-spacing=".1em">BENCHMARK</text>
+          <!-- Divider -->
+          <line x1="150" y1="8" x2="150" y2="126" stroke="#c9c2ae" stroke-width=".8" stroke-dasharray="2 3"/>
+          <text x="153" y="14" font-family="'Source Code Pro',monospace" font-size="6" fill="#bf2c1e" letter-spacing=".06em">LAUNCH →</text>
+          <text x="335" y="12" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".1em">WEEK 1 POST-LAUNCH</text>
+          <!-- BENCHMARK: 3 orderly blue dots -->
+          <circle cx="50" cy="52" r="3.5" fill="#1a73e8" opacity=".8" filter="url(#sk2)"/>
+          <circle cx="85" cy="78" r="3.5" fill="#1a73e8" opacity=".8" filter="url(#sk2)"/>
+          <circle cx="118" cy="52" r="3.5" fill="#1a73e8" opacity=".8" filter="url(#sk2)"/>
+          <!-- ACTUAL: 40 red dots scattered across 4 rows -->
+          <!-- Row 1 -->
+          <circle cx="175" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="200" cy="24" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="226" cy="18" r="4.5" fill="#bf2c1e" opacity=".9"/>
+          <text x="228" y="13" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">pizza / glue</text>
+          <circle cx="252" cy="22" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="278" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="304" cy="26" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="330" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="356" cy="24" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="382" cy="20" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="408" cy="26" r="3" fill="#bf2c1e" opacity=".82"/>
+          <!-- Row 2 -->
+          <circle cx="180" cy="48" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="206" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="232" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="258" cy="50" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="284" cy="48" r="4.5" fill="#bf2c1e" opacity=".9"/>
+          <text x="286" y="43" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">eat rocks</text>
+          <circle cx="310" cy="54" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="336" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="362" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="388" cy="46" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="414" cy="52" r="3" fill="#bf2c1e" opacity=".82"/>
+          <!-- Row 3 -->
+          <circle cx="177" cy="76" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="203" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="229" cy="74" r="4.5" fill="#bf2c1e" opacity=".9"/>
+          <text x="231" y="88" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">sunscreen</text>
+          <circle cx="255" cy="78" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="281" cy="76" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="307" cy="82" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="333" cy="74" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="359" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="385" cy="74" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="411" cy="80" r="3" fill="#bf2c1e" opacity=".82"/>
+          <!-- Row 4 -->
+          <circle cx="182" cy="104" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="208" cy="108" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="234" cy="102" r="4.5" fill="#bf2c1e" opacity=".9"/>
+          <text x="236" y="116" font-family="'Cormorant Garamond',serif" font-size="7.5" fill="#bf2c1e" font-style="italic">bleach remedy</text>
+          <circle cx="260" cy="106" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="286" cy="104" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="312" cy="110" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="338" cy="104" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="364" cy="108" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="390" cy="102" r="3" fill="#bf2c1e" opacity=".82"/>
+          <circle cx="416" cy="108" r="3" fill="#bf2c1e" opacity=".82"/>
+          <!-- LEGEND -->
+          <circle cx="10" cy="136" r="3.5" fill="#1a73e8" opacity=".8"/>
+          <text x="18" y="139" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= expected error (pre-launch benchmark)</text>
+          <circle cx="225" cy="136" r="3" fill="#bf2c1e" opacity=".82"/>
+          <text x="233" y="139" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= one documented AI Overview error, Week 1</text>
+        </svg>
       </div>
 
-      <div class="card-speaker">Sundar Pichai, CEO — Google I/O, May 2024</div>
-      <div class="card-quote">
-        "AI Overviews have been exhaustively tested. Users will receive accurate, helpful, grounded responses. We are confident in the quality and reliability of the system at launch."
-      </div>
-
-      <div class="sparkline-section">
-        <div class="sparkline-label">
-          <span>Reality Gap™ — Hallucination Rate Post-Launch vs. Internal Benchmark</span>
-          <span class="gap-badge gap-med">Gap: +340%</span>
+      <div class="card-foot">
+        <div class="pills">
+          <span class="pill">Hallucinations</span><span class="pill">AI Search</span><span class="pill">Safety</span>
         </div>
-        <div class="sparkline-legend">
-          <div class="legend-item"><div class="legend-dot dot-google-claimed"></div>Internal benchmark (pre-launch)</div>
-          <div class="legend-item"><div class="legend-dot dot-actual"></div>Public error rate (week 1)</div>
-        </div>
-        <div class="sparkline-wrap">
-          <svg width="100%" height="72" viewBox="0 0 520 72" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="18" x2="520" y2="18" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <line x1="0" y1="36" x2="520" y2="36" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <line x1="0" y1="54" x2="520" y2="54" stroke="#e0ddd6" stroke-width="0.5" stroke-dasharray="3,4"/>
-            <!-- Benchmark (low flat line) -->
-            <path d="M 0,62 C 100,61 200,62 300,61 C 350,61 400,62 520,62" stroke="#4285f4" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7"/>
-            <!-- Actual: spikes at launch then gradually improves -->
-            <path d="M 0,62 L 200,62 C 220,62 230,20 250,15 C 270,12 300,18 340,26 C 380,34 440,44 520,50" stroke="#c0392b" stroke-width="2" stroke-linecap="round"/>
-            <line x1="200" y1="0" x2="200" y2="72" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,3" opacity="0.4"/>
-            <text x="202" y="10" font-family="monospace" font-size="7" fill="#c0392b" opacity="0.7">Launch</text>
-          </svg>
-        </div>
-        <div class="reality-gap-label">Spike corresponds to viral "glue on pizza" and "eat rocks" incidents, May 2024</div>
-      </div>
-
-      <div class="card-footer">
-        <div class="card-tags">
-          <span class="tag-pill">Hallucinations</span>
-          <span class="tag-pill">Search AI</span>
-          <span class="tag-pill">Safety</span>
-        </div>
-        <div class="card-actions">
-          <button class="action-btn">Sources (9)</button>
-          <button class="action-btn">Cite</button>
-          <button class="action-btn" style="color:var(--amber)">Full Audit ▸</button>
+        <div class="card-links">
+          <button>Sources (9)</button>
+          <button>Cite</button>
+          <button class="primary">Full Audit ▸</button>
         </div>
       </div>
-    </div>
+    </article>
 
-    <!-- ── CARD 5: Microsoft Copilot ROI ── -->
-    <div class="claim-card">
-      <div class="stamp-container">
-        <div class="stamp partial">PARTIAL</div>
-      </div>
+    <!-- ─── CARD 5: Microsoft Copilot ─── -->
+    <article class="card" id="c5">
+      <div class="stamp-wrap"><div class="stamp amber-stamp">Partial</div></div>
 
-      <div class="card-meta">
-        <span class="company-tag tag-msft">Microsoft</span>
+      <div class="card-top">
+        <span class="co-badge co-msft">Microsoft</span>
         <span class="card-date">Filed: 22 Jul 2025</span>
-        <span class="card-category">Revenue / ROI Claim</span>
+        <span class="card-cat">ROI Claim</span>
+      </div>
+      <div class="card-speaker">Satya Nadella, CEO — Microsoft Ignite, November 2023</div>
+      <blockquote class="card-quote">
+        "GitHub Copilot users are 55% more productive. Every organisation that adopts Copilot will see statistically significant gains in engineering output within 90 days. These are real results."
+      </blockquote>
+
+      <div class="spark-panel">
+        <div class="spark-top">
+          <span>Dotplot — Where Productivity Studies Actually Land</span>
+          <span class="gap-badge gap-m">Gap: −38% to −71%</span>
+        </div>
+        <svg width="100%" height="108" viewBox="0 0 520 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Axis: x=48→480, y=64. Scale: -20% to +60% = 80pp over 432px = 5.4px/pp -->
+          <line x1="48" y1="64" x2="480" y2="64" stroke="#c9c2ae" stroke-width="1"/>
+          <!-- Grid ticks -->
+          <line x1="48"  y1="60" x2="48"  y2="68" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="156" y1="56" x2="156" y2="72" stroke="#1c1a14" stroke-width="1.2" opacity=".35"/>
+          <line x1="264" y1="60" x2="264" y2="68" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="372" y1="60" x2="372" y2="68" stroke="#c9c2ae" stroke-width=".8"/>
+          <line x1="480" y1="60" x2="480" y2="68" stroke="#c9c2ae" stroke-width=".8"/>
+          <!-- Axis labels -->
+          <text x="48"  y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">−20%</text>
+          <text x="156" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#1c1a14" font-weight="600">0%</text>
+          <text x="264" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+20%</text>
+          <text x="372" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+40%</text>
+          <text x="480" y="80" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#a09880">+60%</text>
+          <!-- Zero baseline label -->
+          <text x="156" y="25" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="9.5" fill="#7a7460" font-style="italic">no effect baseline</text>
+          <line x1="156" y1="28" x2="156" y2="55" stroke="#7a7460" stroke-width=".6" stroke-dasharray="2 3" opacity=".45"/>
+          <!-- Range band for independent studies: x=134(−4%) to x=269(+21%) -->
+          <rect x="134" y="58" width="135" height="12" fill="#bf2c1e" opacity=".08" rx="1"/>
+          <text x="202" y="98" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#bf2c1e" letter-spacing=".04em">independent study range</text>
+          <!-- CLAIMED: +55% → x=453, r=10 -->
+          <circle cx="453" cy="64" r="10" fill="#555" opacity=".82"/>
+          <text x="453" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7.5" font-weight="700" fill="white">+55%</text>
+          <text x="453" y="49" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="7" fill="#555" letter-spacing=".1em">CLAIMED</text>
+          <!-- STUDIES: -4%→134, +8%→199, +13%→226, +21%→269 -->
+          <circle cx="269" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="269" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+21%</text>
+          <circle cx="226" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="226" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+13%</text>
+          <circle cx="199" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="199" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">+8%</text>
+          <circle cx="134" cy="64" r="6" fill="#bf2c1e" opacity=".85"/>
+          <text x="134" y="68" text-anchor="middle" font-family="'Source Code Pro',monospace" font-size="6.5" font-weight="600" fill="white">−4%</text>
+          <!-- LEGEND -->
+          <circle cx="10" cy="100" r="6" fill="#555" opacity=".8"/>
+          <text x="21" y="103" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= GitHub internal study (claimed)</text>
+          <circle cx="215" cy="100" r="5" fill="#bf2c1e" opacity=".8"/>
+          <text x="225" y="103" font-family="'Source Code Pro',monospace" font-size="6.5" fill="#a09880" letter-spacing=".04em">= independent peer-reviewed replication (n=4)</text>
+        </svg>
       </div>
 
-      <div class="card-speaker">Satya Nadella, CEO — Microsoft Ignite, Nov 2023</div>
-      <div class="card-quote">
-        "GitHub Copilot users are 55% more productive. Every company that adopts Copilot will see measurable, statistically significant gains in engineering output within 90 days. This is not a demo — these are real results."
-      </div>
-
-      <div class="sparkline-section">
-        <div class="sparkline-label">
-          <span>Reality Gap™ — Reported Productivity Gains: Study vs. Independent Replication</span>
-          <span class="gap-badge gap-med">Gap: −38% to −71%</span>
+      <div class="card-foot">
+        <div class="pills">
+          <span class="pill">Copilot</span><span class="pill">Productivity</span><span class="pill">ROI</span><span class="pill">Replication</span>
         </div>
-        <div class="sparkline-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#737373"></div>GitHub internal study</div>
-          <div class="legend-item"><div class="legend-dot dot-actual"></div>Independent replications (n=4)</div>
-        </div>
-        <div class="sparkline-wrap">
-          <!-- Dot plot showing claimed vs replicated study results -->
-          <svg width="100%" height="72" viewBox="0 0 520 72" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="36" x2="520" y2="36" stroke="#c8c3b5" stroke-width="1"/>
-            <text x="4" y="34" font-family="monospace" font-size="7" fill="#7a7870">+0%</text>
-            <text x="4" y="14" font-family="monospace" font-size="7" fill="#7a7870">+55%</text>
-            <text x="4" y="56" font-family="monospace" font-size="7" fill="#7a7870">−20%</text>
-            <!-- Claimed -->
-            <circle cx="150" cy="9" r="6" fill="#737373" opacity="0.8"/>
-            <text x="150" y="5" text-anchor="middle" font-family="monospace" font-size="6" fill="#737373">+55%</text>
-            <!-- Independent replications -->
-            <circle cx="240" cy="28" r="5" fill="#c0392b" opacity="0.8"/>
-            <text x="240" y="24" text-anchor="middle" font-family="monospace" font-size="6" fill="#c0392b">+21%</text>
-            <circle cx="310" cy="33" r="5" fill="#c0392b" opacity="0.8"/>
-            <text x="310" y="29" text-anchor="middle" font-family="monospace" font-size="6" fill="#c0392b">+13%</text>
-            <circle cx="370" cy="38" r="5" fill="#c0392b" opacity="0.8"/>
-            <text x="370" y="34" text-anchor="middle" font-family="monospace" font-size="6" fill="#c0392b">+8%</text>
-            <circle cx="430" cy="44" r="5" fill="#c0392b" opacity="0.8"/>
-            <text x="430" y="40" text-anchor="middle" font-family="monospace" font-size="6" fill="#c0392b">−4%</text>
-            <!-- Connector line -->
-            <path d="M 150,9 C 190,12 220,20 240,28 C 270,38 310,42 370,45 L 430,47" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
-          </svg>
-        </div>
-        <div class="reality-gap-label">Independent studies show 8–21% gains; one shows regression. Selection bias noted.</div>
-      </div>
-
-      <div class="card-footer">
-        <div class="card-tags">
-          <span class="tag-pill">Copilot</span>
-          <span class="tag-pill">Productivity</span>
-          <span class="tag-pill">ROI</span>
-          <span class="tag-pill">Replication</span>
-        </div>
-        <div class="card-actions">
-          <button class="action-btn">Sources (6)</button>
-          <button class="action-btn">Cite</button>
-          <button class="action-btn" style="color:var(--amber)">Full Audit ▸</button>
+        <div class="card-links">
+          <button>Sources (6)</button>
+          <button>Cite</button>
+          <button class="primary">Full Audit ▸</button>
         </div>
       </div>
-    </div>
+    </article>
 
   </main>
 
-  <!-- RIGHT SIDEBAR -->
-  <aside class="sidebar-right">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Recently Added</div>
-      <div class="mini-card">
-        <div class="mini-card-co">OpenAI · Safety Claim</div>
-        <div class="mini-card-text">"GPT-4 passes CBRN safety eval." — Internal red-team found 47% bypass rate.</div>
-      </div>
-      <div class="mini-card">
-        <div class="mini-card-co">Meta · Scale Metric</div>
-        <div class="mini-card-text">"Ray-Ban glasses sold out in minutes." — Inventory was 2,400 units.</div>
-      </div>
-      <div class="mini-card">
-        <div class="mini-card-co">xAI · Timeline</div>
-        <div class="mini-card-text">"Grok will beat GPT-4 in 3 months." — Filed 18 months after deadline.</div>
-      </div>
+  <!-- RIGHT ── -->
+  <aside class="col-right">
+
+    <div class="sb-heading">Accountability Ticker</div>
+    <div class="ticker-box" style="margin-bottom:1.5rem">
+      <div class="t-row"><span class="t-val">47</span><span>Claims filed this month</span></div>
+      <div class="t-row"><span class="t-val dn">↓ 31</span><span>Retracted (30d)</span></div>
+      <div class="t-row"><span class="t-val up">↑ 4</span><span>Verified (30d)</span></div>
+      <div class="t-row"><span class="t-val dn">−67%</span><span>Avg. gap size</span></div>
+      <div class="t-row"><span class="t-val dn">−99.6%</span><span>Record gap</span></div>
     </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">Accountability Ticker</div>
-      <div class="ticker-row">
-        <span class="ticker-label">Claims this month</span>
-        <span class="ticker-val">47</span>
-      </div>
-      <div class="ticker-row">
-        <span class="ticker-label">Retracted (30d)</span>
-        <span class="ticker-val down">↓ 31</span>
-      </div>
-      <div class="ticker-row">
-        <span class="ticker-label">Verified (30d)</span>
-        <span class="ticker-val up">↑ 4</span>
-      </div>
-      <div class="ticker-row">
-        <span class="ticker-label">Avg Gap Size</span>
-        <span class="ticker-val down">−67%</span>
-      </div>
-      <div class="ticker-row">
-        <span class="ticker-label">Record Gap</span>
-        <span class="ticker-val down">−99.6%</span>
-      </div>
+    <div class="sb-heading">Recently Added</div>
+    <div class="mini-card">
+      <div class="mc-co">OpenAI · Safety Claim</div>
+      <div class="mc-txt">"GPT-4 passes CBRN safety evals." — Internal red-team found 47% bypass rate within 72 hrs.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-co">Meta · Scale Metric</div>
+      <div class="mc-txt">"Ray-Ban glasses sold out in minutes." — Total inventory: 2,400 units.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-co">xAI · Timeline</div>
+      <div class="mc-txt">"Grok will surpass GPT-4 in 90 days." — Filed 18 months after stated deadline.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-co">Apple · Feature Claim</div>
+      <div class="mc-txt">"Apple Intelligence rewrites the rules of AI privacy." — Feature delayed indefinitely in EU.</div>
     </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">Audit Committee</div>
-      <div style="font-family:'Source Code Pro',monospace; font-size:0.62rem; color:var(--ink-ghost); line-height:1.9;">
-        <div>Dr. E. Cartwright — Methods</div>
-        <div>J. Okubo — Data Verification</div>
-        <div>A. Patel — Legal Review</div>
-        <div>M. Lindström — Archives</div>
-        <div style="margin-top:0.5rem; border-top:1px dotted var(--border-light); padding-top:0.5rem;">
-          Independent. Unaffiliated.<br/>Funded by reader subscriptions.
-        </div>
-      </div>
+    <div class="divider" style="margin:1.25rem 0"></div>
+
+    <div class="sb-heading">Audit Committee</div>
+    <div class="committee">
+      <span>Dr. E. Cartwright — Methods</span>
+      <span>J. Okubo — Data Verification</span>
+      <span>A. Patel — Legal Review</span>
+      <span>M. Lindström — Archives</span>
+      <span style="margin-top:.5rem;padding-top:.5rem;border-top:1px dotted var(--border-2);color:var(--ink-4)">Independent · Unaffiliated<br/>Reader-funded · No advertising</span>
     </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-label">In the Archive</div>
-      <div style="font-family:'EB Garamond',serif; font-size:0.85rem; color:var(--ink-ghost); line-height:1.7; font-style:italic;">
-        "The Blockchain Will Solve Supply Chains" — 2017<br/>
-        "Twitter Blue Will Save Democracy" — 2022<br/>
-        "NFTs Are the Future of Art" — 2021<br/>
-        "Crypto Is the New Dollar" — 2021
-      </div>
+    <div class="divider" style="margin:1.25rem 0"></div>
+
+    <div class="sb-heading">From the Archive</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:.88rem;font-style:italic;color:var(--ink-3);line-height:1.9;">
+      "Blockchain Will Fix Supply Chains" — 2017<br/>
+      "Twitter Blue Saves Democracy" — 2022<br/>
+      "NFTs Are the Future of Art" — 2021<br/>
+      "Crypto Replaces Cash by 2025" — 2021<br/>
+      "The Segway Changes Cities" — 2001
     </div>
+
   </aside>
-
 </div>
 
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="ft-logo">The Silicon <em>Audit</em></div>
+  <div class="ft-copy">
+    Vol. IV · Est. 2021 · Independent · No Affiliation<br/>
+    All claims cross-referenced. All gaps measured.<br/>
+    © 2026 The Silicon Audit. Satirical publication.
+  </div>
+</footer>
+
 <script>
-  // Filter interaction
-  document.querySelectorAll('.filter-list li').forEach(li => {
-    li.addEventListener('click', function() {
-      this.closest('ul').querySelectorAll('li').forEach(x => x.classList.remove('active'));
-      this.classList.add('active');
-    });
+// ── Filter interaction ──
+document.querySelectorAll('#coFilter li, #catFilter li').forEach(li => {
+  li.addEventListener('click', function() {
+    this.closest('ul').querySelectorAll('li').forEach(x => x.classList.remove('on'));
+    this.classList.add('on');
   });
+});
 
-  // Subtle paper texture animation on card hover
-  document.querySelectorAll('.claim-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 3;
-      card.style.transform = `translateY(-1px) rotateX(${-y}deg) rotateY(${x}deg)`;
-      card.style.perspective = '1000px';
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0)';
-    });
+// ── Staggered card reveal ──
+const cards = document.querySelectorAll('.card');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), 60);
+      io.unobserve(e.target);
+    }
   });
+}, { threshold: 0.08 });
+
+cards.forEach((c, i) => {
+  c.style.transitionDelay = `${i * 80}ms`;
+  io.observe(c);
+});
+
+// ── Subtle card tilt on mousemove ──
+cards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width - 0.5) * 5;
+    const y = ((e.clientY - r.top) / r.height - 0.5) * -3;
+    card.style.transform = `translateY(-2px) perspective(900px) rotateX(${y}deg) rotateY(${x}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
 </script>
-
 </body>
 </html>

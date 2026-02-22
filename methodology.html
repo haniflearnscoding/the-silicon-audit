@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Methodology — The Silicon Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"/>
+<style>
+:root{
+  --cream:#f6f2ea;
+  --cream-2:#efe9dc;
+  --cream-3:#e6dfd0;
+  --ink:#1c1a14;
+  --ink-2:#3a3629;
+  --ink-3:#7a7460;
+  --ink-4:#a09880;
+  --stamp:#bf2c1e;
+  --stamp-bg:rgba(191,44,30,.09);
+  --oai:#10a37f;
+  --meta:#0866ff;
+  --amber:#c47d0e;
+  --amber-bg:rgba(196,125,14,.08);
+  --border:#c9c2ae;
+  --border-2:#ddd7c8;
+  --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.07);
+  --r:2px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background-color:var(--cream);color:var(--ink);font-family:'Libre Baskerville',Georgia,serif;min-height:100vh;overflow-x:hidden;cursor:crosshair;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+
+/* TICKER */
+.ticker{background:var(--ink);color:var(--cream);padding:.38rem 0;overflow:hidden;white-space:nowrap;font-family:'Source Code Pro',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
+.ticker-track{display:inline-flex;gap:3rem;animation:ticker 55s linear infinite;}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:.75rem;}
+.ticker-dot{width:5px;height:5px;background:var(--stamp);border-radius:50%;flex-shrink:0;}
+
+/* HEADER */
+header{background:var(--cream);border-bottom:2px solid var(--ink);position:sticky;top:0;z-index:200;}
+.mast-eyebrow{display:flex;justify-content:space-between;align-items:center;padding:.45rem clamp(1rem,4vw,3rem);border-bottom:1px solid var(--border);font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
+.mast-eyebrow .alert{color:var(--stamp);border:1px solid var(--stamp);padding:1px 8px;font-size:.55rem;letter-spacing:.12em;animation:blink 2.4s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.mast-core{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:.7rem clamp(1rem,4vw,3rem);gap:1rem;}
+.mast-left{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--ink-3);line-height:1.9;}
+.mast-right{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--ink-3);line-height:1.9;text-align:right;}
+.site-name{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.6rem);font-weight:900;letter-spacing:-.03em;line-height:1;text-align:center;text-transform:uppercase;}
+.site-name em{font-style:italic;font-weight:400;font-size:.82em;letter-spacing:-.01em;}
+.mast-tagline{text-align:center;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:var(--ink-3);letter-spacing:.04em;margin-top:.25rem;}
+.mast-nav{display:flex;justify-content:center;align-items:center;gap:0;padding:.42rem 0;border-top:1px solid var(--border);font-family:'Source Code Pro',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
+.mast-nav a{color:var(--ink-2);text-decoration:none;padding:.2rem 1.1rem;border-right:1px solid var(--border);transition:background .15s,color .15s;cursor:crosshair;}
+.mast-nav a:first-child{border-left:1px solid var(--border);}
+.mast-nav a:hover,.mast-nav a.active{background:var(--ink);color:var(--cream);}
+.mast-nav a.hot{color:var(--stamp);}
+
+/* PAGE */
+.page-wrap{max-width:1100px;margin:0 auto;padding:3.5rem clamp(1rem,4vw,2.5rem) 5rem;}
+.page-kicker{font-family:'Source Code Pro',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.75rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;text-transform:uppercase;margin-bottom:.6rem;}
+.page-title em{font-style:italic;font-weight:400;}
+.page-deck{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-style:italic;color:var(--ink-2);line-height:1.55;max-width:660px;margin-bottom:2rem;}
+.page-rule{border:none;height:5px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);margin-bottom:2.5rem;}
+
+/* GRID */
+.method-grid{display:grid;grid-template-columns:1fr 300px;gap:3.5rem;align-items:start;}
+@media(max-width:760px){.method-grid{grid-template-columns:1fr;}}
+
+/* PROSE */
+.prose h2{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;font-style:italic;letter-spacing:-.01em;margin:2.75rem 0 .8rem;text-transform:uppercase;}
+.prose h2:first-child{margin-top:0;}
+.prose h3{font-family:'Source Code Pro',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:1.75rem 0 .55rem;}
+.prose p{font-size:.98rem;line-height:1.85;color:var(--ink-2);margin-bottom:1.15rem;}
+.prose strong{color:var(--ink);}
+.prose em{font-style:italic;}
+.section-divider{border:none;border-top:1px solid var(--border-2);margin:2.5rem 0;}
+
+/* FORMULA BOX */
+.formula-box{
+  background:var(--ink);color:var(--cream);
+  padding:1.5rem 2rem;margin:1.75rem 0;
+  border-radius:var(--r);
+  font-family:'Source Code Pro',monospace;
+  position:relative;overflow:hidden;
+}
+.formula-box::before{
+  content:'FORMULA';
+  position:absolute;top:.55rem;right:.9rem;
+  font-size:.52rem;letter-spacing:.18em;opacity:.3;
+}
+.formula-label{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;opacity:.5;margin-bottom:.6rem;}
+.formula-main{font-size:1.05rem;letter-spacing:.05em;line-height:1.7;color:#fff;}
+.formula-main .var{color:var(--oai);font-weight:700;}
+.formula-main .op{color:var(--ink-4);}
+.formula-note{font-size:.6rem;opacity:.5;margin-top:.75rem;line-height:1.6;}
+
+/* PROCESS STEPS */
+.steps{list-style:none;counter-reset:step;margin:1.25rem 0 2rem;}
+.steps li{
+  counter-increment:step;
+  display:grid;grid-template-columns:2.5rem 1fr;
+  gap:1rem;margin-bottom:1.25rem;
+  padding-bottom:1.25rem;border-bottom:1px dotted var(--border-2);
+}
+.steps li:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.steps li::before{
+  content:counter(step);
+  font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;
+  color:var(--border);line-height:1;padding-top:.1rem;
+}
+.step-body{}
+.step-title{font-family:'Source Code Pro',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink);margin-bottom:.35rem;}
+.step-text{font-size:.9rem;line-height:1.7;color:var(--ink-3);}
+
+/* CLASSIFICATION TABLE */
+.class-table{width:100%;border-collapse:collapse;margin:1.25rem 0 2rem;font-family:'Source Code Pro',monospace;}
+.class-table th{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);text-align:left;padding:.5rem .75rem;border-bottom:2px solid var(--ink);border-top:1px solid var(--border);}
+.class-table td{font-size:.68rem;padding:.55rem .75rem;border-bottom:1px solid var(--border-2);vertical-align:top;line-height:1.5;color:var(--ink-2);}
+.class-table tr:last-child td{border-bottom:none;}
+.class-table td:first-child{font-weight:700;white-space:nowrap;}
+.badge{display:inline-block;padding:1px 7px;border-radius:1px;font-size:.58rem;font-weight:700;letter-spacing:.1em;border:1px solid;}
+.b-red{color:var(--stamp);border-color:var(--stamp);background:var(--stamp-bg);}
+.b-amb{color:var(--amber);border-color:var(--amber);background:var(--amber-bg);}
+.b-blu{color:var(--meta);border-color:var(--meta);background:rgba(8,102,255,.07);}
+.b-grn{color:var(--oai);border-color:var(--oai);background:rgba(16,163,127,.08);}
+
+/* SIDEBAR */
+.method-sidebar{}
+.sb-card{background:#fff;border:1px solid var(--border);padding:1.25rem;border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:1.5rem;position:relative;}
+.sb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,var(--cream-3) 0,var(--cream-3) 3px,transparent 3px,transparent 6px);opacity:.6;}
+.sb-label{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.9rem;border-bottom:1px solid var(--border-2);padding-bottom:.4rem;}
+.sb-card p{font-size:.82rem;line-height:1.75;color:var(--ink-3);margin-bottom:.75rem;}
+.sb-card p:last-child{margin-bottom:0;}
+
+/* ANCHOR TOC */
+.toc{list-style:none;}
+.toc li{border-bottom:1px dotted var(--border-2);}
+.toc a{display:block;font-family:'Source Code Pro',monospace;font-size:.65rem;letter-spacing:.06em;color:var(--ink-3);text-decoration:none;padding:.38rem 0;transition:color .15s;}
+.toc a:hover{color:var(--ink);}
+.toc .toc-num{color:var(--border);margin-right:.5rem;}
+
+/* changelog */
+.changelog li{font-family:'Source Code Pro',monospace;font-size:.62rem;color:var(--ink-3);padding:.32rem 0;border-bottom:1px dotted var(--border-2);line-height:1.5;display:flex;gap:.75rem;}
+.changelog li:last-child{border-bottom:none;}
+.changelog .ch-date{color:var(--ink-4);flex-shrink:0;min-width:60px;}
+.changelog .ch-text{color:var(--ink-3);}
+
+/* inline code */
+code{font-family:'Source Code Pro',monospace;font-size:.82em;background:var(--cream-2);border:1px solid var(--border-2);padding:1px 5px;border-radius:2px;color:var(--ink-2);}
+
+/* FOOTER */
+footer{border-top:2px solid var(--ink);padding:2rem clamp(1rem,4vw,3rem);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1.5rem;margin-top:3rem;}
+.ft-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;}
+.ft-logo em{font-style:italic;font-weight:400;}
+.ft-copy{font-family:'Source Code Pro',monospace;font-size:.58rem;color:var(--ink-4);line-height:1.9;text-align:right;}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span>AGI DEADLINE EXTENDED — AGAIN</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FSD: 11 CONSECUTIVE MISSED MILESTONES</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>METAVERSE DAU: 200K vs. projected 1 BILLION</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>"SUPERHUMAN REASONING" FAILS PRIMARY SCHOOL ARITHMETIC</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CRYPTO PAYMENTS ADOPTION: −94% VS. 2021 FORECAST</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>AGI DEADLINE EXTENDED — AGAIN</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FSD: 11 CONSECUTIVE MISSED MILESTONES</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>METAVERSE DAU: 200K vs. projected 1 BILLION</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>"SUPERHUMAN REASONING" FAILS PRIMARY SCHOOL ARITHMETIC</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>CRYPTO PAYMENTS ADOPTION: −94% VS. 2021 FORECAST</span>
+  </div>
+</div>
+
+<header>
+  <div class="mast-eyebrow">
+    <span>Vol. IV · No. 38 · Est. 2021 · Independent</span>
+    <span class="alert">● 4 NEW FILINGS THIS WEEK</span>
+    <span>Friday, 21 February 2026 · 847 Claims on Record</span>
+  </div>
+  <div class="mast-core">
+    <div class="mast-left">Peer-reviewed<br/>Independently funded<br/>No advertising</div>
+    <div>
+      <a href="index.html" style="text-decoration:none;color:inherit;">
+        <div class="site-name">The Silicon <em>Audit</em></div>
+        <div class="mast-tagline">A Bureaucratic Museum of Technological Hubris</div>
+      </a>
+    </div>
+    <div class="mast-right">Reality Index™<br/>This Issue: <span style="color:var(--stamp);font-weight:700">62% Retracted</span><br/>Avg. Gap: −67%</div>
+  </div>
+  <nav class="mast-nav">
+    <a href="index.html" class="hot">New Filings ▸ 4</a>
+    <a href="index.html">Archive</a>
+    <a href="index.html">Reality Index™</a>
+    <a href="methodology.html" class="active">Methodology</a>
+    <a href="index.html">Submit a Claim</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="page-kicker">The Silicon Audit — Methodology & Standards</div>
+  <h1 class="page-title">How We <em>Measure</em></h1>
+  <p class="page-deck">The Reality Gap™ is not an opinion. It is a calculation. Here is exactly how we perform it, how we classify claims, and how we handle edge cases, retractions, and appeals.</p>
+  <hr class="page-rule"/>
+
+  <div class="method-grid">
+    <!-- MAIN -->
+    <div class="prose">
+
+      <h2 id="s1">I. Claim Eligibility</h2>
+      <p>Not every statement made by a technology executive qualifies for audit. We apply a strict four-part eligibility test before any claim enters the database.</p>
+
+      <h3>Eligibility Criteria</h3>
+      <ol class="steps">
+        <li>
+          <div class="step-body">
+            <div class="step-title">Specificity</div>
+            <div class="step-text">The claim must contain a measurable outcome. Vague aspirations ("we want to make the world better") are excluded. Testable assertions ("we will reach 100M users by Q2") are eligible. If the claim cannot be falsified, it cannot be audited.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <div class="step-title">Public Record</div>
+            <div class="step-text">The claim must appear in a verifiable primary source: an earnings call transcript, a public keynote, a regulatory filing, a signed press release, or a verified social media post from an official account. Off-the-record statements and anonymous sourcing are excluded.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <div class="step-title">Implied or Stated Deadline</div>
+            <div class="step-text">There must be a timeframe against which the claim can be evaluated. "Within 12 months," "by end of year," "in the next decade," and specific calendar dates all qualify. Open-ended statements without any temporal anchor are deferred, not excluded — they may become eligible if a reasonable horizon passes.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <div class="step-title">Materiality</div>
+            <div class="step-text">The claim must be significant enough that its failure would constitute meaningful information for the public, investors, regulators, or consumers. Minor operational statements are excluded. Claims about core products, revenue trajectories, safety characteristics, or technological capabilities are eligible.</div>
+          </div>
+        </li>
+      </ol>
+
+      <hr class="section-divider"/>
+
+      <h2 id="s2">II. The Reality Gap™ Formula</h2>
+      <p>Once a claim passes the eligibility test and its deadline has passed, we compute the Reality Gap™. This is a standardised measure of the proportional distance between the stated claim and the observed outcome.</p>
+
+      <div class="formula-box">
+        <div class="formula-label">Reality Gap™ — Core Formula (v2.1)</div>
+        <div class="formula-main">
+          <span class="var">RG</span> <span class="op">=</span>
+          ( <span class="var">O</span> <span class="op">−</span> <span class="var">P</span> ) <span class="op">/</span> | <span class="var">P</span> | <span class="op">×</span> 100
+        </div>
+        <div class="formula-note">
+          Where: O = Observed outcome at stated deadline · P = Projected/claimed value · RG = Reality Gap™ (%)<br/>
+          Negative values indicate underdelivery. Positive values indicate overdelivery (rare).<br/>
+          For timeline claims: RG = (Actual completion date − Stated deadline) in days, annualised.
+        </div>
+      </div>
+
+      <h3>Worked Example</h3>
+      <p>Claim: <em>"Horizon Worlds will reach 500,000 daily active users by Q4 2022."</em><br/>
+      Observed: ~200,000 DAU at peak, Q4 2022.<br/>
+      <code>RG = (200,000 − 500,000) / |500,000| × 100 = −60%</code></p>
+      <p>Note: the Meta filing uses a longer projection (1B by 2031) which, when annualised against 2022 trajectory, produces the −99.6% figure. Both calculations are preserved in the source file.</p>
+
+      <hr class="section-divider"/>
+
+      <h2 id="s3">III. Claim Classification</h2>
+      <p>Every audited claim receives one of four designations, assigned by a majority vote of the Audit Committee after independent verification by at least two members.</p>
+
+      <table class="class-table">
+        <thead>
+          <tr>
+            <th>Designation</th>
+            <th>Badge</th>
+            <th>Criteria</th>
+            <th>RG Threshold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Retracted</td>
+            <td><span class="badge b-red">RETRACTED</span></td>
+            <td>Claim is unambiguously falsified by the observable record. No reasonable interpretation allows the claim to be considered accurate.</td>
+            <td>RG &lt; −40%</td>
+          </tr>
+          <tr>
+            <td>Partial</td>
+            <td><span class="badge b-amb">PARTIAL</span></td>
+            <td>Claim contains elements that are verifiable but also elements that are not. Or the outcome falls within a grey zone where interpretation is legitimately contested.</td>
+            <td>−40% ≤ RG &lt; −10%</td>
+          </tr>
+          <tr>
+            <td>Disputed</td>
+            <td><span class="badge b-blu">DISPUTED</span></td>
+            <td>The claim's accuracy is contested by two or more credible sources reaching different conclusions from the same underlying data. The Audit Committee does not assign a verdict pending resolution.</td>
+            <td>Contested data</td>
+          </tr>
+          <tr>
+            <td>Substantiated</td>
+            <td><span class="badge b-grn">SUBSTANTIATED</span></td>
+            <td>Claim is supported by independent, verifiable evidence that meets our standard of proof. This designation is rare by design — we apply a higher burden of proof to verification than to falsification.</td>
+            <td>RG ≥ −10%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Committee Voting</h3>
+      <p>Classification requires a majority (3 of 4) vote from the Audit Committee. In the event of a 2–2 split, the claim is automatically classified as <span class="badge b-blu">DISPUTED</span> until one member changes position or new evidence is submitted. No single editor can unilaterally assign or change a classification.</p>
+
+      <hr class="section-divider"/>
+
+      <h2 id="s4">IV. Source Standards</h2>
+      <p>All claims are cross-referenced against a minimum of two independent primary sources before entering the database. For the observed outcome, we require at least one of the following:</p>
+
+      <h3>Tier 1 Sources (highest weight)</h3>
+      <p>SEC or regulatory filings · Sworn congressional testimony · Peer-reviewed academic publications · Independently audited financial statements · Court documents</p>
+
+      <h3>Tier 2 Sources (standard weight)</h3>
+      <p>Quarterly earnings call transcripts (official) · Signed press releases · Verified executive social media · Major wire service reporting (Reuters, AP, Bloomberg) with named sources</p>
+
+      <h3>Tier 3 Sources (corroborating only)</h3>
+      <p>Trade press · Analyst reports · Industry surveys · Investigative reporting with anonymous sources. Tier 3 sources may be used to contextualise but never as the sole basis for a classification.</p>
+
+      <p>Every source used in a filing is archived by us at the time of publication. If a source is subsequently deleted, altered, or paywalled, our archived copy serves as the record of what it contained. Source links and archive references are available in full on each claim page.</p>
+
+      <hr class="section-divider"/>
+
+      <h2 id="s5">V. Corrections Policy</h2>
+      <p>Corrections are published at the top of the original filing, not appended to the bottom. The original incorrect text is preserved with a strikethrough and the correction is clearly labelled with a date. We do not silently edit filings.</p>
+      <p>If a classification changes after new evidence emerges, the previous classification is also preserved in the filing's version history, which is publicly accessible. We consider the practice of quietly updating past statements — common in the industry we cover — to be beneath the standards of any publication that claims to value accuracy.</p>
+      <p>Anyone, including the subjects of our filings, may submit a correction request at <code>corrections@siliconaudit.press</code>. Correction requests must include: the specific claim disputed, the specific error alleged, and at minimum one Tier 1 or Tier 2 source supporting the correction. We aim to respond within 10 business days.</p>
+
+      <hr class="section-divider"/>
+
+      <h2 id="s6">VI. Scope & Limitations</h2>
+      <p>The Reality Gap™ measures <strong>what was said against what happened</strong>. It does not measure intent, competence, or moral culpability. A claim that turns out to be wrong because of genuinely unforeseeable external circumstances receives the same mathematical Reality Gap™ as one that was known to be false when made. We make note of context in the filing text, but we do not adjust the RG figure.</p>
+      <p>We also acknowledge that prediction is genuinely hard. Technology timelines are notoriously difficult to forecast. The Silicon Audit does not hold executives to a standard of perfect foresight. We hold them to the standard of their own public words — and specifically to the habit of issuing public statements with the rhetorical confidence of certainty rather than the epistemic humility of estimation.</p>
+      <p>If a CEO says <em>"we believe this might be achievable by end of year, conditions permitting,"</em> that is hedged and would not qualify as an auditable claim under our specificity criterion. If the same CEO says <em>"this will happen by end of year — I'm certain of it,"</em> that is a different statement and is auditable.</p>
+      <p>The gap we are measuring is not between prediction and reality. It is between <em>performed certainty</em> and reality. That is the specific rhetorical pattern that The Silicon Audit was built to document.</p>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="method-sidebar">
+
+      <div class="sb-card">
+        <div class="sb-label">Contents</div>
+        <ul class="toc">
+          <li><a href="#s1"><span class="toc-num">I.</span> Claim Eligibility</a></li>
+          <li><a href="#s2"><span class="toc-num">II.</span> The Reality Gap™ Formula</a></li>
+          <li><a href="#s3"><span class="toc-num">III.</span> Claim Classification</a></li>
+          <li><a href="#s4"><span class="toc-num">IV.</span> Source Standards</a></li>
+          <li><a href="#s5"><span class="toc-num">V.</span> Corrections Policy</a></li>
+          <li><a href="#s6"><span class="toc-num">VI.</span> Scope & Limitations</a></li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-label">Methodology Version</div>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.65rem;color:var(--ink-3);line-height:2;margin-bottom:.75rem;">
+          Current: <strong style="color:var(--ink)">v2.1</strong><br/>
+          Published: Mar 2024<br/>
+          Peer review: <span style="color:var(--oai)">Passed</span><br/>
+          Journal: <em>J. Comp. Journalism</em>
+        </div>
+        <div class="sb-label">Changelog</div>
+        <ul class="changelog">
+          <li><span class="ch-date">Mar 2024</span><span class="ch-text">v2.1 — Timeline RG annualisation added</span></li>
+          <li><span class="ch-date">Jan 2023</span><span class="ch-text">v2.0 — Disputed classification introduced</span></li>
+          <li><span class="ch-date">Jun 2022</span><span class="ch-text">v1.2 — Tier 3 source rules tightened</span></li>
+          <li><span class="ch-date">Feb 2022</span><span class="ch-text">v1.1 — Materiality criterion added</span></li>
+          <li><span class="ch-date">Nov 2021</span><span class="ch-text">v1.0 — Initial methodology published</span></li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-label">Peer Review Citation</div>
+        <p>Cartwright, E. et al. "Systematic Measurement of Executive Claim Accuracy in the Technology Sector." <em>Journal of Computational Journalism</em>, Vol. 12, pp. 44–67, 2024.</p>
+        <p style="color:var(--ink-4);">DOI: 10.1093/jcj/vol12.044</p>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-label">Submit a Claim for Review</div>
+        <p>Have a public statement that should be on our list? We accept submissions from any source. All submitters are kept confidential.</p>
+        <p>Include: the verbatim quote, the source URL, the date, and the implied deadline. We will evaluate eligibility and notify you of the outcome.</p>
+        <div style="font-family:'Source Code Pro',monospace;font-size:.62rem;color:var(--ink-3);margin-top:.5rem;">tips@siliconaudit.press</div>
+      </div>
+
+      <div class="sb-card" style="background:var(--ink);color:var(--cream);border-color:var(--ink);">
+        <div class="sb-label" style="color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.15);">A Note on Tone</div>
+        <p style="color:rgba(255,255,255,.75);">This publication is satirical in nature. Our tone is sharp because we believe accountability journalism should have a point of view. But every Reality Gap™ figure is a calculation, not a joke. The numbers speak for themselves.</p>
+        <p style="color:rgba(255,255,255,.45);">We have never lost a defamation claim. We intend to keep it that way.</p>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-logo">The Silicon <em>Audit</em></div>
+  <div class="ft-copy">Vol. IV · Est. 2021 · Independent · No Affiliation<br/>All claims cross-referenced. All gaps measured.<br/>© 2026 The Silicon Audit. Satirical publication.</div>
+</footer>
+
+</body>
+</html>
