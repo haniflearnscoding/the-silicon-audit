@@ -177,8 +177,8 @@
 <div class="decision-strip">
   <div class="ds-item">
     <div class="ds-num">screens</div>
-    <div class="ds-stat">02</div>
-    <div class="ds-label">Figma frames, full desktop viewport</div>
+    <div class="ds-stat">04</div>
+    <div class="ds-label">Desktop feed (×2), methodology, mobile</div>
   </div>
   <div class="ds-item">
     <div class="ds-num">columns</div>
@@ -193,18 +193,18 @@
   <div class="ds-item">
     <div class="ds-num">viz types</div>
     <div class="ds-stat">4</div>
-    <div class="ds-label">Circles · Unit marks · Dot fields · Dotplot</div>
+    <div class="ds-label">Gradient bars · Unit grid · Vertical bars · Dotplot</div>
   </div>
 </div>
 
 <!-- ── MOCKUP FRAMES ── -->
 <section class="mockup-section">
-  <div class="section-num">Screen 01 / 02 &nbsp; The Claim Feed</div>
+  <div class="section-num">Screen 01 / 04 &nbsp; Feed — OpenAI &amp; Meta Claims</div>
 
   <div class="mockup-frame">
     <div class="frame-label">
-      <span class="frame-num">Figma Export · MacBook Pro 16" · 1728 × 1117px</span>
-      <span class="frame-title">Main View — Claim Feed</span>
+      <span class="frame-num">Browser Screenshot · MacBook Pro 16" · 1728px viewport</span>
+      <span class="frame-title">Desktop Feed — Top of Page</span>
     </div>
     <div class="frame-screen">
       <div class="frame-chrome">
@@ -213,34 +213,71 @@
           <div class="chrome-dot" style="background:#febc2e"></div>
           <div class="chrome-dot" style="background:#28c840"></div>
         </div>
-        <div class="chrome-url">localhost:4490 — The Silicon Audit · Vol. I</div>
+        <div class="chrome-url">the-silicon-audit · Feed — Vol. I, Claims 1–2</div>
       </div>
-      <img src="mockup-1.png" alt="Figma mockup — Institute for AI Accountability main feed showing claim cards with Reality Gap data visualizations"/>
+      <img src="ss-feed-a.png" alt="The Silicon Audit desktop feed — OpenAI AGI claim card with cyan-to-blue proportional bars, and Meta Metaverse claim with purple-to-indigo bars"/>
     </div>
     <div class="frame-caption">
       <div class="fc-item">
-        <div class="fc-dot" style="background:var(--red)"></div>
-        <div class="fc-title">Claim Cards</div>
-        <div class="fc-desc">Each card presents a verbatim CEO quote, a bespoke Dear Data / IIB visualization, and a distressed RETRACTED stamp.</div>
+        <div class="fc-dot" style="background:#00e5ff"></div>
+        <div class="fc-title">Proportional Gradient Bars</div>
+        <div class="fc-desc">Cyan→blue CLAIMED bar at full width; magenta→orange ACTUAL bar proportionally narrower. Bar width encodes value — the void is the gap.</div>
       </div>
       <div class="fc-item">
         <div class="fc-dot" style="background:var(--oai)"></div>
         <div class="fc-title">Three-Column Layout</div>
-        <div class="fc-desc">Left sidebar for stats and filters; central feed for claim cards; right sidebar for live accountability metrics and ticker.</div>
+        <div class="fc-desc">Left sidebar: stats and company filters. Central feed: claim cards. Right sidebar: accountability ticker with running totals.</div>
       </div>
       <div class="fc-item">
         <div class="fc-dot" style="background:var(--ink-3)"></div>
         <div class="fc-title">Newspaper Masthead</div>
-        <div class="fc-desc">Serif editorial typography, scrolling ticker banner, and volume/issue metadata signal institutional authority and permanence.</div>
+        <div class="fc-desc">Scrolling ticker banner, serif display masthead, and monospace metadata signal institutional authority and permanence.</div>
       </div>
     </div>
   </div>
 
-  <div class="section-num">Screen 02 / 02 &nbsp; Methodology</div>
+  <div class="section-num">Screen 02 / 04 &nbsp; Feed — Tesla, Copilot &amp; Google Claims</div>
 
   <div class="mockup-frame">
     <div class="frame-label">
-      <span class="frame-num">Figma Export · MacBook Pro 16" · 1728 × 1117px</span>
+      <span class="frame-num">Browser Screenshot · MacBook Pro 16" · 1728px viewport</span>
+      <span class="frame-title">Desktop Feed — Cards 3–5</span>
+    </div>
+    <div class="frame-screen">
+      <div class="frame-chrome">
+        <div class="chrome-dots">
+          <div class="chrome-dot" style="background:#ff5f57"></div>
+          <div class="chrome-dot" style="background:#febc2e"></div>
+          <div class="chrome-dot" style="background:#28c840"></div>
+        </div>
+        <div class="chrome-url">the-silicon-audit · Feed — Vol. I, Claims 3–5</div>
+      </div>
+      <img src="ss-feed-b.png" alt="The Silicon Audit desktop feed — Tesla FSD unit grid, Microsoft Copilot vertical bar chart, Google AI Overviews proportional bars"/>
+    </div>
+    <div class="frame-caption">
+      <div class="fc-item">
+        <div class="fc-dot" style="background:#ff3d00"></div>
+        <div class="fc-title">Unit Mark Grid</div>
+        <div class="fc-desc">Tesla FSD: 11 red gradient cells, each = one missed public deadline. The 12th cell is dashed — pending. One mark = one real event.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:#ffab00"></div>
+        <div class="fc-title">Vertical Bar Comparison</div>
+        <div class="fc-desc">Microsoft Copilot: four cyan→teal study bars (−4% to +21%) against one tall amber→orange claimed bar (+55%), gap bracket = 34pp.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:#ff1744"></div>
+        <div class="fc-title">Stamp Taxonomy</div>
+        <div class="fc-desc">RETRACTED (red), PARTIAL (amber), DISPUTED (blue) stamps use SVG feTurbulence displacement — each state has a distinct distress level.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-num">Screen 03 / 04 &nbsp; Methodology</div>
+
+  <div class="mockup-frame">
+    <div class="frame-label">
+      <span class="frame-num">Browser Screenshot · MacBook Pro 16" · 1728px viewport</span>
       <span class="frame-title">Methodology — How We Measure</span>
     </div>
     <div class="frame-screen">
@@ -250,25 +287,62 @@
           <div class="chrome-dot" style="background:#febc2e"></div>
           <div class="chrome-dot" style="background:#28c840"></div>
         </div>
-        <div class="chrome-url">localhost:4490/methodology — The Silicon Audit · Methodology</div>
+        <div class="chrome-url">the-silicon-audit/methodology — How We Measure</div>
       </div>
-      <img src="mockup-2.png" alt="Figma mockup — Methodology page showing the Reality Gap formula and worked examples"/>
+      <img src="ss-method.png" alt="The Silicon Audit methodology page — Reality Gap formula in terminal dark box, TOC sidebar, versioned changelog"/>
     </div>
     <div class="frame-caption">
       <div class="fc-item">
         <div class="fc-dot" style="background:var(--ink)"></div>
         <div class="fc-title">Formula Display</div>
-        <div class="fc-desc">The Reality Gap™ formula is presented in a terminal-style dark box, with color-coded variables for legibility and rigor.</div>
+        <div class="fc-desc">The Reality Gap™ formula in a terminal-style dark box. Color-coded variables (O, P) for legibility. Worked example below with cited figures.</div>
       </div>
       <div class="fc-item">
         <div class="fc-dot" style="background:var(--amber)"></div>
         <div class="fc-title">Anchored TOC</div>
-        <div class="fc-desc">Right sidebar table of contents allows navigation through six methodology sections with active-state highlighting.</div>
+        <div class="fc-desc">Right sidebar table of contents with six sections and active-state highlighting. Sticky positioning mirrors academic paper navigation.</div>
       </div>
       <div class="fc-item">
         <div class="fc-dot" style="background:var(--meta)"></div>
         <div class="fc-title">Versioned Changelog</div>
-        <div class="fc-desc">Methodology changelog with dates signals transparency and iterative rigor — modeled on academic preprints and software release notes.</div>
+        <div class="fc-desc">Methodology changelog (v1.0 → v2.1) with dates and descriptions signals iterative rigor — modeled on academic preprints and software release notes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-num">Screen 04 / 04 &nbsp; Mobile View</div>
+
+  <div class="mockup-frame">
+    <div class="frame-label">
+      <span class="frame-num">Browser Screenshot · iPhone 17 · 390px viewport</span>
+      <span class="frame-title">Responsive Layout — Single Column</span>
+    </div>
+    <div class="frame-screen" style="background:var(--ink);max-width:420px;margin:0 auto;">
+      <div class="frame-chrome">
+        <div class="chrome-dots">
+          <div class="chrome-dot" style="background:#ff5f57"></div>
+          <div class="chrome-dot" style="background:#febc2e"></div>
+          <div class="chrome-dot" style="background:#28c840"></div>
+        </div>
+        <div class="chrome-url">the-silicon-audit · Mobile</div>
+      </div>
+      <img src="ss-mobile.png" alt="The Silicon Audit mobile layout — single-column feed, sidebars hidden, responsive cards"/>
+    </div>
+    <div class="frame-caption">
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--oai)"></div>
+        <div class="fc-title">Single-Column Feed</div>
+        <div class="fc-desc">Both sidebars hidden at ≤768px. Full-width cards stack vertically. The feed is the entire experience on mobile.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:#00e5ff"></div>
+        <div class="fc-title">SVG Scales Intact</div>
+        <div class="fc-desc">Gradient bars use width:100% — the proportional encoding scales correctly to any viewport. Large stat numbers (+340%, −91%) remain readable at mobile scale.</div>
+      </div>
+      <div class="fc-item">
+        <div class="fc-dot" style="background:var(--stamp)"></div>
+        <div class="fc-title">Stamp Clearance</div>
+        <div class="fc-desc">Quote text gets right padding on mobile so the rotated RETRACTED stamp does not overlap the CEO quote. Stamp size reduces proportionally.</div>
       </div>
     </div>
   </div>
@@ -277,18 +351,18 @@
   <div class="feat-grid">
     <div class="feat-card">
       <div class="feat-num">01</div>
-      <div class="feat-title">Retraction Stamps</div>
-      <div class="feat-desc">Distressed SVG feTurbulence displacement filter applied to claim status stamps (RETRACTED / PARTIAL / DISPUTED) gives a physically bureaucratic quality to digital accountability records.</div>
+      <div class="feat-title">Gradient Bar Encoding</div>
+      <div class="feat-desc">Each card uses RGB saturated linearGradients — bar width (or height) is proportional to value. The empty space after the actual bar IS the gap: void as data, following the IIB "ink = value" principle.</div>
     </div>
     <div class="feat-card">
       <div class="feat-num">02</div>
-      <div class="feat-title">Area-Accurate Encoding</div>
-      <div class="feat-desc">Unlike bar charts that encode length, the visualizations use proportional area — following Information is Beautiful's principle that ink should map accurately to value, making magnitude viscerally legible.</div>
+      <div class="feat-title">Per-Card Gradient Identity</div>
+      <div class="feat-desc">Each company gets a distinct gradient pair: cyan→blue (OpenAI), purple→indigo (Meta), red→dark (Tesla), teal→cyan (Google expected), amber→orange (Microsoft claimed). Color is strictly semantic.</div>
     </div>
     <div class="feat-card">
       <div class="feat-num">03</div>
-      <div class="feat-title">Unit Mark Language</div>
-      <div class="feat-desc">Drawing on Dear Data's unit-mark vocabulary, each dot and symbol represents a discrete real-world event — a promise made, an error documented, a deadline missed.</div>
+      <div class="feat-title">Mixed Visualization Grammar</div>
+      <div class="feat-desc">Cards 1–2 use horizontal proportional bars. Card 3 uses a calendar unit grid. Card 4 uses a horizontal bar with error labels. Card 5 uses vertical bars. Each card's form is chosen for the claim type.</div>
     </div>
   </div>
 </section>

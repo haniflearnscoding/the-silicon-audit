@@ -339,6 +339,8 @@
 <!-- ── COLOUR ── -->
 <section class="style-section">
   <div class="section-num">Colour Palette</div>
+
+  <p style="font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.85rem">Base UI Palette</p>
   <div class="swatch-row">
     <div class="swatch" style="background:#1a1814">
       <div class="sw-name" style="color:rgba(255,255,255,.7)">Ink</div>
@@ -366,6 +368,48 @@
     </div>
   </div>
   <p style="font-size:.8rem;color:var(--ink-4);margin-top:1rem;font-family:'Source Code Pro',monospace;letter-spacing:.06em">Company accent colors (OAI Green, Meta Blue) appear <em style="font-style:normal;color:var(--ink-3)">only</em> on badges and their corresponding chart lines — never decoratively.</p>
+
+  <!-- Gradient Visualization Palette -->
+  <p style="font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-top:2.5rem;margin-bottom:.85rem">Visualization Gradient Palette — RGB Saturated, Per Card</p>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem">
+
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#00e5ff,#2979ff);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">OpenAI · Claimed<br/>#00e5ff → #2979ff</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#ff0080,#ff6d00);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">OpenAI · Actual<br/>#ff0080 → #ff6d00</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#7c4dff,#304ffe);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">Meta · Claimed<br/>#7c4dff → #304ffe</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#ff1744,#ff6d00);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">Meta · Actual<br/>#ff1744 → #ff6d00</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#ff3d00,#d50000);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">Tesla · Misses<br/>#ff3d00 → #d50000</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#00bfa5,#00b0ff);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">Google · Expected<br/>#00bfa5 → #00b0ff</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to right,#00e5ff,#00897b);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">MSFT · Studies<br/>#00e5ff → #00897b</div>
+    </div>
+    <div>
+      <div style="height:48px;border-radius:2px;background:linear-gradient(to bottom,#ffab00,#ff6d00);margin-bottom:.4rem;border:1px solid rgba(0,0,0,.07)"></div>
+      <div style="font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);line-height:1.6">MSFT · Claimed<br/>#ffab00 → #ff6d00</div>
+    </div>
+    <div style="grid-column:span 2;display:flex;align-items:center;padding:.75rem;background:var(--off);border:1px solid var(--border-2)">
+      <p style="font-family:'Source Code Pro',monospace;font-size:.55rem;color:var(--ink-4);line-height:1.7;letter-spacing:.05em">Each card has a unique gradient pair — cool for claimed/baseline, warm for actual/miss. The contrast between cool promises and warm reality is the visual thesis of the project.</p>
+    </div>
+
+  </div>
 </section>
 
 <!-- ── COMPONENTS ── -->
@@ -394,21 +438,21 @@
     <div class="comp-card">
       <div class="comp-title">Visualization Strategy Selector</div>
       <div style="display:flex;flex-direction:column;gap:.65rem;font-size:.82rem;color:var(--ink-3);line-height:1.55">
-        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
-          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">∝</span>
-          <span><strong style="color:var(--ink)">Proportional circles</strong> — area encodes claimed vs. observed scale (IIB method)</span>
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid #00e5ff">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:#00897b;flex-shrink:0">▬</span>
+          <span><strong style="color:var(--ink)">Gradient proportional bars</strong> — bar width ∝ value; cool claimed vs. warm actual; void = the gap (IIB + RGB)</span>
         </div>
-        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
-          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">⊗</span>
-          <span><strong style="color:var(--ink)">Unit marks</strong> — each symbol = one real event (Dear Data method)</span>
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid #ff3d00">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:#ff3d00;flex-shrink:0">⊗</span>
+          <span><strong style="color:var(--ink)">Unit mark grid</strong> — each cell = one missed deadline; red gradient fill = confirmed miss; dashed = pending (Dear Data)</span>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid #ffab00">
+          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:#ffab00;flex-shrink:0">▲</span>
+          <span><strong style="color:var(--ink)">Vertical bar comparison</strong> — bar height ∝ productivity gain; cool studies vs. warm claimed; gap bracket annotated</span>
         </div>
         <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
           <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">●</span>
-          <span><strong style="color:var(--ink)">Dot plots</strong> — spread of study results vs. outlier claim</span>
-        </div>
-        <div style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;background:var(--off);border-left:2px solid var(--red)">
-          <span style="font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--red);flex-shrink:0">∷</span>
-          <span><strong style="color:var(--ink)">Dot fields</strong> — density of marks = density of errors (Dear Data)</span>
+          <span><strong style="color:var(--ink)">Dot plot with range band</strong> — spread of independent study results vs. outlier claimed value; gap bracket</span>
         </div>
       </div>
     </div>
@@ -552,7 +596,7 @@
             <span style="font-family:'Source Code Pro',monospace;font-size:.6rem;font-weight:700;color:var(--oai);flex-shrink:0;padding-top:2px">+</span>
             <div>
               <div style="font-family:'Source Code Pro',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem">Added</div>
-              <div style="font-size:.8rem;color:var(--ink-3);line-height:1.55">Data visualization layer, accountability frame, distressed rubber-stamp components, Dear Data unit marks, IIB proportional circles.</div>
+              <div style="font-size:.8rem;color:var(--ink-3);line-height:1.55">Data visualization layer, accountability frame, distressed rubber-stamp components, Dear Data unit marks, IIB proportional gradient bars with RGB saturated color pairs.</div>
             </div>
           </div>
           <div style="display:flex;gap:.75rem">
@@ -575,18 +619,18 @@
   <div class="principles-grid">
     <div class="principle">
       <div class="p-num">01</div>
-      <div class="p-title">Area ∝ Value</div>
-      <p class="p-desc">Visual encoding uses area, not length. A circle ten times larger = a value ten times larger. Following the IIB principle: ink should map honestly to data. No distortion, no truncated axes.</p>
+      <div class="p-title">Width / Height ∝ Value</div>
+      <p class="p-desc">Bar width (horizontal) or height (vertical) is directly proportional to value — no truncated axes, no false origins. The full-width claimed bar and the narrow actual bar encode the gap without a single axis label.</p>
     </div>
     <div class="principle">
       <div class="p-num">02</div>
-      <div class="p-title">One Mark, One Event</div>
-      <p class="p-desc">Every symbol in a unit chart represents exactly one real-world occurrence — one broken promise, one documented error, one missed deadline. Density of marks = density of reality.</p>
+      <div class="p-title">The Void Is the Data</div>
+      <p class="p-desc">The empty space to the right of the actual bar is the Reality Gap™ rendered directly. No annotation needed — the visual absence is the argument. The bigger the void, the bigger the lie.</p>
     </div>
     <div class="principle">
       <div class="p-num">03</div>
-      <div class="p-title">Color is Semantic</div>
-      <p class="p-desc">Company colors (OAI green, Meta blue) appear only for that company's data. Red = observed/actual. Amber = disputed. Color carries meaning — it is never used decoratively.</p>
+      <div class="p-title">Cool Claims, Warm Reality</div>
+      <p class="p-desc">Claimed/projected values use cool gradients (cyan, teal, purple). Actual/observed values use warm gradients (magenta, orange, red). The thermal contrast is the visual thesis: promises are cold; reality burns.</p>
     </div>
     <div class="principle">
       <div class="p-num">04</div>
