@@ -471,6 +471,114 @@ footer{
    ENTRY ANIMATION
 ───────────────────────────────────────── */
 .card{transition:opacity .5s ease, transform .5s ease, box-shadow .25s;}
+
+/* ─────────────────────────────────────────
+   MOBILE — single column below 768px
+───────────────────────────────────────── */
+@media(max-width:768px){
+
+  /* ── Layout: collapse to single column ── */
+  .layout{
+    grid-template-columns:1fr;
+    padding:0;
+    gap:0;
+  }
+  .col-left{ display:none; }
+  .col-right{ display:none; }
+  .col-feed{ padding:.85rem .9rem 1.5rem; }
+
+  /* ── Masthead ── */
+  .mast-eyebrow{
+    padding:.35rem .9rem;
+    font-size:.52rem;
+  }
+  .mast-eyebrow .alert{ font-size:.48rem; }
+  .mast-core{
+    grid-template-columns:1fr;
+    justify-items:center;
+    padding:.5rem .9rem .4rem;
+    gap:.2rem;
+  }
+  .mast-left, .mast-right{ display:none; }
+  .site-name{ font-size:clamp(2rem,11vw,2.6rem); }
+  .mast-tagline{ font-size:.82rem; }
+  .mast-nav{ flex-wrap:wrap; justify-content:center; padding:.35rem 0; }
+  .mast-nav a{
+    padding:.22rem .75rem;
+    font-size:.56rem;
+    border-right:1px solid var(--border);
+  }
+
+  /* ── Ticker: tighter ── */
+  .ticker{ font-size:.54rem; padding:.3rem 0; }
+
+  /* ── Cards ── */
+  .card{ padding:1rem 1rem 1rem; margin-bottom:1.5rem; }
+
+  /* Stamp: smaller + pull in so it doesn't overlap quote */
+  .stamp-wrap{ top:.75rem; right:.75rem; }
+  .stamp{ font-size:.58rem; padding:3px 7px; letter-spacing:.14em; }
+
+  /* Company badge row */
+  .card-top{ gap:.5rem; margin-bottom:.75rem; }
+  .card-cat{ margin-left:0; }
+
+  /* Speaker line */
+  .card-speaker{ font-size:.58rem; margin-bottom:.45rem; }
+
+  /* Quote: slightly smaller, less left indent so stamp doesn't overlap */
+  .card-quote{
+    font-size:1rem;
+    padding-left:.75rem;
+    margin-bottom:1rem;
+    padding-right:3.5rem; /* clearance for rotated stamp */
+  }
+  .card-quote::before{ font-size:3rem; left:-.35rem; }
+
+  /* ── Spark panel ── */
+  .spark-panel{ padding:.7rem .75rem; margin-bottom:1rem; }
+  .spark-top{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.3rem;
+    margin-bottom:.6rem;
+  }
+  .spark-top span:first-child{
+    font-size:.5rem;
+    letter-spacing:.06em;
+    line-height:1.5;
+  }
+  .gap-badge{ font-size:.56rem; }
+
+  /* ── Card footer ── */
+  .card-foot{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.55rem;
+    padding-top:.65rem;
+  }
+  .card-links{ gap:.6rem; }
+  .card-links button{ font-size:.56rem; }
+
+  /* ── Feed header ── */
+  .feed-top{ flex-direction:column; gap:.25rem; margin-bottom:1rem; }
+  .feed-label{ font-size:1rem; }
+  .method-strip{ font-size:.58rem; padding:.5rem .75rem; margin-bottom:1.25rem; }
+
+  /* ── Footer ── */
+  footer{ flex-direction:column; gap:.75rem; padding:1.5rem .9rem; }
+  .ft-copy{ text-align:left; }
+}
+
+/* ─────────────────────────────────────────
+   SMALL PHONES — below 400px
+───────────────────────────────────────── */
+@media(max-width:400px){
+  .card{ padding:.85rem .85rem .85rem; }
+  .card-quote{ font-size:.95rem; padding-right:3rem; }
+  .site-name{ font-size:clamp(1.8rem,12vw,2.2rem); }
+  .mast-tagline{ display:none; }
+}
 </style>
 </head>
 <body>
